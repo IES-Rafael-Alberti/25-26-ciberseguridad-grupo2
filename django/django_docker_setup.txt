@@ -1,0 +1,59 @@
+# 🐍 Django App con Docker — Guía Rápida
+
+## 1️⃣ Crear el proyecto Django
+
+```bash
+mkdir djangoapp
+django-admin startproject grupo2 djangoapp
+cd djangoapp
+python manage.py runserver
+```
+
+👉 Abre tu navegador y visita **http://localhost:8000** para comprobar que Django funciona correctamente.
+
+---
+
+## 2️⃣ Crear el archivo `Dockerfile`
+
+Crea un archivo llamado `Dockerfile` dentro de la carpeta del proyecto con el siguiente contenido:
+
+```dockerfile
+FROM python:3.12-slim
+
+# Prevent Python from writing pyc files & enable unbuffered logging
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
+# Set work directory
+WORKDIR /app
+
+# Install Django directly (no requirements.txt)
+RUN pip install --no-cache-dir Django
+
+# Copy project files
+COPY . .
+
+# Expose the Django dev server port
+EXPOSE 8000
+
+# Default command: run Django’s development server
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+```
+
+---
+
+## 3️⃣ Construir la imagen Docker
+
+```bash
+docker build -t django-hello .
+```
+
+---
+
+## 4️⃣ Ejecutar el contenedor
+
+```bash
+docker run -d -p 8000:8000 django-hello
+```
+
+✅ Luego abre **http://localhost:8000** en tu navegador y deberías ver la página de inicio de Django 🚀
