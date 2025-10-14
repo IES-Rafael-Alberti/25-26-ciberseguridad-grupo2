@@ -90,6 +90,12 @@ Started AppjavaApplication in X.XXX seconds
 
 ---
 
+## 📸 Ejemplo de ejecución
+
+Así se ve la aplicación funcionando en el navegador:
+
+![App en ejecución](./images/JavaDesplegado.png)
+
 💡 **Autor:**  
 Pablo – Proyecto de despliegue Java con Spring Boot y Docker  
 🧰 *IES Rafael Alberti - Grupo 2 Ciberseguridad 25/26*
