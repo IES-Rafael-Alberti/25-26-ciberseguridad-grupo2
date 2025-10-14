@@ -1,6 +1,6 @@
 # Proyecto PPS 25-26 Ciberseguridad Grupo 2
 
-![alt text](img/image.png)
+![alt text](img/dockerIcon.png)
 
 Este repositorio contiene varios ejemplos de aplicaciones en diferentes tecnologías, cada una preparada para ejecutarse en Docker.
 
