@@ -56,9 +56,10 @@ control 'nginx-05' do
   title 'Verificar que nginx.conf contiene directiva worker_processes'
   desc 'Confirma que el archivo contiene configuraciones básicas esperadas'
   describe file('/etc/nginx/nginx.conf') do
-    its('content') { should match /worker_processes\s+(auto|\d+)/ }
+    its('content') { should match /worker_processes\s+(auto|\d+)/ }
   end
 end
+
 
 # ------------------------------
 # Nuevo: verificar permisos de la carpeta web
