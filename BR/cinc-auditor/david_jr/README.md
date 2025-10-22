@@ -1,9 +1,5 @@
 # Perfil InSpec - Configuración Segura de SSH
 
-Este perfil de **InSpec** contiene controles para verificar que el servicio **SSH** esté configurado de forma segura y cumpla con las mejores prácticas de seguridad.
-
----
-
 ## Pasos para Cumplir los Controles
 
 ### **Control `ssh-1`: El servicio SSH debe estar activo y habilitado**
