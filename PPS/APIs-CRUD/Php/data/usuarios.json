@@ -1,0 +1,9 @@
+[
+    {
+        "id": 2,
+        "nombre": "Messi",
+        "apellidos": "Leonel",
+        "email": "messias@mail.com",
+        "password": "1234"
+    }
+]
