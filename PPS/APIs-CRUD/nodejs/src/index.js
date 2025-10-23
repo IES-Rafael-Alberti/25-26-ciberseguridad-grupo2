@@ -8,10 +8,8 @@ app.use(cors());
 app.use(express.json());
 
 // Routes
-app.use("/users", usersRouter);
-app.get('/', (req, res) => {
-  res.send('Hola mundo desde Node.js!');
-});
+app.use("/usuarios", usersRouter);
+app.get("/", (req, res) => res.send("Hola mundo desde Node.js!"));
 
 // Sync database
 sequelize.sync({ alter: true })

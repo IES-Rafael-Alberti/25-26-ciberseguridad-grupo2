@@ -1,70 +1,46 @@
 import User from "../models/user.js";
 
-// Create user
+// Crear usuario
 export const createUser = async (req, res) => {
   try {
-    const { firstName, lastName, email, password } = req.body;
-
-    if (!email || !password) {
-      return res.status(400).json({ message: "Email and password are required" });
-    }
-
-    const existing = await User.findOne({ where: { email } });
-    if (existing) {
-      return res.status(400).json({ message: "Email is already registered" });
-    }
-
-    const newUser = await User.create({ firstName, lastName, email, password });
-    res.status(201).json(newUser);
+    const user = await User.create(req.body);
+    res.status(201).json(user);
   } catch (error) {
-    res.status(500).json({ message: "Error creating user", error: error.message });
+    res.status(400).json({ error: error.message });
   }
 };
 
-// Get all users
-export const getAllUsers = async (req, res) => {
-  try {
-    const users = await User.findAll();
-    res.status(200).json(users);
-  } catch (error) {
-    res.status(500).json({ message: "Error retrieving users", error: error.message });
-  }
+// Obtener todos los usuarios
+export const getUsers = async (req, res) => {
+  const users = await User.findAll();
+  res.json(users);
 };
 
-// Get user by ID
+// Obtener usuario por ID
 export const getUserById = async (req, res) => {
-  try {
-    const user = await User.findByPk(req.params.id);
-    if (!user) return res.status(404).json({ message: "User not found" });
-    res.status(200).json(user);
-  } catch (error) {
-    res.status(500).json({ message: "Error retrieving user", error: error.message });
-  }
+  const user = await User.findByPk(req.params.id);
+  if (user) res.json(user);
+  else res.status(404).json({ error: "Usuario no encontrado" });
 };
 
-// Update user
+// Actualizar usuario
 export const updateUser = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const user = await User.findByPk(id);
-    if (!user) return res.status(404).json({ message: "User not found" });
+  const user = await User.findByPk(req.params.id);
+  if (!user) return res.status(404).json({ error: "Usuario no encontrado" });
 
+  try {
     await user.update(req.body);
-    res.status(200).json(user);
+    res.json(user);
   } catch (error) {
-    res.status(500).json({ message: "Error updating user", error: error.message });
+    res.status(400).json({ error: error.message });
   }
 };
 
-// Delete user
+// Eliminar usuario
 export const deleteUser = async (req, res) => {
-  try {
-    const user = await User.findByPk(req.params.id);
-    if (!user) return res.status(404).json({ message: "User not found" });
+  const user = await User.findByPk(req.params.id);
+  if (!user) return res.status(404).json({ error: "Usuario no encontrado" });
 
-    await user.destroy();
-    res.status(200).json({ message: "User deleted successfully" });
-  } catch (error) {
-    res.status(500).json({ message: "Error deleting user", error: error.message });
-  }
+  await user.destroy();
+  res.json({ mensaje: "Usuario eliminado correctamente" });
 };

@@ -1,16 +1,13 @@
-version: "3.9"
-
 services:
   api:
     build: .
-    container_name: api-users
+    container_name: api-usuarios
     ports:
       - "8080:8080"
     volumes:
-      - .:/app
+      - .:/app:cached
+      - /app/node_modules
       - sqlite_data:/app/src/db
-    environment:
-      - NODE_ENV=development
 
 volumes:
   sqlite_data:

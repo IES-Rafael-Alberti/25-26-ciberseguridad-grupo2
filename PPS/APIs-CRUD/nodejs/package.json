@@ -1,15 +1,12 @@
 {
-  "name": "nodejs",
+  "name": "nodejs-api",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "API CRUD de usuarios con Node.js + SQLite + Docker",
+  "main": "src/index.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node src/index.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^5.1.0",
