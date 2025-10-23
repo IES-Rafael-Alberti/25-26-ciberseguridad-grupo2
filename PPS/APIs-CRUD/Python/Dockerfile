@@ -30,7 +30,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY ./FastAPI ./FastAPI
 
 # Exponer el puerto 8081 (donde correrá la API)
-EXPOSE 8081
+EXPOSE 8080
 
 # Comando por defecto para ejecutar Uvicorn
-CMD ["uvicorn", "FastAPI.main:app", "--host", "0.0.0.0", "--port", "8081"]
+CMD ["uvicorn", "FastAPI.main:app", "--host", "0.0.0.0", "--port", "8080"]
