@@ -1,4 +1,4 @@
-# Control: ssh-01 – Comprobaciones básicas de seguridad para OpenSSH
+# Comprobaciones básicas de seguridad para OpenSSH
 
 ## Descripción
 Este control valida la configuración de seguridad del servicio **OpenSSH (sshd)**, asegurando que cumpla con buenas prácticas y estándares de seguridad.  
