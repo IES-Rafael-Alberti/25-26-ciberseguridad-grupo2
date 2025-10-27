@@ -12,10 +12,6 @@ sudo apt update
 sudo apt install apache2 -y
 ```
 
-```bash
-dpkg -l | grep apache2
-```
-
 Debe aparecer una línea indicando que el paquete `apache2` está instalado.  
 El servicio también debe estar activo:
 
