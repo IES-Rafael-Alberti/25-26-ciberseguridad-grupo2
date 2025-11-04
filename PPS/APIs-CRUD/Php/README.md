@@ -57,3 +57,8 @@ PUT: Actualizar un usuario existente /usuarios.php/{id}
 DELETE: Eliminar un usuario /usuarios.php/{id}
 
 ![alt text](img/EliminarUsuario.png)
+
+###### LOGIN
+hemos realizado el login para su comprobación podemos usar postman
+
+![alt text](img/LoginCorrecto.png)
