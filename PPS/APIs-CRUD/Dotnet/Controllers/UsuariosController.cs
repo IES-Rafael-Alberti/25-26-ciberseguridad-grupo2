@@ -129,5 +129,42 @@ namespace UsuariosApi.Controllers
 
             return Ok(new { message = $"Usuario con id={id} eliminado correctamente" });
         }
+
+        // POST /usuarios/login
+        [HttpPost("login")]
+        public async Task<ActionResult<LoginResponseDto>> Login(UsuarioLoginDto loginDto)
+        {
+            if (string.IsNullOrWhiteSpace(loginDto.Email) || string.IsNullOrWhiteSpace(loginDto.Password))
+            {
+                return BadRequest("Email y contraseña son obligatorios");
+            }
+
+            var usuario = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == loginDto.Email);
+            if (usuario == null)
+            {
+                return Unauthorized("Credenciales inválidas (email no encontrado)");
+            }
+
+            bool passwordValida = BCrypt.Net.BCrypt.Verify(loginDto.Password, usuario.PasswordHash);
+            if (!passwordValida)
+            {
+                return Unauthorized("Credenciales inválidas (contraseña incorrecta)");
+            }
+
+            var response = new LoginResponseDto
+            {
+                Mensaje = "Inicio de sesión exitoso",
+                Usuario = new UsuarioReadDto
+                {
+                    Id = usuario.Id,
+                    Nombre = usuario.Nombre,
+                    Apellidos = usuario.Apellidos,
+                    Email = usuario.Email
+                }
+            };
+
+            return Ok(response);
+        }
+
     }
 }

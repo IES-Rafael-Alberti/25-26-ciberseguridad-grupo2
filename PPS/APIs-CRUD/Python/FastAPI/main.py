@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException, Depends
 from sqlalchemy.orm import Session
 from typing import List
+from fastapi import status
 
 from . import models, schemas, utils
 from .database import engine, SessionLocal
@@ -19,7 +20,7 @@ def get_db():
         db.close()
 
 
-# 1️⃣ Crear usuario
+# Crear usuario
 @app.post("/usuarios", response_model=schemas.UsuarioResponse, status_code=201)
 def crear_usuario(usuario: schemas.UsuarioCreate, db: Session = Depends(get_db)):
     if not usuario.password or not usuario.email:
@@ -43,13 +44,13 @@ def crear_usuario(usuario: schemas.UsuarioCreate, db: Session = Depends(get_db))
     return nuevo_usuario
 
 
-# 2️⃣ Obtener todos los usuarios
+# Obtener todos los usuarios
 @app.get("/usuarios", response_model=List[schemas.UsuarioResponse])
 def obtener_usuarios(db: Session = Depends(get_db)):
     return db.query(models.Usuario).all()
 
 
-# 3️⃣ Obtener usuario por ID
+# Obtener usuario por ID
 @app.get("/usuarios/{id}", response_model=schemas.UsuarioResponse)
 def obtener_usuario(id: int, db: Session = Depends(get_db)):
     usuario = db.query(models.Usuario).filter(models.Usuario.id == id).first()
@@ -58,7 +59,7 @@ def obtener_usuario(id: int, db: Session = Depends(get_db)):
     return usuario
 
 
-# 4️⃣ Actualizar usuario
+# Actualizar usuario
 @app.put("/usuarios/{id}", response_model=schemas.UsuarioResponse)
 def actualizar_usuario(id: int, datos: schemas.UsuarioUpdate, db: Session = Depends(get_db)):
     usuario = db.query(models.Usuario).filter(models.Usuario.id == id).first()
@@ -77,7 +78,7 @@ def actualizar_usuario(id: int, datos: schemas.UsuarioUpdate, db: Session = Depe
     return usuario
 
 
-# 5️⃣ Eliminar usuario
+#  Eliminar usuario
 @app.delete("/usuarios/{id}", status_code=200)
 def eliminar_usuario(id: int, db: Session = Depends(get_db)):
     usuario = db.query(models.Usuario).filter(models.Usuario.id == id).first()
@@ -87,3 +88,27 @@ def eliminar_usuario(id: int, db: Session = Depends(get_db)):
     db.delete(usuario)
     db.commit()
     return {"message": f"Usuario con id={id} eliminado correctamente"}
+
+
+
+@app.post("/usuarios/login", response_model=schemas.LoginResponse)
+def login(usuario_login: schemas.UsuarioLogin, db: Session = Depends(get_db)):
+    # Buscar usuario por email
+    usuario = db.query(models.Usuario).filter(models.Usuario.email == usuario_login.email).first()
+    if not usuario:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Credenciales inválidas (email no encontrado)"
+        )
+
+    # Verificar contraseña
+    if not utils.verify_password(usuario_login.password, usuario.password):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Credenciales inválidas (contraseña incorrecta)"
+        )
+
+    return {
+        "mensaje": "Inicio de sesión exitoso",
+        "usuario": usuario
+    }

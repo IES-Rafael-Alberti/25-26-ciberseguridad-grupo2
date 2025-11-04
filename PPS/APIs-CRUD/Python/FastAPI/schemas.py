@@ -16,3 +16,13 @@ class UsuarioResponse(UsuarioBase):
 
     class Config:
         orm_mode = True
+
+class UsuarioLogin(BaseModel):
+    email: EmailStr
+    password: str
+
+
+class LoginResponse(BaseModel):
+    mensaje: str
+    usuario: UsuarioResponse
+
