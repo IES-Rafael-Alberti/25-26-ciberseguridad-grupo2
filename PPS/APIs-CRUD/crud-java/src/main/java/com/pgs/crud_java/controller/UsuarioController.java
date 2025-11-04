@@ -4,23 +4,48 @@ package com.pgs.crud_java.controller;
 import com.pgs.crud_java.model.Usuario;
 import com.pgs.crud_java.service.UsuarioService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/usuarios")
 public class UsuarioController {
 
     private final UsuarioService service;
+    private final PasswordEncoder passwordEncoder;
 
-    public UsuarioController(UsuarioService service) {
+    public UsuarioController(UsuarioService service, PasswordEncoder passwordEncoder) {
         this.service = service;
+        this.passwordEncoder = passwordEncoder;
     }
 
-    @PostMapping
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody Usuario usuario) {
+        System.out.println("➡️ Intentando login con: " + usuario.getEmail());
+
+        // Buscar el usuario en BD
+        Optional<Usuario> usuarioBD = service.obtenerPorEmail(usuario.getEmail());
+        if (usuarioBD.isEmpty()) {
+            return ResponseEntity.status(401).body("Usuario no encontrado");
+        }
+
+        // Verificar la contraseña
+        if (!passwordEncoder.matches(usuario.getPassword(), usuarioBD.get().getPassword())) {
+            return ResponseEntity.status(401).body("Contraseña incorrecta");
+        }
+
+        // Si llega aquí, todo bien 👌
+        return ResponseEntity.ok("Login exitoso ✅");
+    }
+
+
+
+    @PostMapping("/register")
     public ResponseEntity<Usuario> crearUsuario(@RequestBody Usuario usuario) {
-        return ResponseEntity.status(201).body(service.crearUsuario(usuario));
+        return ResponseEntity.status(201).body(service.crearUsuario(usuario, passwordEncoder));
     }
 
     @GetMapping

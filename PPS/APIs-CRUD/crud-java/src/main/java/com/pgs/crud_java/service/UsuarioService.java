@@ -3,21 +3,39 @@ package com.pgs.crud_java.service;
 
 import com.pgs.crud_java.model.Usuario;
 import com.pgs.crud_java.repository.UsuarioRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UsuarioService {
+public class UsuarioService implements UserDetailsService {
 
     private final UsuarioRepository repository;
 
-    public UsuarioService(UsuarioRepository repository) {
+
+    public UsuarioService (UsuarioRepository repository) {
         this.repository = repository;
     }
 
-    public Usuario crearUsuario(Usuario usuario) {
+    @Override
+    public UserDetails loadUserByUsername(String email)throws UsernameNotFoundException{
+        Usuario user = repository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
+        return User.withUsername(user.getEmail())
+                .password(user.getPassword())
+                .roles("USER")
+                .build();
+    }
+
+    public Usuario crearUsuario(Usuario usuario, PasswordEncoder encoder) {
+        usuario.setPassword(encoder.encode(usuario.getPassword()));
         return repository.save(usuario);
     }
 
@@ -28,6 +46,11 @@ public class UsuarioService {
     public Optional<Usuario> obtenerPorId(Long id) {
         return repository.findById(id);
     }
+
+    public Optional<Usuario> obtenerPorEmail(String email) {
+        return repository.findByEmail(email);
+    }
+
 
     public Usuario actualizarUsuario(Long id, Usuario usuario) {
         return repository.findById(id).map(u -> {
