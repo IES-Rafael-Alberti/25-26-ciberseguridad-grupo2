@@ -10,7 +10,8 @@ Aplicaciones Web
 
 **Cliente**  
 TrustShield Financial  
-**1\. Introducción**
+
+#**1\. Introducción**
 
 La seguridad, controlada, equilibrada e inteligente, no es un gasto sino una inversión.
 
@@ -26,11 +27,11 @@ La metodología seguida comprende dos fases: primero, el estudio de las principa
 
 ## 
 
-## **2\. Categorías de vulnerabilidades en aplicaciones web**
+# **2\. Categorías de vulnerabilidades en aplicaciones web**
 
 A continuación, se analizan las principales categorías de vulnerabilidades que afectan a aplicaciones web, su funcionamiento, impacto y relevancia para el sector financiero.
 
-# **2.1. Inyección (Injection)**
+## **2.1. Inyección (Injection)**
 
 Ejemplo: SQL Injection, Command Injection.  
 Ocurre cuando una aplicación permite que datos no validados del usuario se envíen directamente a un intérprete (como una base de datos o shell del sistema).  
@@ -38,27 +39,27 @@ Un atacante puede manipular consultas o comandos para acceder o modificar inform
 
 ![alt](./img/image2.png)
 
-# **2.2. Autenticación rota (Broken Authentication)**
+## **2.2. Autenticación rota (Broken Authentication)**
 
 Los mecanismos de inicio de sesión, recuperación de contraseñas o manejo de tokens son inseguros, lo que permite a un atacante suplantar la identidad de otros usuarios o acceder sin autorización.
 
 ![alt](./img/image3.png)
 
-# **2.3. Exposición de datos sensibles (Sensitive Data Exposure)**
+## **2.3. Exposición de datos sensibles (Sensitive Data Exposure)**
 
 Los datos personales, financieros o confidenciales no se protegen adecuadamente (por ejemplo, sin cifrado HTTPS o con almacenamiento inseguro).  
 Esto facilita el robo de información privada.
 
 ![alt](./img/image4.png)
 
-# **2.4. Control de acceso roto (Broken Access Control)**
+## **2.4. Control de acceso roto (Broken Access Control)**
 
 Los usuarios pueden acceder a funciones o datos que no deberían.  
 Por ejemplo, un usuario estándar puede ver o modificar información de un administrador al manipular URLs o parámetros.
 
 ![alt](./img/image5.png)
 
-# **2.5. Configuración de seguridad incorrecta (Security Misconfiguration)**
+## **2.5. Configuración de seguridad incorrecta (Security Misconfiguration)**
 
 Configuraciones por defecto, mensajes de error detallados o servicios innecesarios activos pueden exponer información o permitir ataques.
 
@@ -66,14 +67,14 @@ Es una de las vulnerabilidades más frecuentes.
 
 ![alt](./img/image6.png)
 
-# **2.6. Cross-Site Scripting (XSS)**
+## **2.6. Cross-Site Scripting (XSS)**
 
 Ocurre cuando la aplicación inserta código JavaScript malicioso en las páginas vistas por otros usuarios.  
 Esto permite el robo de cookies, sesiones o redirección a sitios falsos.
 
 ![alt](./img/image7.png)
 
-# **2.7. Deserialización insegura (Insecure Deserialization)**
+## **2.7. Deserialización insegura (Insecure Deserialization)**
 
 Sucede cuando los datos serializados del usuario (por ejemplo, objetos JSON o binarios) se deserializan sin validación.
 
@@ -81,7 +82,7 @@ Un atacante puede manipular esos datos para ejecutar código malicioso o escalar
 
 ![alt](./img/image8.png)
 
-# **2.8. Uso de componentes vulnerables (Using Components with Known Vulnerabilities)**
+## **2.8. Uso de componentes vulnerables (Using Components with Known Vulnerabilities)**
 
 La aplicación usa librerías, frameworks o módulos con fallos conocidos (como versiones antiguas de Log4j o jQuery).
 
@@ -89,18 +90,18 @@ Esto expone al sistema a vulnerabilidades ya documentadas.
 
 ![alt](./img/image9.png)
 
-# **2.9. Registro y monitoreo insuficientes (Insufficient Logging & Monitoring)**
+## **2.9. Registro y monitoreo insuficientes (Insufficient Logging & Monitoring)**
 
 Si la aplicación no registra ni monitorea adecuadamente eventos de seguridad, los ataques pueden pasar desapercibidos y no se podrá responder a tiempo ante incidentes.
 
 ![alt](./img/image10.png)
 
-# **2.10. Redirecciones y reenvíos inseguros (Unvalidated Redirects and Forwards)**
+## **2.10. Redirecciones y reenvíos inseguros (Unvalidated Redirects and Forwards)**
 
 Ocurre cuando la aplicación redirige o reenvía usuarios a URLs proporcionadas por el atacante, lo que facilita ataques de phishing o redirección a sitios maliciosos.  
 ![alt](./img/image11.png)
 
-**3\. Identificación de CVEs críticos**
+# **3\. Identificación de CVEs críticos**
 
 | CVE | Categoría | Score | Descripción |
 | ----- | ----- | ----- | ----- |
@@ -117,7 +118,7 @@ Ocurre cuando la aplicación redirige o reenvía usuarios a URLs proporcionadas 
 
 ## 
 
-## **4\. Propuesta de contramedidas**
+# **4\. Propuesta de contramedidas**
 
 Para cada categoría de vulnerabilidad analizada, y en particular para cada CVE identificado, se proponen las siguientes contramedidas, ajustadas al contexto de una entidad financiera como TrustShield Financial.
 
@@ -136,7 +137,7 @@ Para cada categoría de vulnerabilidad analizada, y en particular para cada CVE 
 
 ---
 
-## **5\. Conclusiones**
+# **5\. Conclusiones**
 
 La investigación llevada a cabo por nuestro grupo en el área de Aplicaciones Web para TrustShield Financial ha evidenciado que, aunque muchas vulnerabilidades son de conocimiento general, su correcta gestión y mitigación en el entorno financiero resulta esencial.
 
@@ -144,7 +145,7 @@ Hemos demostrado que categorías como la inyección de código, XSS, CSRF, expos
 
 Las contramedidas propuestas están alineadas con las mejores prácticas del sector y son implementables en un entorno corporativo. Recomendamos a TrustShield Financial adoptar estas medidas con urgencia, llevar a cabo auditorías regulares y mantener una cultura de ciberseguridad como parte integral de su negocio.
 
-## **6\. Anexos / Bibliografía**
+# **6\. Anexos / Bibliografía**
 
 [https://blog.cloudflare.com/cloudflare-protects-against-critical-sharepoint-vulnerability-cve-2025-53770/](https://blog.cloudflare.com/cloudflare-protects-against-critical-sharepoint-vulnerability-cve-2025-53770/)
 
