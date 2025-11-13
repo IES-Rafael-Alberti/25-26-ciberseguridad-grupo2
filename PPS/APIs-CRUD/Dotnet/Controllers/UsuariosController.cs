@@ -4,18 +4,27 @@ using Microsoft.EntityFrameworkCore;
 using UsuariosApi.Data;
 using UsuariosApi.DTOs;
 using UsuariosApi.Models;
+using Microsoft.AspNetCore.Authorization;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.Extensions.Configuration;
 
 namespace UsuariosApi.Controllers
 {
     [ApiController]
     [Route("usuarios")]
+    [Authorize]
     public class UsuariosController : ControllerBase
     {
         private readonly UsuariosContext _context;
+        private readonly IConfiguration _configuration;
 
-        public UsuariosController(UsuariosContext context)
+        public UsuariosController(UsuariosContext context, IConfiguration configuration)
         {
             _context = context;
+            _configuration = configuration;
         }
 
         // GET /usuarios
@@ -55,8 +64,9 @@ namespace UsuariosApi.Controllers
         }
 
         // POST /usuarios
-        [HttpPost]
-        public async Task<ActionResult<UsuarioReadDto>> CreateUsuario(UsuarioCreateDto createDto)
+    [HttpPost]
+    [AllowAnonymous]
+    public async Task<ActionResult<UsuarioReadDto>> CreateUsuario(UsuarioCreateDto createDto)
         {
             if (string.IsNullOrWhiteSpace(createDto.Email) || string.IsNullOrWhiteSpace(createDto.Password))
             {
@@ -131,8 +141,9 @@ namespace UsuariosApi.Controllers
         }
 
         // POST /usuarios/login
-        [HttpPost("login")]
-        public async Task<ActionResult<LoginResponseDto>> Login(UsuarioLoginDto loginDto)
+    [HttpPost("login")]
+    [AllowAnonymous]
+    public async Task<ActionResult<LoginResponseDto>> Login(UsuarioLoginDto loginDto)
         {
             if (string.IsNullOrWhiteSpace(loginDto.Email) || string.IsNullOrWhiteSpace(loginDto.Password))
             {
@@ -151,6 +162,32 @@ namespace UsuariosApi.Controllers
                 return Unauthorized("Credenciales inválidas (contraseña incorrecta)");
             }
 
+            // generar JWT
+            var jwtKey = _configuration["Jwt:Key"];
+            var jwtIssuer = _configuration["Jwt:Issuer"];
+            var jwtAudience = _configuration["Jwt:Audience"];
+            var expiresMinutes = int.Parse(_configuration["Jwt:ExpiresMinutes"] ?? "60");
+
+            var claims = new[]
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, usuario.Id.ToString()),
+                new Claim(JwtRegisteredClaimNames.Email, usuario.Email),
+                new Claim("name", usuario.Nombre)
+            };
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            var token = new JwtSecurityToken(
+                issuer: jwtIssuer,
+                audience: jwtAudience,
+                claims: claims,
+                expires: DateTime.UtcNow.AddMinutes(expiresMinutes),
+                signingCredentials: creds
+            );
+
+            var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
+
             var response = new LoginResponseDto
             {
                 Mensaje = "Inicio de sesión exitoso",
@@ -160,7 +197,9 @@ namespace UsuariosApi.Controllers
                     Nombre = usuario.Nombre,
                     Apellidos = usuario.Apellidos,
                     Email = usuario.Email
-                }
+                },
+                Token = tokenString,
+                Expiration = token.ValidTo
             };
 
             return Ok(response);

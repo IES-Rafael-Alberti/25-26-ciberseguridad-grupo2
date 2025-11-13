@@ -10,5 +10,7 @@ namespace UsuariosApi.DTOs
     {
         public string Mensaje { get; set; } = string.Empty;
         public UsuarioReadDto Usuario { get; set; } = new UsuarioReadDto();
+        public string Token { get; set; } = string.Empty;
+        public DateTime Expiration { get; set; }
     }
 }

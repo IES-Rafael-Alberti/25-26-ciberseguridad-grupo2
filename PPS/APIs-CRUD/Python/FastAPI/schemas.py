@@ -1,4 +1,5 @@
 from pydantic import BaseModel, EmailStr
+from datetime import datetime
 
 class UsuarioBase(BaseModel):
     nombre: str
@@ -25,4 +26,10 @@ class UsuarioLogin(BaseModel):
 class LoginResponse(BaseModel):
     mensaje: str
     usuario: UsuarioResponse
+    token: str
+    expiration: datetime
+
+    class Config:
+        orm_mode = True
+
 
