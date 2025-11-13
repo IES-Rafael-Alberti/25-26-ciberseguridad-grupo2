@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException, Depends
+from fastapi import FastAPI, HTTPException, Depends, Request
 from sqlalchemy.orm import Session
 from typing import List
 from fastapi import status
@@ -9,9 +9,13 @@ import jwt
 from slowapi import Limiter
 from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
+from dotenv import load_dotenv
 
 from . import models, schemas, utils
 from .database import engine, SessionLocal
+
+# Cargar variables de entorno desde .env
+load_dotenv()
 
 # Crear tablas
 models.Base.metadata.create_all(bind=engine)
@@ -158,7 +162,7 @@ def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(securit
 
 @app.post("/usuarios/login", response_model=schemas.LoginResponse)
 @limiter.limit("5/minute")
-def login(usuario_login: schemas.UsuarioLogin, db: Session = Depends(get_db)):
+def login(request: Request, usuario_login: schemas.UsuarioLogin, db: Session = Depends(get_db)):
     # Buscar usuario por email
     usuario = db.query(models.Usuario).filter(models.Usuario.email == usuario_login.email).first()
     if not usuario:

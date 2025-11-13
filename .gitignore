@@ -4,7 +4,6 @@
 
 # Ignorar variables y secretos locales
 .env
-.env.*
 appsettings.Development.json
 
 # Ignorar bin/obj de dotnet
