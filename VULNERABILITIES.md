@@ -20,12 +20,46 @@ Prioridad inmediata:
 
 He aplicado los siguientes cambios automáticamente en el repositorio de trabajo:
 
-- Se eliminó la clave `Jwt:Key` de `PPS/APIs-CRUD/Dotnet/appsettings.json` para evitar que la clave secreta quede versionada. El servicio .NET exige ahora que la clave se proporcione mediante variable de entorno en tiempo de ejecución.
-- Se actualizó `PPS/APIs-CRUD/Python/FastAPI/main.py` para exigir la variable de entorno `JWT_SECRET_KEY` y fallar al iniciar si no está definida (eliminando la clave por defecto en el código).
-- Se añadió `.gitignore` en la raíz con reglas para ignorar `*.db`, `.env` y `appsettings.Development.json`.
-- Se intentó eliminar las bases de datos locales del control de versiones (por ejemplo `PPS/APIs-CRUD/Python/usuarios.db` y `PPS/APIs-CRUD/crud-java/src/main/resources/database.db`) usando `git rm --cached`. Revisa el historial y aplica `git push` para propagar los cambios al remoto.
+### Remediaciones principales
 
-Comprueba los commits resultantes y rota cualquier clave expuesta previamente. Si quieres, hago la rotación automática (generar clave nueva y configurarla como ejemplo en `dotnet user-secrets` o `.env.example`).
+1. **Eliminación de secretos de configuración versionada**
+   - Se eliminó la clave `Jwt:Key` de `PPS/APIs-CRUD/Dotnet/appsettings.json`.
+   - Se actualizó `PPS/APIs-CRUD/Python/FastAPI/main.py` para exigir `JWT_SECRET_KEY` por variable de entorno (sin fallback de clave por defecto).
+   - El servicio .NET ahora lanza error si `Jwt__Key` no está configurada en tiempo de ejecución.
+
+2. **Unificación de mensajes de error de autenticación** (prevención de enumeración de usuarios)
+   - `PPS/APIs-CRUD/Python/FastAPI/main.py` — cambio de mensajes específicos a genérico "Credenciales inválidas".
+   - `PPS/APIs-CRUD/Dotnet/Controllers/UsuariosController.cs` — mismo cambio en el endpoint `/usuarios/login`.
+
+3. **Implementación de rate-limiting**
+   - FastAPI: añadido `slowapi` (v0.1.9) a `requirements.txt` e integrado en `main.py` con límite de 5 intentos/minuto en `/usuarios/login`.
+   - .NET: añadido `AspNetCoreRateLimit` (v4.0.2) a `Dotnet.csproj` y configurado en `Program.cs` y `appsettings.json`.
+
+4. **Gestión segura de archivos y configuración**
+   - Añadido `.gitignore` en la raíz con reglas para ignorar `*.db`, `.env`, `appsettings.Development.json`, etc.
+   - Ejecutados comandos `git rm --cached` para archivos DB detectados (revisa si están en el índice).
+
+5. **Documentación de seguridad**
+   - Creado `SECURITY_SETUP.md` con guías paso a paso para configurar variables de entorno, `dotnet user-secrets`, y un checklist de seguridad.
+   - Creado `.env.example` como plantilla con variables requeridas.
+
+### Resumen de archivos modificados
+
+| Archivo | Cambios |
+|---------|---------|
+| `PPS/APIs-CRUD/Dotnet/appsettings.json` | Quitado `Jwt:Key`, añadida sección `IpRateLimiting` |
+| `PPS/APIs-CRUD/Dotnet/Program.cs` | Importado `AspNetCoreRateLimit`, configurado rate limiting y middleware |
+| `PPS/APIs-CRUD/Dotnet/Dotnet.csproj` | Añadida dependencia `AspNetCoreRateLimit` |
+| `PPS/APIs-CRUD/Dotnet/Controllers/UsuariosController.cs` | Unificados mensajes de error en login |
+| `PPS/APIs-CRUD/Python/requirements.txt` | Añadido `slowapi==0.1.9` |
+| `PPS/APIs-CRUD/Python/FastAPI/main.py` | Exigida env var `JWT_SECRET_KEY`, importado `slowapi`, decorador `@limiter.limit()` en `/login`, mensaje genérico |
+| `/.gitignore` | Nuevo archivo con reglas de seguridad |
+| `/.env.example` | Nuevo archivo plantilla |
+| `/SECURITY_SETUP.md` | Nuevo archivo de documentación |
+
+---
+
+
 
 
 ---

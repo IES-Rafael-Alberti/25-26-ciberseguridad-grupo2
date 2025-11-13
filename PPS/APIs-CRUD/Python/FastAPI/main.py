@@ -6,6 +6,9 @@ import os
 from datetime import datetime, timedelta
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 import jwt
+from slowapi import Limiter
+from slowapi.util import get_remote_address
+from slowapi.errors import RateLimitExceeded
 
 from . import models, schemas, utils
 from .database import engine, SessionLocal
@@ -14,6 +17,11 @@ from .database import engine, SessionLocal
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="CRUD de Usuarios con Seguridad (bcrypt)")
+
+# Rate limiter para prevenir ataques de fuerza bruta
+limiter = Limiter(key_func=get_remote_address)
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, lambda request, exc: HTTPException(status_code=429, detail="Demasiadas solicitudes. Intenta más tarde."))
 
 # Seguridad: bearer token
 security = HTTPBearer()
@@ -149,20 +157,21 @@ def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(securit
 
 
 @app.post("/usuarios/login", response_model=schemas.LoginResponse)
+@limiter.limit("5/minute")
 def login(usuario_login: schemas.UsuarioLogin, db: Session = Depends(get_db)):
     # Buscar usuario por email
     usuario = db.query(models.Usuario).filter(models.Usuario.email == usuario_login.email).first()
     if not usuario:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Credenciales inválidas (email no encontrado)"
+            detail="Credenciales inválidas"
         )
 
     # Verificar contraseña
     if not utils.verify_password(usuario_login.password, usuario.password):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Credenciales inválidas (contraseña incorrecta)"
+            detail="Credenciales inválidas"
         )
 
     # generar token JWT

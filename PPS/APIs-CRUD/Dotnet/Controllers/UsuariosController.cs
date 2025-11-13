@@ -141,9 +141,9 @@ namespace UsuariosApi.Controllers
         }
 
         // POST /usuarios/login
-    [HttpPost("login")]
-    [AllowAnonymous]
-    public async Task<ActionResult<LoginResponseDto>> Login(UsuarioLoginDto loginDto)
+        [HttpPost("login")]
+        [AllowAnonymous]
+        public async Task<ActionResult<LoginResponseDto>> Login(UsuarioLoginDto loginDto)
         {
             if (string.IsNullOrWhiteSpace(loginDto.Email) || string.IsNullOrWhiteSpace(loginDto.Password))
             {
@@ -153,16 +153,14 @@ namespace UsuariosApi.Controllers
             var usuario = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == loginDto.Email);
             if (usuario == null)
             {
-                return Unauthorized("Credenciales inválidas (email no encontrado)");
+                return Unauthorized("Credenciales inválidas");
             }
 
             bool passwordValida = BCrypt.Net.BCrypt.Verify(loginDto.Password, usuario.PasswordHash);
             if (!passwordValida)
             {
-                return Unauthorized("Credenciales inválidas (contraseña incorrecta)");
-            }
-
-            // generar JWT
+                return Unauthorized("Credenciales inválidas");
+            }            // generar JWT
             var jwtKey = _configuration["Jwt:Key"];
             var jwtIssuer = _configuration["Jwt:Issuer"];
             var jwtAudience = _configuration["Jwt:Audience"];
