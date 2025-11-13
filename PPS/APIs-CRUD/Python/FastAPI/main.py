@@ -18,8 +18,11 @@ app = FastAPI(title="CRUD de Usuarios con Seguridad (bcrypt)")
 # Seguridad: bearer token
 security = HTTPBearer()
 
-# Ajustes JWT (se pueden sobreescribir con variables de entorno)
-SECRET_KEY = os.environ.get("JWT_SECRET_KEY", "CAMBIA_POR_UNA_CLAVE_SECRETA_MUY_LARGA")
+# Ajustes JWT (se deben proporcionar mediante variables de entorno)
+SECRET_KEY = os.environ.get("JWT_SECRET_KEY")
+if not SECRET_KEY:
+    raise RuntimeError("JWT_SECRET_KEY no está definido. Configure la variable de entorno JWT_SECRET_KEY y reinicie la aplicación.")
+
 ACCESS_TOKEN_EXPIRE_MINUTES = int(os.environ.get("ACCESS_TOKEN_EXPIRE_MINUTES", "60"))
 
 # Dependencia para sesión de BD

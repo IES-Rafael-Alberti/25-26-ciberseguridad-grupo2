@@ -1,0 +1,17 @@
+# Ignorar archivos de base de datos locales
+*.db
+*.sqlite3
+
+# Ignorar variables y secretos locales
+.env
+.env.*
+appsettings.Development.json
+
+# Ignorar bin/obj de dotnet
+/PPS/APIs-CRUD/Dotnet/bin/
+/PPS/APIs-CRUD/Dotnet/obj/
+
+# Ignorar archivos temporales y del editor
+.vscode/
+.idea/
+*.log
