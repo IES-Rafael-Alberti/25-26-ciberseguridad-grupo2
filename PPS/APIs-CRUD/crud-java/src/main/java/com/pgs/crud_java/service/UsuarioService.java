@@ -4,6 +4,8 @@ package com.pgs.crud_java.service;
 import com.pgs.crud_java.model.Usuario;
 import com.pgs.crud_java.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -12,8 +14,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UsuarioService implements UserDetailsService {
@@ -26,11 +30,13 @@ public class UsuarioService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String email)throws UsernameNotFoundException{
-        Usuario user = repository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
-        return User.withUsername(user.getEmail())
-                .password(user.getPassword())
-                .roles("USER")
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Usuario usuario = repository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
+
+        return User.builder()
+                .username(usuario.getEmail())
+                .password(usuario.getPassword())
                 .build();
     }
 

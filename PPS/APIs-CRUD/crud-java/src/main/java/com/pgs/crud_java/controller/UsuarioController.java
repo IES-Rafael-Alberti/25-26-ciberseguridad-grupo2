@@ -2,17 +2,30 @@ package com.pgs.crud_java.controller;
 
 
 import com.pgs.crud_java.model.Usuario;
+import com.pgs.crud_java.service.TokenService;
 import com.pgs.crud_java.service.UsuarioService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/usuarios")
 public class UsuarioController {
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private TokenService tokenService;
 
     private final UsuarioService service;
     private final PasswordEncoder passwordEncoder;
@@ -24,21 +37,25 @@ public class UsuarioController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Usuario usuario) {
-        System.out.println("➡️ Intentando login con: " + usuario.getEmail());
+        try {
 
-        // Buscar el usuario en BD
-        Optional<Usuario> usuarioBD = service.obtenerPorEmail(usuario.getEmail());
-        if (usuarioBD.isEmpty()) {
-            return ResponseEntity.status(401).body("Usuario no encontrado");
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(usuario.getEmail(), usuario.getPassword())
+            );
+
+            String token = tokenService.generateToken(authentication);
+            String correo = authentication.getName();
+
+
+            return ResponseEntity.ok(Map.of(
+                    "token", token,
+                    "email", correo
+            ));
+
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales inválidas.");
         }
-
-        // Verificar la contraseña
-        if (!passwordEncoder.matches(usuario.getPassword(), usuarioBD.get().getPassword())) {
-            return ResponseEntity.status(401).body("Contraseña incorrecta");
-        }
-
-        // Si llega aquí, todo bien 👌
-        return ResponseEntity.ok("Login exitoso ✅");
     }
 
 
