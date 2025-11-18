@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using UsuariosApi.Data;
+using UsuariosApi.Services;
 using AspNetCoreRateLimit;
 using dotenv.net;
 
@@ -10,6 +11,16 @@ using dotenv.net;
 DotEnv.Load();
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Configurar Kestrel para aceptar localhost
+builder.WebHost.ConfigureKestrel(options =>
+{
+    // Permitir cualquier hostname en desarrollo
+    if (builder.Environment.IsDevelopment())
+    {
+        options.AllowSynchronousIO = true;
+    }
+});
 
 // ==========================================
 // CONFIGURACIÓN DESDE VARIABLES DE ENTORNO
@@ -37,6 +48,19 @@ var allowedOrigins = Environment.GetEnvironmentVariable("ALLOWED_ORIGINS")
 // Añadir DbContext
 builder.Services.AddDbContext<UsuariosContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("UsuariosDb")));
+
+// Registrar servicio de GitHub OAuth
+builder.Services.AddScoped<IGitHubOAuthService, GitHubOAuthService>();
+builder.Services.AddHttpClient<IGitHubOAuthService, GitHubOAuthService>();
+
+// Añadir soporte para sesiones (con DistributedCache en memoria)
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
 // Configuración JWT
 var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey));
@@ -67,17 +91,35 @@ builder.Services.AddAuthentication(options =>
 // ==========================================
 builder.Services.AddCors(options =>
 {
-    var origins = allowedOrigins.Split(',', System.StringSplitOptions.RemoveEmptyEntries);
-    
-    options.AddPolicy("RestrictedPolicy", policyBuilder =>
+    if (builder.Environment.IsDevelopment())
     {
-        policyBuilder
-            .WithOrigins(origins)
-            .AllowAnyMethod()
-            .AllowAnyHeader()
-            .AllowCredentials()
-            .WithExposedHeaders("Authorization");
-    });
+        // En desarrollo, permitir cualquier origen
+        options.AddPolicy("RestrictedPolicy", policyBuilder =>
+        {
+            policyBuilder
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .WithExposedHeaders("Authorization");
+        });
+    }
+    else
+    {
+        // En producción, restricción por origen
+        var origins = allowedOrigins.Split(',', System.StringSplitOptions.RemoveEmptyEntries)
+            .Select(o => o.Trim())
+            .ToArray();
+        
+        options.AddPolicy("RestrictedPolicy", policyBuilder =>
+        {
+            policyBuilder
+                .WithOrigins(origins)
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials()
+                .WithExposedHeaders("Authorization");
+        });
+    }
 });
 
 // Añadir controladores
@@ -113,18 +155,24 @@ using (var scope = app.Services.CreateScope())
 // MIDDLEWARE DE SEGURIDAD
 // ==========================================
 
-// HTTPS Redirection
+// HTTPS Redirection (solo en producción)
 if (app.Environment.IsProduction())
 {
     app.UseHsts();  // Agregar HSTS en producción
+    app.UseHttpsRedirection();
 }
-app.UseHttpsRedirection();
+
+// Usar sesiones
+app.UseSession();
 
 // CORS debe estar antes de Authentication/Authorization
 app.UseCors("RestrictedPolicy");
 
-// Rate Limiting
-app.UseIpRateLimiting();
+// Rate Limiting (deshabilitado temporalmente en desarrollo)
+if (app.Environment.IsProduction())
+{
+    app.UseIpRateLimiting();
+}
 
 // Security Headers
 app.Use(async (context, next) =>
