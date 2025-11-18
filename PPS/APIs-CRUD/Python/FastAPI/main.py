@@ -1,3 +1,7 @@
+from dotenv import load_dotenv
+# Cargar variables de entorno desde .env
+load_dotenv()
+
 from fastapi import FastAPI, HTTPException, Depends, Request
 from sqlalchemy.orm import Session
 from typing import List
@@ -9,18 +13,17 @@ import jwt
 from slowapi import Limiter
 from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
-from dotenv import load_dotenv
 
-from . import models, schemas, utils
+
+from . import models, schemas, utils, auth
 from .database import engine, SessionLocal
-
-# Cargar variables de entorno desde .env
-load_dotenv()
+from .auth import get_current_active_user
 
 # Crear tablas
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="CRUD de Usuarios con Seguridad (bcrypt)")
+app.include_router(auth.router)
 
 # Rate limiter para prevenir ataques de fuerza bruta
 limiter = Limiter(key_func=get_remote_address)
@@ -44,27 +47,6 @@ def get_db():
         yield db
     finally:
         db.close()
-
-
-def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(security), db: Session = Depends(get_db)):
-    """Dependencia que valida el token Bearer y devuelve el usuario actual."""
-    token = credentials.credentials
-    try:
-        payload = utils.decode_access_token(token, SECRET_KEY)
-    except jwt.ExpiredSignatureError:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token expirado")
-    except Exception:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token inválido")
-
-    user_id = payload.get("sub") or payload.get("user_id")
-    if user_id is None:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token inválido (sin sub)")
-
-    usuario = db.query(models.Usuario).filter(models.Usuario.id == int(user_id)).first()
-    if not usuario:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Usuario no encontrado")
-
-    return usuario
 
 
 # Crear usuario
@@ -93,14 +75,14 @@ def crear_usuario(usuario: schemas.UsuarioCreate, db: Session = Depends(get_db))
 
 # Obtener todos los usuarios
 @app.get("/usuarios", response_model=List[schemas.UsuarioResponse])
-def obtener_usuarios(db: Session = Depends(get_db), current_user: models.Usuario = Depends(get_current_user)):
+def obtener_usuarios(db: Session = Depends(get_db), current_user: models.Usuario = Depends(get_current_active_user)):
     # current_user dependency will be replaced by get_current_user when protecting endpoints
     return db.query(models.Usuario).all()
 
 
 # Obtener usuario por ID
 @app.get("/usuarios/{id}", response_model=schemas.UsuarioResponse)
-def obtener_usuario(id: int, db: Session = Depends(get_db), current_user: models.Usuario = Depends(get_current_user)):
+def obtener_usuario(id: int, db: Session = Depends(get_db), current_user: models.Usuario = Depends(get_current_active_user)):
     usuario = db.query(models.Usuario).filter(models.Usuario.id == id).first()
     if not usuario:
         raise HTTPException(status_code=404, detail="Usuario no encontrado")
@@ -109,7 +91,7 @@ def obtener_usuario(id: int, db: Session = Depends(get_db), current_user: models
 
 # Actualizar usuario
 @app.put("/usuarios/{id}", response_model=schemas.UsuarioResponse)
-def actualizar_usuario(id: int, datos: schemas.UsuarioUpdate, db: Session = Depends(get_db), current_user: models.Usuario = Depends(get_current_user)):
+def actualizar_usuario(id: int, datos: schemas.UsuarioUpdate, db: Session = Depends(get_db), current_user: models.Usuario = Depends(get_current_active_user)):
     usuario = db.query(models.Usuario).filter(models.Usuario.id == id).first()
     if not usuario:
         raise HTTPException(status_code=404, detail="Usuario no encontrado")
@@ -128,7 +110,7 @@ def actualizar_usuario(id: int, datos: schemas.UsuarioUpdate, db: Session = Depe
 
 #  Eliminar usuario
 @app.delete("/usuarios/{id}", status_code=200)
-def eliminar_usuario(id: int, db: Session = Depends(get_db), current_user: models.Usuario = Depends(get_current_user)):
+def eliminar_usuario(id: int, db: Session = Depends(get_db), current_user: models.Usuario = Depends(get_current_active_user)):
     usuario = db.query(models.Usuario).filter(models.Usuario.id == id).first()
     if not usuario:
         raise HTTPException(status_code=404, detail="Usuario no encontrado")
@@ -136,29 +118,6 @@ def eliminar_usuario(id: int, db: Session = Depends(get_db), current_user: model
     db.delete(usuario)
     db.commit()
     return {"message": f"Usuario con id={id} eliminado correctamente"}
-
-
-def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(security), db: Session = Depends(get_db)):
-    """Dependencia que valida el token Bearer y devuelve el usuario actual."""
-    token = credentials.credentials
-    try:
-        payload = utils.decode_access_token(token, SECRET_KEY)
-    except jwt.ExpiredSignatureError:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token expirado")
-    except Exception:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token inválido")
-
-    user_id = payload.get("sub") or payload.get("user_id")
-    if user_id is None:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token inválido (sin sub)")
-
-    usuario = db.query(models.Usuario).filter(models.Usuario.id == int(user_id)).first()
-    if not usuario:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Usuario no encontrado")
-
-    return usuario
-
-
 
 @app.post("/usuarios/login", response_model=schemas.LoginResponse)
 @limiter.limit("5/minute")
@@ -179,7 +138,7 @@ def login(request: Request, usuario_login: schemas.UsuarioLogin, db: Session = D
         )
 
     # generar token JWT
-    token = utils.create_access_token({"sub": usuario.id, "email": usuario.email}, SECRET_KEY, expires_minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    token = utils.create_access_token({"sub": str(usuario.id), "email": usuario.email}, SECRET_KEY, expires_minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     expiration = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
 
     return {

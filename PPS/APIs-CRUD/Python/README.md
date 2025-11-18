@@ -1,5 +1,7 @@
 # Python con FastAPI
 ###  [Enlace coleción Insomnia](./insomnia.json)
+## OAUTH
+![alt text](img/oauth.png)
 
 ## Crear usuario
 ![alt text](./img/create.png)
