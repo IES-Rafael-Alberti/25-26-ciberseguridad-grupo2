@@ -1,6 +1,8 @@
 <?php
 header('Content-Type: application/json');
 
+require_once 'middleware.php';
+
 define('DATA_FILE', __DIR__ . '/data/usuarios.json');
 
 // Crear archivo si no existe
@@ -16,8 +18,14 @@ function saveUsuarios($usuarios) {
     file_put_contents(DATA_FILE, json_encode($usuarios, JSON_PRETTY_PRINT));
 }
 
-// Obtener método y ruta
+// Obtener método
 $method = $_SERVER['REQUEST_METHOD'];
+
+// ⚠️ SOLO VALIDAR TOKEN SI NO ES POST (crear usuario)
+if ($method !== 'POST') {
+    $usuarioAutenticado = validateAuth(); // Cambiado para validar JWT o sesión OAuth
+}
+
 $requestUri = $_SERVER['REQUEST_URI'];
 $path = parse_url($requestUri, PHP_URL_PATH);
 $segments = explode('/', trim($path, '/'));
@@ -26,7 +34,7 @@ $isUserIdRequest = is_numeric($id);
 
 // Procesar según método HTTP
 switch ($method) {
-    // CREAR USUARIO (POST)
+    // CREAR USUARIO (POST) - SIN TOKEN
     case 'POST':
         $input = json_decode(file_get_contents('php://input'), true);
 
@@ -37,6 +45,16 @@ switch ($method) {
         }
 
         $usuarios = getUsuarios();
+        
+        // Verificar si el email ya existe
+        foreach ($usuarios as $u) {
+            if ($u['email'] === $input['email']) {
+                http_response_code(400);
+                echo json_encode(['error' => 'El email ya está registrado']);
+                exit;
+            }
+        }
+        
         $nextId = count($usuarios) ? max(array_column($usuarios, 'id')) + 1 : 1;
 
         $nuevoUsuario = [
@@ -44,18 +62,19 @@ switch ($method) {
             'nombre' => $input['nombre'] ?? '',
             'apellidos' => $input['apellidos'] ?? '',
             'email' => $input['email'],
-            'password' => $input['password']
+            'password' => password_hash($input['password'], PASSWORD_DEFAULT)
         ];
 
         $usuarios[] = $nuevoUsuario;
         saveUsuarios($usuarios);
 
         http_response_code(201);
+        // No devolver el password hasheado
+        unset($nuevoUsuario['password']);
         echo json_encode(['mensaje' => 'Usuario creado correctamente', 'usuario' => $nuevoUsuario]);
         break;
 
-    //  OBTENER TODOS (GET /usuarios)
-    //  OBTENER POR ID (GET /usuarios/{id})
+    // Resto del código igual...
     case 'GET':
         $usuarios = getUsuarios();
 
@@ -63,6 +82,7 @@ switch ($method) {
             $usuario = null;
             foreach ($usuarios as $u) {
                 if ($u['id'] == $id) {
+                    unset($u['password']); // No mostrar password
                     $usuario = $u;
                     break;
                 }
@@ -76,12 +96,16 @@ switch ($method) {
                 echo json_encode(['error' => 'Usuario no encontrado']);
             }
         } else {
+            // No mostrar passwords en el listado
+            $usuariosSinPassword = array_map(function($u) {
+                unset($u['password']);
+                return $u;
+            }, $usuarios);
             http_response_code(200);
-            echo json_encode($usuarios);
+            echo json_encode($usuariosSinPassword);
         }
         break;
 
-    //  ACTUALIZAR USUARIO (PUT /usuarios/{id})
     case 'PUT':
         if (!$isUserIdRequest) {
             http_response_code(400);
@@ -98,7 +122,9 @@ switch ($method) {
                 $u['nombre'] = $input['nombre'] ?? $u['nombre'];
                 $u['apellidos'] = $input['apellidos'] ?? $u['apellidos'];
                 $u['email'] = $input['email'] ?? $u['email'];
-                $u['password'] = $input['password'] ?? $u['password'];
+                if (isset($input['password'])) {
+                    $u['password'] = password_hash($input['password'], PASSWORD_DEFAULT);
+                }
                 $actualizado = true;
                 break;
             }
@@ -114,7 +140,6 @@ switch ($method) {
         }
         break;
 
-    // ELIMINAR USUARIO (DELETE /usuarios/{id})
     case 'DELETE':
         if (!$isUserIdRequest) {
             http_response_code(400);

@@ -1,0 +1,35 @@
+# Variables de entorno con secrets
+.env
+
+# Datos de usuarios
+data/usuarios.json
+data/*.json
+
+# Composer
+vendor/
+composer.lock
+
+# Logs
+*.log
+logs/
+
+# Cache
+cache/
+*.cache
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Docker
+docker-compose.override.yml
+
+# Archivos temporales
+*.tmp
+.lock
