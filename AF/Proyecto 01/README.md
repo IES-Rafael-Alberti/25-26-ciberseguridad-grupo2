@@ -136,7 +136,7 @@ Determina los sistemas afectados y las fuentes de evidencia relevantes.
 Obtener copias exactas de la evidencia sin alterar su contenido.
 
 **Procedimientos:**
-
+                        
 * Realizar imágenes bit-a-bit de discos duros con herramientas validadas (FTK Imager, dd, Guymager).
 
 * Generar y registrar hashes criptográficos (SHA-256) antes y después de la adquisición.
