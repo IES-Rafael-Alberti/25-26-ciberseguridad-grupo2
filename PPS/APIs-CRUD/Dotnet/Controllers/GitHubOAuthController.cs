@@ -71,8 +71,11 @@ namespace UsuariosApi.Controllers
         /// <summary>
         /// Callback de GitHub - Maneja la respuesta de autorización
         /// </summary>
+        /// <summary>
+        /// Callback de GitHub - Maneja la respuesta de autorización
+        /// </summary>
         [HttpGet("github/callback")]
-        public async Task<IActionResult> GitHubCallback([FromQuery] string code, [FromQuery] string? state)
+        public async Task<ActionResult<LoginResponseDto>> GitHubCallback([FromQuery] string code, [FromQuery] string? state)
         {
             try
             {
@@ -107,18 +110,22 @@ namespace UsuariosApi.Controllers
                 }
 
                 // Buscar o crear usuario en base de datos
-                var usuario = await _context.Usuarios.FirstOrDefaultAsync(u => 
+                var usuario = await _context.Usuarios.FirstOrDefaultAsync(u =>
                     u.Email == (gitHubUser.Email ?? $"{gitHubUser.Login}@github.local"));
 
                 if (usuario == null)
                 {
                     // Crear nuevo usuario
+                    var login = !string.IsNullOrEmpty(gitHubUser.Login) ? gitHubUser.Login : Guid.NewGuid().ToString();
+                    var email = !string.IsNullOrEmpty(gitHubUser.Email) ? gitHubUser.Email : $"{login}@github.local";
+                    var nombre = !string.IsNullOrEmpty(gitHubUser.Name) ? gitHubUser.Name : login;
+
                     usuario = new Usuario
                     {
-                        Email = gitHubUser.Email ?? $"{gitHubUser.Login}@github.local",
-                        Nombre = gitHubUser.Name ?? gitHubUser.Login,
+                        Email = email,
+                        Nombre = nombre,
                         Apellidos = "GitHub User",
-                        PasswordHash = BCrypt.Net.BCrypt.HashPassword(Guid.NewGuid().ToString()), // Contraseña aleatoria
+                        PasswordHash = BCrypt.Net.BCrypt.HashPassword(Guid.NewGuid().ToString()),
                         CreatedAt = DateTime.UtcNow
                     };
 
@@ -131,8 +138,9 @@ namespace UsuariosApi.Controllers
                 // Generar JWT
                 var jwt = GenerateJWT(usuario);
 
-                // Generar respuesta
-                var loginResponse = new GitHubLoginResponseDto
+                // Generar respuesta JSON (LoginResponseDto)
+                // OJO: Aquí cambiamos el Redirect por el objeto JSON directo
+                var response = new LoginResponseDto
                 {
                     Mensaje = "Autenticación con GitHub exitosa",
                     Usuario = new UsuarioReadDto
@@ -148,11 +156,9 @@ namespace UsuariosApi.Controllers
 
                 _logger.LogInformation("Autenticación exitosa con GitHub para usuario: {0}", usuario.Email);
 
-                // Redirigir a la página de inicio con el token
-                var returnUrl = _configuration["GitHub:ReturnUrl"] ?? "http://localhost:8000";
-                var redirectUrl = $"{returnUrl}?token={jwt.Token}&userId={usuario.Id}&email={Uri.EscapeDataString(usuario.Email)}";
-
-                return Redirect(redirectUrl);
+                // --- CAMBIO CLAVE AQUÍ ---
+                // Ya no redirigimos. Devolvemos el JSON directamente.
+                return Ok(response); 
             }
             catch (Exception ex)
             {
@@ -160,77 +166,71 @@ namespace UsuariosApi.Controllers
                 return StatusCode(500, new { mensaje = "Error al procesar la autenticación" });
             }
         }
-
         /// <summary>
         /// Endpoint POST para obtener el callback (alternativa a GET si lo prefieres)
         /// </summary>
-        [HttpPost("github/callback")]
+        [HttpPost("github/callback")] // OJO: Es POST, no GET
         public async Task<IActionResult> GitHubCallbackPost([FromBody] GitHubCallbackRequestDto request)
         {
-            try
+            // 1. Validar el código que nos manda el Frontend
+            if (string.IsNullOrEmpty(request.Code))
+                return BadRequest(new { mensaje = "Falta el código" });
+
+            // 2. Canjear el código por un Token de GitHub
+            var tokenResponse = await _gitHubService.ExchangeCodeForTokenAsync(request.Code);
+            if (tokenResponse == null) return Unauthorized();
+
+            var gitHubUser = await _gitHubService.GetUserInfoAsync(tokenResponse.AccessToken);
+            if (gitHubUser == null)
             {
-                if (string.IsNullOrEmpty(request.Code))
-                {
-                    return BadRequest(new { mensaje = "Código de autorización no proporcionado" });
-                }
-
-                // Obtener token
-                var tokenResponse = await _gitHubService.ExchangeCodeForTokenAsync(request.Code);
-                if (tokenResponse == null)
-                {
-                    return Unauthorized(new { mensaje = "No se pudo autenticar con GitHub" });
-                }
-
-                // Obtener información del usuario
-                var gitHubUser = await _gitHubService.GetUserInfoAsync(tokenResponse.AccessToken);
-                if (gitHubUser == null)
-                {
-                    return Unauthorized(new { mensaje = "No se pudo obtener la información del usuario" });
-                }
-
-                // Buscar o crear usuario
-                var usuario = await _context.Usuarios.FirstOrDefaultAsync(u => 
-                    u.Email == (gitHubUser.Email ?? $"{gitHubUser.Login}@github.local"));
-
-                if (usuario == null)
-                {
-                    usuario = new Usuario
-                    {
-                        Email = gitHubUser.Email ?? $"{gitHubUser.Login}@github.local",
-                        Nombre = gitHubUser.Name ?? gitHubUser.Login,
-                        Apellidos = "GitHub User",
-                        PasswordHash = BCrypt.Net.BCrypt.HashPassword(Guid.NewGuid().ToString()),
-                        CreatedAt = DateTime.UtcNow
-                    };
-
-                    _context.Usuarios.Add(usuario);
-                    await _context.SaveChangesAsync();
-
-                    _logger.LogInformation("Nuevo usuario creado desde GitHub: {0}", usuario.Email);
-                }
-
-                // Generar JWT
-                var jwt = GenerateJWT(usuario);
-
-                return Ok(new GitHubLoginResponseDto
-                {
-                    Mensaje = "Autenticación con GitHub exitosa",
-                    Usuario = new UsuarioReadDto
-                    {
-                        Id = usuario.Id,
-                        Nombre = usuario.Nombre,
-                        Apellidos = usuario.Apellidos,
-                        Email = usuario.Email
-                    },
-                    Token = jwt.Token,
-                    Expiration = jwt.Expiration
-                });
+                return Unauthorized(new { mensaje = "No se pudo obtener la información del usuario" });
             }
-            catch (Exception ex)
+
+            // Buscar o crear usuario
+            var usuario = await _context.Usuarios.FirstOrDefaultAsync(u =>
+                u.Email == (gitHubUser.Email ?? $"{gitHubUser.Login}@github.local"));
+
+            if (usuario == null)
             {
-                _logger.LogError("Error en callback POST de GitHub: {0}", ex.Message);
-                return StatusCode(500, new { mensaje = "Error al procesar la autenticación" });
+                var login = !string.IsNullOrEmpty(gitHubUser.Login) ? gitHubUser.Login : Guid.NewGuid().ToString();
+                var email = !string.IsNullOrEmpty(gitHubUser.Email) ? gitHubUser.Email : $"{login}@github.local";
+                var nombre = !string.IsNullOrEmpty(gitHubUser.Name) ? gitHubUser.Name : login;
+
+                usuario = new Usuario
+                {
+                    Email = email,
+                    Nombre = nombre,
+                    Apellidos = "GitHub User",
+                    PasswordHash = BCrypt.Net.BCrypt.HashPassword(Guid.NewGuid().ToString()),
+                    CreatedAt = DateTime.UtcNow
+                };
+
+
+
+                _context.Usuarios.Add(usuario);
+                await _context.SaveChangesAsync();
+
+                _logger.LogInformation("Nuevo usuario creado desde GitHub: {0}", usuario.Email);
             }
+
+            // 4. Generar JWT
+            var jwt = GenerateJWT(usuario);
+
+            var response = new LoginResponseDto
+            {
+                Mensaje = "Autenticación con GitHub exitosa",
+                Usuario = new UsuarioReadDto
+                {
+                    Id = usuario.Id,
+                    Nombre = usuario.Nombre,
+                    Apellidos = usuario.Apellidos,
+                    Email = usuario.Email
+                },
+                Token = jwt.Token,
+                Expiration = jwt.Expiration
+            };
+
+            return Ok(response);
         }
 
         /// <summary>
@@ -238,19 +238,34 @@ namespace UsuariosApi.Controllers
         /// </summary>
         private (string Token, DateTime Expiration) GenerateJWT(Usuario usuario)
         {
+            // 1. Obtener valores de configuración
             var jwtKey = _configuration["Jwt:Key"];
             var jwtIssuer = _configuration["Jwt:Issuer"];
             var jwtAudience = _configuration["Jwt:Audience"];
+
+            // 2. Validación de seguridad (ESTO EVITA EL ERROR)
+            if (string.IsNullOrEmpty(jwtKey))
+            {
+                throw new InvalidOperationException("La configuración 'Jwt:Key' no está definida en appsettings.json.");
+            }
+            // Opcional: Validar Issuer y Audience si son obligatorios para ti
+            if (string.IsNullOrEmpty(jwtIssuer) || string.IsNullOrEmpty(jwtAudience))
+            {
+                // Puedes decidir lanzar error o usar valores por defecto
+                _logger.LogWarning("Jwt:Issuer o Jwt:Audience no definidos.");
+            }
+
             var expiresMinutes = int.Parse(_configuration["Jwt:ExpiresMinutes"] ?? "60");
 
             var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, usuario.Id.ToString()),
-                new Claim(JwtRegisteredClaimNames.Email, usuario.Email),
-                new Claim("name", usuario.Nombre),
-                new Claim("oauth_provider", "github")
-            };
+        new Claim(JwtRegisteredClaimNames.Sub, usuario.Id.ToString()),
+        new Claim(JwtRegisteredClaimNames.Email, usuario.Email ?? ""), // Protección contra nulos
+        new Claim("name", usuario.Nombre ?? ""), // Protección contra nulos
+        new Claim("oauth_provider", "github")
+    };
 
+            // Al validar jwtKey arriba, esta línea ya es segura:
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 

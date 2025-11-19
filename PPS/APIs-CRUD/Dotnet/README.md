@@ -20,6 +20,9 @@
 ## Login
 ![alt text](./img/login.png)
 
+## OAUTH Github
+![alt text](img/oauth.png)
+
 # Ejecutar proyecto 
 Construir la imagen de Docker
 ```bash
