@@ -15,6 +15,9 @@ Tras el análisis de memoria y de los procesos del sistema comprometido, se ha d
 
 ## Extra
 ### KMSPico — "AutoPico.exe" (Herramienta ilícita con potencial de malware)
+![alt text](./img/image13.png)
+
+![alt text](./img/image14.png)
 
 ### Justificación:
 
@@ -22,6 +25,9 @@ Tras el análisis de memoria y de los procesos del sistema comprometido, se ha d
 * La explotación de este CVE se basa en la ejecución de código mediante **VBScript**, normalmente cargado desde documentos maliciosos.
 * La máquina afectada ejecuta **Windows 7 SP1**, una versión vulnerable.
 * Los payloads se ejecutaron mediante scripting, sin modificación de servicios del sistema, lo cual es típico de este exploit.
+![alt text](./img/image-7.png)
+
+![alt text](./img/image-8.png)
 
 #### Relación con EternalBlue:
 
