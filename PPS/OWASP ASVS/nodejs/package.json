@@ -1,0 +1,22 @@
+{
+  "name": "nodejs-api-asvs",
+  "version": "1.0.0",
+  "description": "API CRUD de usuarios con Node.js + SQLite + OWASP ASVS Security Controls",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "node-fetch": "^3.3.2",
+    "sequelize": "^6.37.7",
+    "sqlite3": "^5.1.7",
+    "validator": "^13.11.0"
+  }
+}
