@@ -2,41 +2,14 @@
 // IMPORTANTE: session_start() UNA SOLA VEZ al inicio, antes de cualquier salida
 session_start();
 
-function sendSecurityHeaders() {
-    header('X-Content-Type-Options: nosniff');
-    header('X-Frame-Options: DENY');
-    header('X-XSS-Protection: 1; mode=block');
-    header('Referrer-Policy: strict-origin-when-cross-origin');
-    header('Permissions-Policy: geolocation=(), microphone=()');
-    
-    // CORS local/dev + prod
-    $allowedOrigins = [
-        'http://localhost:3000',      // React dev
-        'http://127.0.0.1:3000',     // React dev
-        'http://localhost',           // PHP built-in server
-        #'https://tudominio.com'       // Prod (cuando subas)
-    ];
-    $origin = $_SERVER['HTTP_ORIGIN'] ?? $_SERVER['HTTP_REFERER'] ?? '';
-    if (in_array($origin, $allowedOrigins)) {
-        header("Access-Control-Allow-Origin: $origin");
-    }
-    header('Access-Control-Allow-Credentials: true');
-    header('Access-Control-Allow-Methods: GET, POST, DELETE, OPTIONS');
-    header('Access-Control-Allow-Headers: Authorization, Content-Type');
-    
-    if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-        http_response_code(200);
-        exit();
-    }
-}
-
 require_once 'config.php';
+sendSecurityHeaders();  // <-- AGREGADO: Headers ASVS V3.4 L1
+
 require_once 'vendor/autoload.php';
 
 use Firebase\JWT\JWT;
 
 // Función de login local con JWT y rate limiting
-
 function login_local($email, $password) {
     // Rate limiting SOLO para login local
     $ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
@@ -53,6 +26,7 @@ function login_local($email, $password) {
             'bloqueado' => true,
             'tiempo_restante' => $minutes . ' minuto' . ($minutes > 1 ? 's' : '')
         ]);
+        securityLog('login_locked', null, ['minutes' => $minutes]);  // <-- AGREGADO
         exit;
     }
     
@@ -72,51 +46,51 @@ function login_local($email, $password) {
         }
     }
 
-if ($found) {
-    // LOGIN EXITOSO - Resetear contadores
-    unset($_SESSION[$attemptKey]);
-    unset($_SESSION[$lockKey]);
-    
-    // Generar Access Token (corto - 15 minutos)
-    $accessPayload = [
-        'iat' => time(),
-        'exp' => time() + 900, // 15 minutos
-        'type' => 'access',
-        'data' => [
-            'id' => $found['id'],
-            'email' => $found['email']
-        ]
-    ];
-    
-    // Generar Refresh Token (largo - 7 días)
-    $refreshPayload = [
-        'iat' => time(),
-        'exp' => time() + 604800, // 7 días (60*60*24*7)
-        'type' => 'refresh',
-        'data' => [
-            'id' => $found['id'],
-            'email' => $found['email']
-        ]
-    ];
+    if ($found) {
+        // LOGIN EXITOSO - Resetear contadores
+        unset($_SESSION[$attemptKey]);
+        unset($_SESSION[$lockKey]);
+        
+        // Generar Access Token (corto - 15 minutos)
+        $accessPayload = [
+            'iat' => time(),
+            'exp' => time() + 900, // 15 minutos
+            'type' => 'access',
+            'data' => [
+                'id' => $found['id'],
+                'email' => $found['email']
+            ]
+        ];
+        
+        // Generar Refresh Token (largo - 7 días)
+        $refreshPayload = [
+            'iat' => time(),
+            'exp' => time() + 604800, // 7 días (60*60*24*7)
+            'type' => 'refresh',
+            'data' => [
+                'id' => $found['id'],
+                'email' => $found['email']
+            ]
+        ];
 
-    $accessToken = JWT::encode($accessPayload, SECRET_KEY, 'HS256');
-    $refreshToken = JWT::encode($refreshPayload, SECRET_KEY, 'HS256');
-    
-    http_response_code(200);
-    echo json_encode([
-        'mensaje' => 'Login correcto (local JWT)',
-        'access_token' => $accessToken,
-        'refresh_token' => $refreshToken,
-        'expires_in' => 900, // 15 minutos
-        'usuario' => [
-            'id' => $found['id'],
-            'nombre' => $found['nombre'],
-            'apellidos' => $found['apellidos'],
-            'email' => $found['email']
-        ]
-    ]);
-}
-     else {
+        $accessToken = JWT::encode($accessPayload, SECRET_KEY, 'HS256');
+        $refreshToken = JWT::encode($refreshPayload, SECRET_KEY, 'HS256');
+        
+        http_response_code(200);
+        echo json_encode([
+            'mensaje' => 'Login correcto (local JWT)',
+            'access_token' => $accessToken,
+            'refresh_token' => $refreshToken,
+            'expires_in' => 900, // 15 minutos
+            'usuario' => [
+                'id' => $found['id'],
+                'nombre' => $found['nombre'],
+                'apellidos' => $found['apellidos'],
+                'email' => $found['email']
+            ]
+        ]);
+        securityLog('login_success', $found['id'], ['method' => 'local']);  // <-- AGREGADO
+    } else {
         // LOGIN FALLIDO - Incrementar intentos
         $_SESSION[$attemptKey] = ($_SESSION[$attemptKey] ?? 0) + 1;
         
@@ -128,6 +102,7 @@ if ($found) {
                 'bloqueado' => true,
                 'tiempo_restante' => '5 minutos'
             ]);
+            securityLog('login_locked', null, ['attempts' => 5]);  // <-- AGREGADO
         } else {
             $intentosRestantes = 5 - $_SESSION[$attemptKey];
             http_response_code(401);
@@ -135,6 +110,7 @@ if ($found) {
                 'error' => 'Credenciales incorrectas',
                 'intentos_restantes' => $intentosRestantes
             ]);
+            securityLog('login_failed', null, ['attempts' => $_SESSION[$attemptKey], 'remaining' => $intentosRestantes]);  // <-- AGREGADO
         }
     }
     exit;
@@ -156,10 +132,10 @@ function register_user($data) {
         exit;
     }
 
-    // Validar contraseña
-    if (strlen($data['password']) < 8) {
+    // Validar contraseña - TUS CHEQUEOS + ESPECIAL AGREGADO
+    if (strlen($data['password']) < 12) {
         http_response_code(400);
-        echo json_encode(['error' => 'La contraseña debe tener al menos 8 caracteres']);
+        echo json_encode(['error' => 'La contraseña debe tener al menos 12 caracteres']);
         exit;
     }
 
@@ -180,10 +156,11 @@ function register_user($data) {
         echo json_encode(['error' => 'La contraseña debe contener al menos un número']);
         exit;
     }
-
+    
+    // AGREGADO: Carácter especial ASVS V6.2.2 L1
     if (!preg_match('/[^A-Za-z0-9]/', $data['password'])) {
         http_response_code(400);
-        echo json_encode(['error' => 'La contraseña debe contener al menos un carácter especial (!@#$%)']);
+        echo json_encode(['error' => 'La contraseña debe contener al menos un carácter especial (!@#$%^&*)']);
         exit;
     }
 
@@ -233,6 +210,7 @@ function register_user($data) {
             'email' => $nuevoUsuario['email']
         ]
     ]);
+    securityLog('user_registered', $nuevoId);  // <-- AGREGADO
     exit;
 }
 
