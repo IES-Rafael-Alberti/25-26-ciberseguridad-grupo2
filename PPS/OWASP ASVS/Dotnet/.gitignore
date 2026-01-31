@@ -1,0 +1,44 @@
+# =========================
+# Archivos de build / bin / obj
+# =========================
+bin/
+obj/
+
+# =========================
+# Archivos de usuario / IDE
+# =========================
+.vscode/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# =========================
+# Archivos de paquetes NuGet
+# =========================
+*.nupkg
+*.snupkg
+packages/
+*.nuspec
+
+# =========================
+# Base de datos SQLite
+# =========================
+*.db
+
+# =========================
+# Archivos de configuración local
+# =========================
+appsettings.Development.json
+.env
+
+# =========================
+# Docker
+# =========================
+docker-compose.override.yml
+Dockerfile.dev
+
+# =========================
+# Otros
+# =========================
+*.log

@@ -1,0 +1,78 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2025-10-23T00:00:00.000Z",
+  "__export_source": "insomnia.desktop.app:v10.0.0",
+  "resources": [
+    {
+      "_id": "wrk_fastapi_usuarios",
+      "created": 1600000000000,
+      "modified": 1600000000000,
+      "name": "CRUD Usuarios FastAPI",
+      "_type": "workspace"
+    },
+    {
+      "_id": "env_fastapi_usuarios",
+      "parentId": "wrk_fastapi_usuarios",
+      "_type": "environment",
+      "name": "Base Environment",
+      "data": {
+        "base_url": "http://localhost:8080"
+      }
+    },
+    {
+      "_id": "req_crear_usuario",
+      "parentId": "wrk_fastapi_usuarios",
+      "_type": "request",
+      "name": "Crear Usuario (POST)",
+      "method": "POST",
+      "url": "{{ base_url }}/usuarios",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"nombre\": \"Juan\",\n  \"apellidos\": \"Pérez\",\n  \"email\": \"juan@mail.com\",\n  \"password\": \"1234\"\n}"
+      },
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" }
+      ]
+    },
+    {
+      "_id": "req_obtener_todos",
+      "parentId": "wrk_fastapi_usuarios",
+      "_type": "request",
+      "name": "Obtener Todos los Usuarios (GET)",
+      "method": "GET",
+      "url": "{{ base_url }}/usuarios"
+    },
+    {
+      "_id": "req_obtener_por_id",
+      "parentId": "wrk_fastapi_usuarios",
+      "_type": "request",
+      "name": "Obtener Usuario por ID (GET)",
+      "method": "GET",
+      "url": "{{ base_url }}/usuarios/1"
+    },
+    {
+      "_id": "req_actualizar_usuario",
+      "parentId": "wrk_fastapi_usuarios",
+      "_type": "request",
+      "name": "Actualizar Usuario (PUT)",
+      "method": "PUT",
+      "url": "{{ base_url }}/usuarios/1",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"nombre\": \"Juan\",\n  \"apellidos\": \"Pérez Actualizado\",\n  \"email\": \"juan@mail.com\",\n  \"password\": \"5678\"\n}"
+      },
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" }
+      ]
+    },
+    {
+      "_id": "req_eliminar_usuario",
+      "parentId": "wrk_fastapi_usuarios",
+      "_type": "request",
+      "name": "Eliminar Usuario (DELETE)",
+      "method": "DELETE",
+      "url": "{{ base_url }}/usuarios/1"
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+# 🐍 Archivos compilados de Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# 🔧 Entorno virtual
+venv/
+.env/
+.venv/
+env/
+ENV/
+
+# 📦 Dependencias y build
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# 🧠 Archivos temporales de IDEs y editores
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ⚙️ Archivos de sistema
+.DS_Store
+Thumbs.db
+
+# 📁 SQLite / bases de datos locales
+*.db
+*.sqlite3
+
+# 🧪 Cachés de pruebas
+.pytest_cache/
+.coverage
+htmlcov/
+
+# 🔐 Variables de entorno y configuración local
+.env.local
+.env.*.local
+
+# 🧰 Logs
+*.log
+logs/
+log/
+
+# 🧾 Archivos temporales
+*.tmp
+*.bak
+*.old
+
+# ⚡ Archivos generados por Uvicorn o FastAPI
+*.pid
