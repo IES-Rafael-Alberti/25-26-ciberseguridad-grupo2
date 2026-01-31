@@ -30,8 +30,3 @@
 | **V6** | V6.1.1 | Security doc | Documento de seguridad completo del servicio | `security.md` | ✅ |
 | **V10** | V10.3.1 | OAuth timeouts | `requests.*(..., timeout=...)` contra GitHub | `FastAPI/auth.py` | ✅ |
 | **V3** | V3.2.1 | No caching de respuestas sensibles | `Cache-Control: no-store` | `FastAPI/main.py` | ✅ |
-
-## Notas (alcance)
-
-- El checklist anterior refleja un subconjunto “principal” de L1 (como en el ejemplo PHP), aplicado a esta API.
-- La revocación de tokens por blacklist es **en memoria** (válida para un solo proceso). Para producción multi-instancia, debería persistirse en Redis/DB.

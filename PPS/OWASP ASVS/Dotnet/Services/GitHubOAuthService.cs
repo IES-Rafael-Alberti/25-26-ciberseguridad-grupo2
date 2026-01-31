@@ -1,5 +1,6 @@
 using UsuariosApi.DTOs;
 using System.Text.Json;
+using System.Net.Http.Headers;
 
 namespace UsuariosApi.Services
 {
@@ -57,13 +58,14 @@ namespace UsuariosApi.Services
                     "application/json"
                 );
 
-                // Configurar headers para obtener respuesta JSON
-                _httpClient.DefaultRequestHeaders.Accept.Clear();
-                _httpClient.DefaultRequestHeaders.Accept.Add(
-                    new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json")
-                );
+                using var request = new HttpRequestMessage(HttpMethod.Post, GitHubTokenUrl);
+                request.Headers.Accept.Clear();
+                request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                request.Headers.UserAgent.Clear();
+                request.Headers.UserAgent.Add(new ProductInfoHeaderValue("UsuariosApi", "1.0"));
+                request.Content = content;
 
-                var response = await _httpClient.PostAsync(GitHubTokenUrl, content);
+                var response = await _httpClient.SendAsync(request);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -85,7 +87,7 @@ namespace UsuariosApi.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError("Excepción al intercambiar código por token: {0}", ex.Message);
+                _logger.LogError(ex, "Excepción al intercambiar código por token");
                 return null;
             }
         }
@@ -97,17 +99,14 @@ namespace UsuariosApi.Services
         {
             try
             {
-                _httpClient.DefaultRequestHeaders.Authorization =
-                    new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", accessToken);
+                using var request = new HttpRequestMessage(HttpMethod.Get, GitHubUserUrl);
+                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+                request.Headers.Accept.Clear();
+                request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                request.Headers.UserAgent.Clear();
+                request.Headers.UserAgent.Add(new ProductInfoHeaderValue("UsuariosApi", "1.0"));
 
-                _httpClient.DefaultRequestHeaders.Accept.Clear();
-                _httpClient.DefaultRequestHeaders.Accept.Add(
-                    new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json")
-                );
-
-                _httpClient.DefaultRequestHeaders.Add("User-Agent", "UsuariosApi");
-
-                var response = await _httpClient.GetAsync(GitHubUserUrl);
+                var response = await _httpClient.SendAsync(request);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -129,7 +128,7 @@ namespace UsuariosApi.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError("Excepción al obtener información del usuario: {0}", ex.Message);
+                _logger.LogError(ex, "Excepción al obtener información del usuario");
                 return null;
             }
         }

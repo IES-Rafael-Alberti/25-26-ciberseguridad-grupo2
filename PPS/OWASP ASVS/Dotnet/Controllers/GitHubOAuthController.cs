@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 namespace UsuariosApi.Controllers
 {
     [ApiController]
-    [Route("auth")]
+    [Route("api/auth")]
     public class GitHubOAuthController : ControllerBase
     {
         private readonly IGitHubOAuthService _gitHubService;
@@ -87,11 +87,14 @@ namespace UsuariosApi.Controllers
 
                 // Validar estado (seguridad CSRF)
                 var savedState = HttpContext.Session.GetString("GitHubOAuthState");
-                if (!string.IsNullOrEmpty(savedState) && savedState != state)
+                if (string.IsNullOrEmpty(savedState) || string.IsNullOrEmpty(state) || savedState != state)
                 {
                     _logger.LogWarning("Estado inválido en callback de GitHub");
                     return BadRequest(new { mensaje = "Estado inválido" });
                 }
+
+                // Consumir state (one-time)
+                HttpContext.Session.Remove("GitHubOAuthState");
 
                 // Obtener token
                 var tokenResponse = await _gitHubService.ExchangeCodeForTokenAsync(code);
@@ -239,7 +242,7 @@ namespace UsuariosApi.Controllers
         private (string Token, DateTime Expiration) GenerateJWT(Usuario usuario)
         {
             // 1. Obtener valores de configuración
-            var jwtKey = _configuration["Jwt:Key"];
+            var jwtKey = Environment.GetEnvironmentVariable("JWT_KEY") ?? _configuration["Jwt:Key"];
             var jwtIssuer = _configuration["Jwt:Issuer"];
             var jwtAudience = _configuration["Jwt:Audience"];
 
@@ -262,6 +265,7 @@ namespace UsuariosApi.Controllers
         new Claim(JwtRegisteredClaimNames.Sub, usuario.Id.ToString()),
         new Claim(JwtRegisteredClaimNames.Email, usuario.Email ?? ""), // Protección contra nulos
         new Claim("name", usuario.Nombre ?? ""), // Protección contra nulos
+        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
         new Claim("oauth_provider", "github")
     };
 
@@ -274,6 +278,7 @@ namespace UsuariosApi.Controllers
                 issuer: jwtIssuer,
                 audience: jwtAudience,
                 claims: claims,
+                notBefore: DateTime.UtcNow,
                 expires: expiration,
                 signingCredentials: creds
             );

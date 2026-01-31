@@ -6,6 +6,9 @@ using UsuariosApi.Data;
 using UsuariosApi.Services;
 using AspNetCoreRateLimit;
 using dotenv.net;
+using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Http;
+using System.IdentityModel.Tokens.Jwt;
 
 // Cargar variables de entorno desde .env
 DotEnv.Load();
@@ -50,8 +53,19 @@ builder.Services.AddDbContext<UsuariosContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("UsuariosDb")));
 
 // Registrar servicio de GitHub OAuth
-builder.Services.AddScoped<IGitHubOAuthService, GitHubOAuthService>();
-builder.Services.AddHttpClient<IGitHubOAuthService, GitHubOAuthService>();
+builder.Services.AddHttpClient<IGitHubOAuthService, GitHubOAuthService>(client =>
+{
+    var timeoutSecondsStr = Environment.GetEnvironmentVariable("OAUTH_HTTP_TIMEOUT_SECONDS")
+        ?? builder.Configuration["GitHub:HttpTimeoutSeconds"]
+        ?? "10";
+
+    if (!double.TryParse(timeoutSecondsStr, out var timeoutSeconds) || timeoutSeconds <= 0)
+    {
+        timeoutSeconds = 10;
+    }
+
+    client.Timeout = TimeSpan.FromSeconds(timeoutSeconds);
+});
 
 // Añadir soporte para sesiones (con DistributedCache en memoria)
 builder.Services.AddDistributedMemoryCache();
@@ -60,6 +74,10 @@ builder.Services.AddSession(options =>
     options.IdleTimeout = TimeSpan.FromMinutes(30);
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
+    options.Cookie.SameSite = SameSiteMode.Lax;
+    options.Cookie.SecurePolicy = builder.Environment.IsProduction()
+        ? CookieSecurePolicy.Always
+        : CookieSecurePolicy.None;
 });
 
 // Configuración JWT
@@ -83,6 +101,27 @@ builder.Services.AddAuthentication(options =>
             ValidAudience = jwtAudience,
             IssuerSigningKey = signingKey,
             ClockSkew = TimeSpan.Zero  // No permitir sesgo de reloj
+        };
+
+        options.Events = new JwtBearerEvents
+        {
+            OnTokenValidated = async context =>
+            {
+                // Revocación por jti (logout). Best-effort con DistributedCache.
+                var cache = context.HttpContext.RequestServices.GetRequiredService<IDistributedCache>();
+
+                var jti = context.Principal?.FindFirst(JwtRegisteredClaimNames.Jti)?.Value;
+                if (string.IsNullOrWhiteSpace(jti))
+                {
+                    return;
+                }
+
+                var revoked = await cache.GetStringAsync($"revoked:{jti}");
+                if (!string.IsNullOrEmpty(revoked))
+                {
+                    context.Fail("Token revocado");
+                }
+            }
         };
     });
 
@@ -143,6 +182,26 @@ builder.Services.AddSingleton<IProcessingStrategy, AsyncKeyLockProcessingStrateg
 var app = builder.Build();
 
 // ==========================================
+// MANEJO DE ERRORES GENÉRICO (ASVS V16.5.1)
+// ==========================================
+app.UseExceptionHandler(errorApp =>
+{
+    errorApp.Run(async context =>
+    {
+        context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+        context.Response.ContentType = "application/json";
+
+        var exceptionHandler = context.Features.Get<IExceptionHandlerFeature>();
+        if (exceptionHandler?.Error != null)
+        {
+            app.Logger.LogError(exceptionHandler.Error, "Unhandled exception");
+        }
+
+        await context.Response.WriteAsJsonAsync(new { mensaje = "Error interno del servidor" });
+    });
+});
+
+// ==========================================
 // MIGRACIONES AUTOMÁTICAS
 // ==========================================
 using (var scope = app.Services.CreateScope())
@@ -177,15 +236,22 @@ if (app.Environment.IsProduction())
 // Security Headers
 app.Use(async (context, next) =>
 {
-    context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
-    context.Response.Headers.Add("X-Frame-Options", "DENY");
-    context.Response.Headers.Add("X-XSS-Protection", "1; mode=block");
-    context.Response.Headers.Add("Referrer-Policy", "strict-origin-when-cross-origin");
-    context.Response.Headers.Add("Permissions-Policy", "geolocation=(), microphone=(), camera=()");
+    // Headers defensivos (ASVS V3)
+    context.Response.Headers.TryAdd("X-Content-Type-Options", "nosniff");
+    context.Response.Headers.TryAdd("X-Frame-Options", "DENY");
+    context.Response.Headers.TryAdd("Referrer-Policy", "strict-origin-when-cross-origin");
+    context.Response.Headers.TryAdd("Permissions-Policy", "geolocation=(), microphone=(), camera=()");
+
+    // Evitar cachear respuestas con datos sensibles o tokens
+    if (context.Request.Path.StartsWithSegments("/api/usuarios") || context.Request.Path.StartsWithSegments("/api/auth"))
+    {
+        context.Response.Headers.TryAdd("Cache-Control", "no-store");
+        context.Response.Headers.TryAdd("Pragma", "no-cache");
+    }
     
     if (app.Environment.IsProduction())
     {
-        context.Response.Headers.Add("Strict-Transport-Security", "max-age=31536000; includeSubDomains; preload");
+        context.Response.Headers.TryAdd("Strict-Transport-Security", "max-age=31536000; includeSubDomains");
     }
     
     await next();

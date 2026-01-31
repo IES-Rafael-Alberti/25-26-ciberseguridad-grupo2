@@ -251,6 +251,11 @@ namespace UsuariosApi.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(new { mensaje = "Email y contraseña son obligatorios" });
+                }
+
                 if (string.IsNullOrWhiteSpace(loginDto.Email) || string.IsNullOrWhiteSpace(loginDto.Password))
                 {
                     _logger.LogWarning("Intento de login con credenciales vacías");
@@ -272,22 +277,31 @@ namespace UsuariosApi.Controllers
                 }
 
                 // Generar JWT
-                var jwtKey = _configuration["Jwt:Key"];
+                var jwtKey = Environment.GetEnvironmentVariable("JWT_KEY") ?? _configuration["Jwt:Key"];
                 if (string.IsNullOrEmpty(jwtKey))
                 {
                     _logger.LogError("Jwt:Key no configurada");
                     return StatusCode(500, new { mensaje = "Error interno del servidor" });
                 }
 
-                var jwtIssuer = _configuration["Jwt:Issuer"];
-                var jwtAudience = _configuration["Jwt:Audience"];
-                var expiresMinutes = int.Parse(_configuration["Jwt:ExpiresMinutes"] ?? "60");
+                var jwtIssuer = Environment.GetEnvironmentVariable("JWT_ISSUER") ?? _configuration["Jwt:Issuer"];
+                var jwtAudience = Environment.GetEnvironmentVariable("JWT_AUDIENCE") ?? _configuration["Jwt:Audience"];
+
+                var expiresMinutesStr = Environment.GetEnvironmentVariable("JWT_EXPIRES_MINUTES")
+                    ?? _configuration["Jwt:ExpiresMinutes"]
+                    ?? "60";
+
+                if (!int.TryParse(expiresMinutesStr, out var expiresMinutes) || expiresMinutes <= 0)
+                {
+                    expiresMinutes = 60;
+                }
 
                 var claims = new[]
                 {
                     new Claim(JwtRegisteredClaimNames.Sub, usuario.Id.ToString()),
                     new Claim(JwtRegisteredClaimNames.Email, usuario.Email),
-                    new Claim("name", usuario.Nombre)
+                    new Claim("name", usuario.Nombre),
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
                 };
 
                 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey));
@@ -297,6 +311,7 @@ namespace UsuariosApi.Controllers
                     issuer: jwtIssuer,
                     audience: jwtAudience,
                     claims: claims,
+                    notBefore: DateTime.UtcNow,
                     expires: DateTime.UtcNow.AddMinutes(expiresMinutes),
                     signingCredentials: creds
                 );
