@@ -1,8 +1,3 @@
-/**
- * Control V16.3.1 L2: Logging Completo de Eventos
- * Sistema de logging de seguridad con eventos completos
- */
-
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';

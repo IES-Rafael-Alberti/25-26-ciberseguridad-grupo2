@@ -1,13 +1,3 @@
-/**
- * Controllers con todos los controles OWASP ASVS
- * - V2.2.1 L1: Input validation
- * - V6.2.2 L1: Password validation mejorada
- * - V6.3.1 L1: Rate limiting
- * - V7.2.1 L1: JWT con expiración
- * - V8.3.1 L1: Autenticación JWT
- * - V16.3.1 L2: Logging
- */
-
 import { Op } from 'sequelize';
 import User from '../models/user.js';
 import {
@@ -39,13 +29,6 @@ const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID;
 const GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;
 const GITHUB_REDIRECT_URI = process.env.GITHUB_REDIRECT_URI;
 
-// ===== REGISTRO =====
-
-/**
- * Control V2.2.1 L1: Input Validation
- * Control V6.2.2 L1: Password validation mejorada
- * Control V16.3.1 L2: Logging
- */
 export const register = async (req, res) => {
   const ip = req.ip || 'UNKNOWN';
   const userAgent = req.get('user-agent') || 'UNKNOWN';
@@ -118,11 +101,6 @@ export const register = async (req, res) => {
 
 // ===== LOGIN LOCAL =====
 
-/**
- * Control V6.3.1 L1: Rate Limiting (5 intentos → 5 min bloqueo)
- * Control V7.2.1 L1: JWT tokens (access: 15 min, refresh: 7 days)
- * Control V16.3.1 L2: Logging
- */
 export const login = async (req, res) => {
   const ip = req.ip || 'UNKNOWN';
   const userAgent = req.get('user-agent') || 'UNKNOWN';

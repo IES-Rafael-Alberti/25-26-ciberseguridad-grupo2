@@ -1,14 +1,5 @@
-/**
- * Control V2.2.1 L1: Input Validation
- * Validación de entrada backend con reglas explícitas
- */
-
 import validator from 'validator';
 
-/**
- * Valida y sanitiza un email
- * Usa filter_var style validation con FILTER_VALIDATE_EMAIL
- */
 export const validateEmail = (email) => {
   if (!email || typeof email !== 'string') {
     return { valid: false, error: 'Email is required' };

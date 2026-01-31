@@ -1,18 +1,3 @@
-/**
- * OWASP ASVS - Node.js Implementation
- * 
- * Controles de seguridad implementados:
- * 1. V3.4 L1 - Headers de Seguridad (Security Headers)
- * 2. V6.2.2 L1 - Validación de Contraseña Mejorada
- * 3. V6.3.1 L1 - Rate Limiting Brute Force
- * 4. V7.2.1 L1 - JWT con Expiración (Access + Refresh tokens)
- * 5. V7.4.1 L1 - Logout + Token Blacklist
- * 6. V16.3.1 L2 - Logging Completo de Eventos
- * 7. V2.2.1 L1 - Validación Input Backend
- * 8. V8.3.1 L1 - Autenticación JWT Backend
- * 9. V10.1.2 L1 - CSRF Protection OAuth (State parameter)
- */
-
 import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';

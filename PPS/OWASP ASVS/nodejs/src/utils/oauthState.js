@@ -1,14 +1,3 @@
-/**
- * Control V10.1.2 L1: CSRF Protection OAuth
- * State parameter para prevenir CSRF en OAuth callbacks
- * 
- * Flujo:
- * 1. Cliente solicita login con GitHub
- * 2. Generamos state: bin2hex(random_bytes(16))
- * 3. Guardamos state en sesión
- * 4. Redirigimos a GitHub con state
- * 5. GitHub callback valida state antes de intercambiar código
- */
 
 import crypto from 'crypto';
 import fs from 'fs';

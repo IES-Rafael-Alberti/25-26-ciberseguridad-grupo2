@@ -1,19 +1,6 @@
-/**
- * Control V8.3.1 L1: Autenticación JWT Backend
- * Middleware para verificar JWT tokens con:
- * - Verificación de JWT válido
- * - Solo acepta "access" type (allowlist algoritmo)
- * - Decodifica con jsonwebtoken (HS256)
- * - Previene token inválido/expirado
- */
-
 import { verifyToken } from '../utils/tokenManager.js';
 import { logInvalidToken } from '../utils/logger.js';
 
-/**
- * Middleware para verificar autenticación JWT
- * Extrae el token del header Authorization: Bearer <token>
- */
 export const verificarAuth = (req, res, next) => {
   try {
     // Obtener token del header Authorization

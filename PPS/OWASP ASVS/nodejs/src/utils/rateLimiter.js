@@ -1,10 +1,3 @@
-/**
- * Control V6.3.1 L1: Rate Limiting Brute Force
- * 5 intentos fallidos → bloqueo por 5 minutos
- * Por IP + email
- * Contador en sesión con timestamp
- */
-
 // Estructura en memoria: Map<key> = { attempts, firstAttempt, lockedUntil }
 const attempts = new Map();
 

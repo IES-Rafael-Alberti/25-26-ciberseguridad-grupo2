@@ -1,8 +1,3 @@
-/**
- * Middleware para capturar errores globales
- * y registrar logs de seguridad
- */
-
 export const errorHandler = (err, req, res, next) => {
   console.error('Error:', err);
 
@@ -18,9 +13,6 @@ export const errorHandler = (err, req, res, next) => {
   });
 };
 
-/**
- * Middleware para capturar IP del cliente
- */
 export const captureClientIp = (req, res, next) => {
   req.clientIp = req.headers['x-forwarded-for']?.split(',')[0] || 
                  req.headers['x-real-ip'] || 
@@ -29,9 +21,6 @@ export const captureClientIp = (req, res, next) => {
   next();
 };
 
-/**
- * Middleware para log de requests
- */
 export const requestLogger = (req, res, next) => {
   const start = Date.now();
 

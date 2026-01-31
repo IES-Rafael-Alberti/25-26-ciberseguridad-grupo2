@@ -1,15 +1,3 @@
-/**
- * Control V7.2.1 L1: JWT con Expiración
- * Control V7.4.1 L1: Logout + Token Blacklist
- * 
- * Manejo de JWT tokens con:
- * - Access token: 15 minutos absolutos
- * - Refresh token: 7 días máximo
- * - Token type distinguido (access/refresh)
- * - Algoritmo: HS256 (allowlist)
- * - Token blacklist para logout
- */
-
 import jwt from 'jsonwebtoken';
 import fs from 'fs';
 import path from 'path';

@@ -1,16 +1,3 @@
-/**
- * Control V3.4 L1: Security Headers
- * Implementa headers de seguridad HTTP requeridos por OWASP ASVS
- */
-
-/**
- * Middleware para establecer headers de seguridad
- * - X-Content-Type-Options: nosniff → Previene MIME type sniffing
- * - X-Frame-Options: DENY → Previene clickjacking
- * - X-XSS-Protection: 1; mode=block → Protección XSS en navegadores antiguos
- * - Referrer-Policy: strict-origin-when-cross-origin → Control de referrer
- * - Permissions-Policy: Deshabilita geolocation y micrófono
- */
 export const sendSecurityHeaders = (req, res, next) => {
   // Previene MIME type sniffing
   res.setHeader('X-Content-Type-Options', 'nosniff');
