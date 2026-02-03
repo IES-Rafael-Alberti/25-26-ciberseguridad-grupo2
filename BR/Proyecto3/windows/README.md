@@ -1,15 +1,19 @@
-
 # Proyecto 3: Limpieza y aislamiento — Windows 11 (VM)
 
-Documentación del **Proyecto 3: Limpieza y aislamiento**, centrada en la **parte de Windows**: dejar una **máquina virtual de Windows 11** lo más **limpia** posible para un uso de **navegación web** y **ofimática básica**, reduciendo:
+---
 
-- Aplicaciones innecesarias (bloatware)
-- Componentes y sugerencias publicitarias
-- Telemetría y rastreo (dentro de lo razonable)
-- Servicios y protocolos prescindibles
-- Tareas programadas y elementos de inicio no necesarios
+## Índice
 
-Restricción del documento: **no se incluyen comandos de terminal**.
+1. [Fundamentación teórica (resumen)](#fundamentación-teórica-resumen)
+2. [Objetivos (Windows)](#objetivos-windows)
+3. [Entorno](#entorno)
+4. [Proceso realizado (paso a paso con evidencias)](#proceso-realizado-paso-a-paso-con-evidencias)
+   - [Fase 1 — Limpieza con Win11Debloat (capturas 1 a 10)](#fase-1--limpieza-con-win11debloat-capturas-1-a-10)
+   - [Fase 2 — Limpieza adicional (protocolos, servicios, tareas y arranque) (capturas 11 a 19)](#fase-2--limpieza-adicional-protocolos-servicios-tareas-y-arranque-capturas-11-a-19)
+5. [Cambios seleccionados en Win11Debloat (lista detallada)](#cambios-seleccionados-en-win11debloat-lista-detallada)
+6. [Validación final](#validación-final-qué-se-comprobó)
+7. [Reparto de tareas](#reparto-de-tareas-completar-por-el-equipo)
+8. [Tabla final — Cambios aplicados (enumerados)](#tabla-final--cambios-aplicados-enumerados)
 
 ---
 

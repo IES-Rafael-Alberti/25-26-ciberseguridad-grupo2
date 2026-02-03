@@ -1,4 +1,4 @@
-# Wiki — Proyecto 3 (Hardening Linux)
+# Proyecto 3: Limpieza y aislamiento — Linux
 
 ## Índice
 
