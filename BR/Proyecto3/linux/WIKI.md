@@ -1,4 +1,4 @@
-# Proyecto 3: Limpieza y aislamiento — Linux
+# Hardening del kernel en Ubuntu Server
 
 ## Índice
 

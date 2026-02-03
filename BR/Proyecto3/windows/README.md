@@ -1,4 +1,4 @@
-# Proyecto 3: Limpieza y aislamiento — Windows 11 (VM)
+# Limpieza y aislamiento — Windows 11 (VM)
 
 ---
 
