@@ -11,7 +11,6 @@
 - [7. Deshabilitar servicios (multipathd y motd-news)](#7-deshabilitar-servicios-multipathd-y-motd-news)
 - [8. Firewall con UFW](#8-firewall-con-ufw)
 - [9. Limpieza (paquetes y snapd)](#9-limpieza-paquetes-y-snapd)
-- [10. Checklist de verificación final](#10-checklist-de-verificación-final)
 
 ---
 
@@ -37,11 +36,12 @@ Este proyecto documenta el endurecimiento (hardening) de un sistema Linux median
 Ajustar parámetros de kernel para dificultar explotación, reducir fuga de información y endurecer el stack de red.
 
 ### 2.2. Configuración aplicada
-Has revisado el fichero con:
+Crear el siguiente fichero:
 
 ```bash
-cat /etc/sysctl.d/99-security-hardening.conf
+sudo nano /etc/sysctl.d/99-security-hardening.conf
 ```
+![alt text](img/1.png)
 
 Y su contenido (resumen por categorías) es:
 
@@ -70,6 +70,8 @@ Y su contenido (resumen por categorías) es:
 sudo sysctl --system
 ```
 
+![alt text](img/2.png)
+
 ### 2.4. Verificación rápida
 
 ```bash
@@ -97,11 +99,12 @@ sysctl net.ipv6.conf.all.disable_ipv6
 Reducir superficie de ataque impidiendo cargar drivers o protocolos innecesarios.
 
 ### 3.2. Configuración aplicada
-Has revisado el fichero con:
+Crear el fichero con:
 
 ```bash
-cat /etc/modprobe.d/blacklist-security.conf
+sud nano /etc/modprobe.d/blacklist-security.conf
 ```
+![alt text](img/3.png)
 
 Y se bloquean módulos forzando “instalación falsa”:
 
@@ -153,25 +156,22 @@ Asegurar que AppArmor está activo y aplicando perfiles en modo `enforce`.
 ```bash
 sudo aa-status
 ```
-
-En tu salida se observa:
-
-- “apparmor module is loaded.”
-- “106 profiles are loaded.”
-- “106 profiles are in enforce mode.”
+![alt text](img/17.png)
 
 - Forzar `enforce` (global):
 
 ```bash
 sudo aa-enforce /etc/apparmor.d/*
 ```
-
+![alt text](img/4.png)
 ### 4.3. Verificación
 
 ```bash
 sudo aa-status
 sudo aa-status --enforced
 ```
+![alt text](img/5.png)
+
 ---
 
 ## 5. LKRG (protección runtime del kernel)
@@ -191,12 +191,16 @@ sudo make
 sudo make install
 ```
 
+![alt text](img/7.png)
+![alt text](img/8.png)
+![alt text](img/9.png)
 ### 5.3. Verificación
 
 ```bash
 sudo lsmod | grep lkrg
 sudo dmesg | grep LKRG
 ```
+![alt text](img/10.png)
 
 ---
 
@@ -212,6 +216,9 @@ sudo touch /etc/cloud/cloud-init.disabled
 sudo apt purge cloud-init -y
 sudo rm -rf /etc/cloud/ /var/lib/cloud/
 ```
+
+![alt text](img/11.png)
+![alt text](img/12.png)
 
 ### 6.3. Impacto/riesgos
 
@@ -231,7 +238,7 @@ sudo systemctl stop multipathd
 sudo systemctl disable multipathd
 sudo systemctl disable motd-news.timer
 ```
-
+![alt text](img/13.png)
 ### 7.3. Verificación
 
 ```bash
@@ -261,7 +268,7 @@ sudo ufw default allow outgoing # Permitir salir a internet
 sudo ufw allow ssh              # IMPORTANTE: Permitir SSH o te quedas fuera
 sudo ufw enable
 ```
-
+![alt text](img/14.png)
 ### 8.3. Verificación
 
 ```bash
@@ -291,25 +298,9 @@ sudo apt purge snapd
 rm -rf ~/snap
 ```
 
+![alt text](img/15.png)
+![alt text](img/16.png)
 ### 9.3. Impacto/riesgos
 
 - Quitar `git`/`build-essential` está bien si no se compila nada más, pero complica futuras actualizaciones manuales (por ejemplo, recompilar LKRG tras un update de kernel).
-- Purgar `snapd` puede afectar software instalado vía Snap y dependencias de la distro.
-
----
-
-## 10. Checklist de verificación final
-
-- Sysctl aplicado y valores correctos:
-  - `sysctl kernel.randomize_va_space kernel.kptr_restrict kernel.dmesg_restrict kernel.yama.ptrace_scope`
-  - `sysctl net.ipv4.ip_forward net.ipv4.icmp_echo_ignore_all net.ipv6.conf.all.disable_ipv6`
-- AppArmor activo y en enforce:
-  - `sudo aa-status`
-- LKRG cargado:
-  - `sudo lsmod | grep lkrg`
-  - `sudo dmesg | grep LKRG`
-- UFW habilitado y SSH permitido:
-  - `sudo ufw status verbose`
-- Servicios deshabilitados según objetivo:
-  - `systemctl is-enabled multipathd motd-news.timer`
 
