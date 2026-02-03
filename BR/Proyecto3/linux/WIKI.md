@@ -11,6 +11,7 @@
 - [7. Deshabilitar servicios (multipathd y motd-news)](#7-deshabilitar-servicios-multipathd-y-motd-news)
 - [8. Firewall con UFW](#8-firewall-con-ufw)
 - [9. Limpieza (paquetes y snapd)](#9-limpieza-paquetes-y-snapd)
+- [10. Fail2Ban](#10-fail2ban)
 
 ---
 
@@ -303,4 +304,55 @@ rm -rf ~/snap
 ### 9.3. Impacto/riesgos
 
 - Quitar `git`/`build-essential` está bien si no se compila nada más, pero complica futuras actualizaciones manuales (por ejemplo, recompilar LKRG tras un update de kernel).
+
+---
+
+## 10. Fail2Ban
+
+### 10.1. Objetivo
+Mitigar ataques de fuerza bruta bloqueando temporalmente IPs que acumulen intentos fallidos (por ejemplo, contra SSH).
+
+### 10.2. Instalación
+
+```bash
+sudo apt update
+sudo apt install fail2ban
+```
+
+### 10.3. Configuración recomendada
+
+En Debian/Ubuntu se recomienda **no** editar `jail.conf` directamente, sino crear un override en `jail.local`:
+
+```bash
+sudo nano /etc/fail2ban/jail.local
+```
+
+Ejemplo mínimo para proteger SSH:
+
+```ini
+[sshd]
+enabled = true
+port = ssh
+logpath = /var/log/auth.log
+maxretry = 5
+findtime = 10m
+bantime = 1h
+```
+
+ç
+### 10.4. Activación y verificación
+
+```bash
+sudo systemctl enable --now fail2ban
+sudo systemctl status fail2ban
+
+sudo fail2ban-client status
+sudo fail2ban-client status sshd
+```
+
+### 10.5. Impacto/riesgos
+
+- Puede bloquear IPs legítimas si hay falsos positivos o si introduces mal la contraseña varias veces.
+- Si cambias `logpath` incorrectamente, el jail puede quedar activo pero sin detectar eventos.
+- En sistemas que no usan `/var/log/auth.log` (por ejemplo, logging solo por `journald`), hay que ajustar backend/logpath.
 
