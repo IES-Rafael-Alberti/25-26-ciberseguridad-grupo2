@@ -55,7 +55,7 @@ La imagen NO mantiene integridad completa. Al menos dos algoritmos (MD5 y SHA‑
 - Verificar posibles sectores defectuosos en origen/destino (SMART, `chkdsk`) y documentar cualquier anomalía.
 - Registrar exhaustivamente la cadena de custodia y conservar ambas imágenes con sus hashes y metadatos.
 
-![alt text](image-8.png)
+![alt text](img/image-8.png)
 ---
 
 ### 1.2 Identificación del usuario y último inicio de sesión
@@ -79,9 +79,9 @@ Se examinó la estructura de usuarios del sistema operativo (SAM) y los registro
 * La cuenta fue clasificada como "Normal user account" (cuenta de usuario estándar).
 
 Estos datos confirman que Richard utilizó el equipo corporativo hasta el **22 de febrero de 2023**, coincidiendo con su salida abrupta de la empresa.
-![alt text](image-1.png)
-![alt text](image-3.png)
-![alt text](image.png)
+![alt text](img/image-1.png)
+![alt text](img/image-3.png)
+![alt text](img/image.png)
 ---
 
 ### 1.3 Identificación del equipo y sistema operativo
@@ -96,7 +96,7 @@ Estos datos confirman que Richard utilizó el equipo corporativo hasta el **22 d
 * **Owner:** Richard
 
 Esta información es relevante para contextualizar los artefactos forenses analizados y las rutas de sistema empleadas. Windows 10 Pro Education sugiere un entorno corporativo con estándares educativos o de seguridad.
-![alt text](image-2.png)
+![alt text](img/image-2.png)
 ---
 
 ### 1.4 Análisis de uso de dispositivos USB
@@ -124,7 +124,7 @@ Se analizaron las claves del Registro de Windows relacionadas con el historial d
 * La conexión de Kingston DataTraveler (dispositivo de almacenamiento portátil) resulta especialmente sospechosa, sugiriendo transferencia física de datos.
 
 La presencia de estos dispositivos constituye una **violación clara de las políticas internas de seguridad** y correlaciona directamente con la actividad de exfiltración del mismo día.
-![alt text](image-4.png)
+![alt text](img/image-4.png)
 ---
 
 ### 1.5 Análisis de actividad en línea y uso indebido de recursos
@@ -178,8 +178,8 @@ Se examinó el historial de navegación almacenado en Opera (navegador principal
 3. **Preparación de fuga:** Las búsquedas de vuelos y hoteles en Gran Canaria durante la madrugada del 22/02 indican planificación de desaparición inmediata tras la exfiltración.
 4. **Google Drive como vector de exfiltración:** Los accesos a Google Drive coinciden cronológicamente con la negociación de envío de datos (22/02 01:36, 17:31, 20:43).
 
-![alt text](image-5.png)
-![alt text](image-6.png)
+![alt text](img/image-5.png)
+![alt text](img/image-6.png)
 ---
 
 ### 1.6 Planes de desplazamiento tras su salida
@@ -201,7 +201,7 @@ Se examinó el historial de navegación de Opera para identificar búsquedas de 
 
 Estos indicios apuntan a una **planificación premeditada y coordinada** con el receptor de los datos (Tom), quien probablemente facilitó los contactos o fondos para la fuga.
 
-![alt text](image-7.png)
+![alt text](img/image-7.png)
 ---
 
 ### 1.7 Navegadores web adicionales configurados al inicio
@@ -236,8 +236,8 @@ Se examinó el registro del sistema y las carpetas de inicio automático para id
 3. **Uso selectivo:** Opera como navegador principal correlaciona con toda la actividad sospechosa (correos cifrados, Google Drive, Vueling, Bitcoin).
 4. **Política corporativa violada:** Windows 10 Pro Education N estándar esperaría el uso de Microsoft Edge para supervisión centralizada.
 
-![alt text](image-9.png)
-![alt text](image-11.png)
+![alt text](img/image-9.png)
+![alt text](img/image-11.png)
 ---
 
 ### 1.8 Exfiltración de información por correo electrónico (Evidencia corroborada)
@@ -285,7 +285,7 @@ Los correos constituyen **evidencia directa y explícita** de:
 * Contraseña del archivo compartido.
 * Timestamps de envíos: 20/02/2023 (negociación inicial), 22/02/2023 (transacción).
 
-![alt text](image-10.png)
+![alt text](img/image-10.png)
 ### 1.9 Descargas y archivos sospechosos
 
 **Objetivo:** Identificar descargas realizadas durante el período investigado que puedan correlacionar con actividad de exfiltración o preparación de fuga.
