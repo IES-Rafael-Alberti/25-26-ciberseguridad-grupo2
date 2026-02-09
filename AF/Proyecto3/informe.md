@@ -104,20 +104,23 @@ La investigación se realizó mediante:
 ### H1. Integridad de imagen no verificada completamente
 - **Descripción:** SHA‑1 coincide con la referencia, pero MD5 y SHA‑256 difieren.
 - **Impacto:** reduce el valor probatorio; requiere revalidación/recaptura.
-- **Evidencia:** `AF/Proyecto3/img/image-8.png`.
+- **Evidencia:**
+  - ![Verificación de hashes](img/image-8.png)
 
 ### H2. Existencia del usuario `richard` y último login
 - **Descripción:** se identifica cuenta local asociada a Richard (usuario estándar). Último inicio de sesión: **2023-02-22 14:55:18 CET**, con **16 logins**.
 - **Evidencia visual:**
-  - `AF/Proyecto3/img/image-1.png`
-  - `AF/Proyecto3/img/image-3.png`
-  - `AF/Proyecto3/img/image.png`
+  - ![Información del usuario richard](img/image-1.png)
+  - ![Detalles de la cuenta](img/image-3.png)
+  - ![Último login del usuario](img/image.png)
+  - ![Información adicional de sesiones](img/image-11.png)
 
 ### H3. Identificación del equipo y sistema operativo
 - **Nombre del equipo:** **LADRONERA**
 - **SO:** **Windows 10 Pro Education N** (AMD64)
 - **Owner:** Richard
-- **Evidencia:** `AF/Proyecto3/img/image-2.png`
+- **Evidencia:**
+  - ![Información del sistema operativo y equipo](img/image-2.png)
 
 ### H4. Uso de dispositivos USB (violación de política)
 - **Descripción:** se documenta conexión de dispositivos USB el **22/02/2023**, incluyendo almacenamiento.
@@ -126,25 +129,27 @@ La investigación se realizó mediante:
   - ROOT_HUB30 – **22:58:13 CET**
   - VirtualBox USB Tablet – `58t12c8f4c0&0d1` – **22:58:14 CET**
 - **Interpretación:** por su naturaleza de almacenamiento, el dispositivo Kingston es compatible con copia física de información.
-- **Evidencia:** `AF/Proyecto3/img/image-4.png`
+- **Evidencia:**
+  - ![Historial de dispositivos USB conectados](img/image-4.png)
 
 ### H5. Actividad en línea (fútbol, rock/heavy y recursos corporativos)
 - **Descripción:** actividad frecuente en YouTube (música rock/heavy) y medios deportivos (Mundo Deportivo), además de navegación de viajes (Vueling/Booking/Edreams).
 - **Indicador de uso indebido:** accesos a YouTube **15:54–16:50 CET** (horario laboral).
 - **Evidencia:**
-  - `AF/Proyecto3/img/image-5.png`
-  - `AF/Proyecto3/img/image-6.png`
+  - ![Historial de navegación - actividades](img/image-5.png)
+  - ![Historial de navegación - detalles](img/image-6.png)
 
 ### H6. Planificación de desplazamiento posterior (Las Palmas de Gran Canaria)
 - **Descripción:** búsquedas de vuelos y hoteles a **Las Palmas de Gran Canaria** en la madrugada del 22/02.
-- **Evidencia:** `AF/Proyecto3/img/image-7.png`
+- **Evidencia:**
+  - ![Búsquedas de viajes y hoteles](img/image-7.png)
 
 ### H7. Software/navegadores no estándar y autoarranque
 - **Descripción:** Opera como navegador principal (415 registros) y Firefox instalado. Opera configurado para ejecutarse al iniciar sesión.
 - **Artefacto citado:** clave de ejecución en `HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run`.
 - **Evidencia:**
-  - `AF/Proyecto3/img/image-9.png`
-  - `AF/Proyecto3/img/image-11.png`
+  - ![Configuración de autoarranque](img/image-9.png)
+  - ![Software instalado y configuración](img/image-11.png)
 
 ### H8. Evidencia directa de exfiltración/venta de información (correo + Drive + Bitcoin)
 - **Descripción:** correos de Thunderbird (MBOX) muestran negociación con “Tom” e intercambio de enlace a Google Drive protegido por contraseña y pago en Bitcoin.
@@ -154,7 +159,8 @@ La investigación se realizó mediante:
   - Enlace Drive: `https://drive.google.com/file/d/1Uw8umw_mZJdLbXfjBQzeRkeEQqzz-3s0/view?usp=share_link`
   - Dirección BTC: `bc1qar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq`
   - Contraseña compartida: `pa$$word @|`
-- **Evidencia:** `AF/Proyecto3/img/image-10.png`
+- **Evidencia:**
+  - ![Correos de exfiltración y venta de información](img/image-10.png)
 
 ### H9. Descargas/actividad post‑exfiltración
 - **Archivo:** `C:\Users\Richard\Downloads\pulseaudio-1.1.zip`
