@@ -8,6 +8,7 @@
 **Modalidad:** Caja Negra (Black Box) - Sin credenciales
 
 ---
+![alt text](<img/1. nessus1 .png>)
 
 ## 1. Resumen Ejecutivo
 
