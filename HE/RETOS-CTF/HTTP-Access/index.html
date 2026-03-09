@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AETERNA - Sistema de Contención</title>
+    
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🖥️</text></svg>">
+    
     <style>
         body {
             background-color: #020202;
@@ -16,10 +19,11 @@
             align-items: center;
             height: 100vh;
             text-align: center;
+            overflow: hidden; /* Evita scroll en la web de fondo */
         }
 
-        h1 { font-size: 2.5em; color: #ff4444; margin-bottom: 0; }
-        p { max-width: 600px; margin-top: 10px; font-size: 1.1em; }
+        h1 { font-size: 2.5em; color: #ff4444; margin-bottom: 0; text-shadow: 0 0 10px rgba(255,0,0,0.5); }
+        p { max-width: 600px; margin-top: 10px; font-size: 1.1em; opacity: 0.8; }
 
         #open-terminal-btn {
             background-color: transparent;
@@ -34,12 +38,20 @@
             box-shadow: 0 0 10px rgba(0, 255, 0, 0.4);
             transition: all 0.3s ease;
             text-transform: uppercase;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 10px rgba(0, 255, 0, 0.4); }
+            50% { box-shadow: 0 0 20px rgba(0, 255, 0, 0.7); }
+            100% { box-shadow: 0 0 10px rgba(0, 255, 0, 0.4); }
         }
 
         #open-terminal-btn:hover {
             background-color: #00ff00;
             color: #020202;
-            box-shadow: 0 0 20px rgba(0, 255, 0, 0.7);
+            animation: none;
+            box-shadow: 0 0 25px rgba(0, 255, 0, 0.9);
         }
 
         #terminal-window {
@@ -49,27 +61,29 @@
             left: 50%;
             transform: translate(-50%, -50%);
             width: 90%;
-            max-width: 800px;
+            max-width: 850px;
             height: 80vh;
-            background-color: rgba(10, 10, 10, 0.95);
+            background-color: rgba(5, 5, 5, 0.98);
             border: 1px solid #333;
             border-radius: 8px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.9);
             overflow: hidden;
             flex-direction: column;
             z-index: 1000;
+            backdrop-filter: blur(5px);
         }
 
         #terminal-header {
-            background-color: #222;
-            padding: 8px 15px;
+            background-color: #1a1a1a;
+            padding: 10px 15px;
             border-bottom: 1px solid #333;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            color: #999;
+            color: #bbb;
             font-size: 0.9em;
             font-family: sans-serif;
+            user-select: none;
         }
 
         .window-controls { display: flex; gap: 8px; }
@@ -80,21 +94,23 @@
 
         #terminal-body {
             flex-grow: 1;
-            padding: 15px;
+            padding: 18px;
             overflow-y: auto;
             color: #00ff00;
             font-family: 'Courier New', Courier, monospace;
             font-size: 15px;
             text-align: left;
-            line-height: 1.4;
+            line-height: 1.5;
+            scrollbar-width: thin;
+            scrollbar-color: #333 #050505;
         }
 
         #output { white-space: pre-wrap; word-wrap: break-word; }
-        .rojo { color: #ff3333; }
+        .rojo { color: #ff4444; font-weight: bold; }
         .blanco { color: #ffffff; }
         .prompt { color: #00aaff; font-weight: bold; margin-right: 10px; }
 
-        .input-line { display: flex; align-items: center; margin-top: 15px;}
+        .input-line { display: flex; align-items: center; margin-top: 15px; padding-bottom: 10px;}
         #comando-input {
             background: transparent;
             border: none;
@@ -104,26 +120,28 @@
             outline: none;
             flex-grow: 1;
             caret-color: #00ff00;
+            padding: 0;
+            margin: 0;
         }
 
         #terminal-body::-webkit-scrollbar { width: 8px; }
-        #terminal-body::-webkit-scrollbar-track { background: #0a0a0a; }
+        #terminal-body::-webkit-scrollbar-track { background: #050505; }
         #terminal-body::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
     </style>
 </head>
 <body>
 
     <div id="web-content">
-        <h1>SISTEMA DE DEFENSA CREADO</h1>
-        <p>El núcleo de AETERNA ha detectado una corrupción masiva de datos y ha entrado en modo de contención severo. Los protocolos estándar de comunicación están inoperativos.</p>
-        <p>Se requiere un Arquitecto de Protocolos de nivel superior para iniciar diagnóstico de emergencia.</p>
+        <h1>SISTEMA DE DEFENSA ACTIVADO</h1>
+        <p>El núcleo de AETERNA ha detectado una intrusión masiva y ha entrado en modo de contención severo. Los protocolos estándar de comunicación (GET/POST) han sido revocados.</p>
+        <p>Se requiere un Arquitecto de Protocolos para iniciar diagnóstico de emergencia e interrogar las capacidades del sistema.</p>
         
-        <button id="open-terminal-btn">_INICIAR_PROTOCOLO_SHELL_</button>
+        <button id="open-terminal-btn">_INICIAR_CONSOLA_RAIZ_</button>
     </div>
 
     <div id="terminal-window">
         <div id="terminal-header">
-            <span>AETERNA Root Shell v1.0 [CONEXIÓN LOCAL]</span>
+            <span>🖥️ AETERNA Root Shell v1.0 [CONEXIÓN LOCAL]</span>
             <div class="window-controls">
                 <div class="control minimize"></div>
                 <div class="control maximize"></div>
@@ -132,16 +150,16 @@
         </div>
         
         <div id="terminal-body">
-            <div id="output"><span class="rojo">=== ERROR CRÍTICO: BLOQUEO DE PROTOCOLO ESTÁNDAR ===</span>
-Usted se encuentra fuera de la cuarentena de red.
-Interrogue al sistema local para encontrar una brecha.
-Utilice herramientas de diagnóstico como 'curl'.
+            <div id="output"><span class="rojo">=== ERROR CRÍTICO: ACCESO ESTÁNDAR BLOQUEADO ===</span>
+Estado de Red: Cuarentena Nivel 5.
+Misión: Interrogar al sistema local para encontrar una brecha en el protocolo.
+Herramientas: Utilice 'curl' para diagnósticos web.
 
 Escriba 'help' para ver comandos básicos.</div>
             
             <div class="input-line">
                 <span class="prompt">arquitecto@aeterna:~$</span>
-                <input type="text" id="comando-input" autocomplete="off" spellcheck="false">
+                <input type="text" id="comando-input" autocomplete="off" spellcheck="false" autofocus>
             </div>
         </div>
     </div>
@@ -162,6 +180,7 @@ Escriba 'help' para ver comandos básicos.</div>
             windowTerminal.style.display = 'none';
         }
 
+        // Foco automático al hacer clic en el cuerpo de la terminal
         terminalBody.addEventListener('click', () => inputComando.focus());
 
         inputComando.addEventListener('keypress', function(e) {
@@ -174,7 +193,7 @@ Escriba 'help' para ver comandos básicos.</div>
                     respuesta = '';
                 } 
                 else if (cmdLower === 'help') {
-                    respuesta = "Comandos disponibles en modo emergencia:\n - help: Muestra esta ayuda.\n - clear: Limpia la terminal.\n - curl [opciones] [URL]: Interactúa con servicios web locales.";
+                    respuesta = "Comandos disponibles:\n - help: Muestra esta ayuda.\n - clear: Limpia la pantalla.\n - curl [opciones] <URL>: Simulación de herramienta de diagnóstico web.";
                 } 
                 else if (cmdLower === 'clear') {
                     output.innerHTML = ''; 
@@ -182,25 +201,30 @@ Escriba 'help' para ver comandos básicos.</div>
                     return; 
                 } 
                 else if (cmd.startsWith('curl')) {
-                    // Ahora aceptamos cualquier URL que empiece por http (ej. localhost, aeterna.local...)
-                    if (!cmd.includes('http')) {
-                        respuesta = "<span class='blanco'>Uso de curl simulado:</span> curl -i -X [MÉTODO] http://aeterna.local";
+                    const hasHttp = cmd.includes('http://') || cmd.includes('https://');
+                    
+                    if (!hasHttp) {
+                        respuesta = "<span class='blanco'>Uso simulado:</span> curl -i -X [MÉTODO] http://aeterna.local";
                     } 
+                    // --- LÓGICA CORREGIDA: SÓLO OPTIONS MUESTRA EL ALLOW ---
                     else if (cmd.includes('OPTIONS')) {
-                        respuesta = "<span class='blanco'>HTTP/1.1 200 OK\nHost: server\nAllow: GET, POST, OPTIONS, TRACE\nContent-Length: 0\nContent-Type: text/plain</span>";
+                        // El servidor "confiesa"
+                        respuesta = "<span class='blanco'>HTTP/1.1 200 OK\nHost: server-root\n<b>Allow: GET, POST, OPTIONS, TRACE</b>\nContent-Length: 0\nContent-Type: text/plain</span>";
                     } 
                     else if (cmd.includes('TRACE')) {
-                        respuesta = "<span class='blanco'>HTTP/1.1 200 OK\nContent-Type: text/plain\n\n</span><span class='rojo'>=== ACCESO DE EMERGENCIA CONCEDIDO ===</span>\nRestaurando Núcleo de Ciudad AETERNA...\n[###############] 100%\n\n<span class='blanco'>Aquí tienes tu recompensa, Arquitecto:</span>\n\nflag{s1stem_r3bo0t_succ3ss}";
+                        // El Exploit funciona
+                        respuesta = "<span class='blanco'>HTTP/1.1 200 OK\nContent-Type: text/plain\n\n</span><span class='rojo'>=== ACCESO DE EMERGENCIA CONCEDIDO ===</span>\nReiniciando Núcleo de Ciudad AETERNA...\n[###############] 100%\n\n<span class='blanco'>Aquí tienes la flag, Arquitecto:</span>\n\nflag{s1stem_r3bo0t_succ3ss}";
                     } 
                     else {
-                        respuesta = "<span class='blanco'>HTTP/1.1 405 Method Not Allowed\nAllow: GET, POST, OPTIONS, TRACE\n\n</span><span class='rojo'>ESTADO: BLOQUEO TOTAL</span>\nVerbo de acceso revocado por el Protocolo de Cuarentena.\nEl núcleo no procesará peticiones estándar. No insista.";
+                        // LÓGICA CORREGIDA: ERROR 405 SIN MOSTRAR EL ALLOW
+                        respuesta = "<span class='blanco'>HTTP/1.1 405 Method Not Allowed\nContent-Type: text/html\n\n</span><span class='rojo'>ESTADO: BLOQUEO TOTAL</span>\nVerbo de acceso revocado por cuarentena.\nInterrogue las capacidades del sistema correctamente.";
                     }
                 } 
                 else {
                     respuesta = "<span class='rojo'>zsh: command not found: " + cmd.split(' ')[0] + "</span>\nPruebe con 'help' o 'curl'.";
                 }
 
-                // Construcción limpia para que no se peguen las líneas
+                // Renderizado limpio
                 const promptLine = `<span class="prompt">arquitecto@aeterna:~$</span> ${cmd}`;
                 const resLine = respuesta ? `\n${respuesta}` : '';
                 
@@ -211,7 +235,10 @@ Escriba 'help' para ver comandos básicos.</div>
                 }
                 
                 this.value = ''; 
-                terminalBody.scrollTo(0, terminalBody.scrollHeight);
+                // Scroll suave al final
+                setTimeout(() => {
+                    terminalBody.scrollTo({ top: terminalBody.scrollHeight, behavior: 'smooth' });
+                }, 10);
             }
         });
     </script>
