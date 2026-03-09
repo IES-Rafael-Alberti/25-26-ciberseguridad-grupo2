@@ -114,6 +114,15 @@ p {
     gap: 18px;
 }
 
+.hero-image {
+    display: block;
+    width: min(260px, 100%);
+    height: auto;
+    margin: 28px auto 0;
+    border-radius: 18px;
+    border: 1px solid var(--border);
+}
+
 .panel {
     padding: 20px;
     border-radius: 20px;
