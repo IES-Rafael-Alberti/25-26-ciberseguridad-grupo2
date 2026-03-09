@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /hidden_stable_area_99/
+Disallow: /.htaccess
+Disallow: /.git/
+
+Sitemap: /sitemap.xml
