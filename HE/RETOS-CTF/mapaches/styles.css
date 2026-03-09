@@ -128,6 +128,11 @@ p {
     border-radius: 20px;
     background: var(--card-2);
     border: 1px solid var(--border);
+    min-height: 350px;
+    display: flex;
+    flex-direction: column ;
+    justify-content:space-between;
+    align-items: center;
 }
 
 .panel p {
