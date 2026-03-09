@@ -1,9 +1,10 @@
 Options -Indexes
 
+Flag-part: _h1dd3n_4nym0r3}
+
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteRule "(^|/)\." - [F]
-  flag-part: 1s_f4k3}
 </IfModule>
 
 <Files ".htaccess">
