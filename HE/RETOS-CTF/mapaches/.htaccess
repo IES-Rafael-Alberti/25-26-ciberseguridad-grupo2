@@ -1,15 +1,9 @@
-# Apache (.htaccess) - configuración simulada para el reto
-# Nota: en entornos tipo GitHub Pages este archivo no se aplica; aquí es parte del CTF.
-
-# flag-part: 1s_f4k3}
-
 Options -Indexes
 
 <IfModule mod_rewrite.c>
   RewriteEngine On
-
-  # Evita servir archivos “ocultos” (defensa típica)
   RewriteRule "(^|/)\." - [F]
+  flag-part: 1s_f4k3}
 </IfModule>
 
 <Files ".htaccess">
