@@ -3,9 +3,8 @@
 
 - **Cliente/Proyecto:** HE — Proyecto 05
 - **Activo evaluado:** Ventanal de Guillermo — Máquina 1
-- **Tipo de prueba:** Pentest de infraestructura / servicios expuestos (caja negra con enumeración)
-- **Fecha:** (completar)
-- **Equipo:** Grupo 2 (completar nombres)
+- **Fecha:** 17/03/2026
+- **Auditor:** Luis Carlos Romero, Carlos Alcina
 - **Versión:** 1.0
 
 > Este documento describe hallazgos y evidencias técnicas obtenidas durante una evaluación de seguridad autorizada. No debe utilizarse para actividades no consentidas.

@@ -182,4 +182,4 @@ La empresa ficticia **"La Descuidada S.A."** solicitó la auditoría sobre dos m
 
 ---
 
-*Fin del informe* 🚀
+*Fin del informe*
