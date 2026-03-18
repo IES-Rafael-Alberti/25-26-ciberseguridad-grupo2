@@ -109,7 +109,7 @@ Extracción de credenciales:
 
 Pass-the-Hash:
 
-![PTH](img/13.Preparación%20Pass-the-Hash.png)
+![PTH](img/13.Pass-the-Hash.png)
 
 WinRM:
 
