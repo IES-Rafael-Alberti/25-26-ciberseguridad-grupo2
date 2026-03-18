@@ -54,19 +54,19 @@ De acuerdo con el escaneo y evidencias, el host expone (al menos) los siguientes
 
 **Evidencias de enumeración (Nmap / fingerprinting):**
 
-![](img/0-db_nmap.png)
+![](../evidencias/maquina1/0-db_nmap.png)
 
-![](img/1-dbnmap.png)
+![](../evidencias/maquina1/1-dbnmap.png)
 
-![](img/5-nmap-nameandservernamediscovery.png)
+![](../evidencias/maquina1/5-nmap-nameandservernamediscovery.png)
 
-![](img/2-nmap-oracleglassflsh.png)
+![](../evidencias/maquina1/2-nmap-oracleglassflsh.png)
 
-![](img/3-nmaptomcat.png)
+![](../evidencias/maquina1/3-nmaptomcat.png)
 
-![](img/4-nmapelastic.png)
+![](../evidencias/maquina1/4-nmapelastic.png)
 
-![](img/6-nmapmysql.png)
+![](../evidencias/maquina1/6-nmapmysql.png)
 
 ## 5. Hallazgos
 
@@ -86,11 +86,11 @@ De acuerdo con el escaneo y evidencias, el host expone (al menos) los siguientes
 
 Detección de vulnerabilidad MS17-010:
 
-![](img/7-deteccioneternalblue.png)
+![](../evidencias/maquina1/7-deteccioneternalblue.png)
 
 Explotación (EternalBlue):
 
-![](img/8-explotacion-eternalblue.png)
+![](../evidencias/maquina1/8-explotacion-eternalblue.png)
 
 ### HE-M1-02 — Extracción de credenciales/hashes tras compromiso
 
@@ -106,7 +106,7 @@ Explotación (EternalBlue):
 
 Extracción de hashes/credenciales tras la sesión:
 
-![](img/9-hashdump.png)
+![](../evidencias/maquina1/9-hashdump.png)
 
 ### HE-M1-03 — ManageEngine v9 vulnerable (RCE) y elevación de privilegios
 
@@ -122,23 +122,23 @@ Extracción de hashes/credenciales tras la sesión:
 
 Configuración/opciones del exploit:
 
-![](img/manage-engine-options-exploit.png)
+![](../evidencias/maquina1/manage-engine-options-exploit.png)
 
 Ejecución del exploit:
 
-![](img/manage-engine-run-exploit.png)
+![](../evidencias/maquina1/manage-engine-run-exploit.png)
 
 Estabilización/migración de sesión (x86 → x64):
 
-![](img/manage-engine-migrar-paso1-ps-x86-a-x64.png)
+![](../evidencias/maquina1/manage-engine-migrar-paso1-ps-x86-a-x64.png)
 
-![](img/manage-engine-migrar-paso2-x86-a-x64.png)
+![](../evidencias/maquina1/manage-engine-migrar-paso2-x86-a-x64.png)
 
 Elevación de privilegios (resultado):
 
-![](img/manage-engine-escaladaprivilegios.png)
+![](../evidencias/maquina1/manage-engine-escaladaprivilegios.png)
 
-![](img/manage-engine-escaladapriv2.png)
+![](../evidencias/maquina1/manage-engine-escaladapriv2.png)
 
 ### HE-M1-04 — Jenkins accesible sin autenticación y versión vulnerable (1.637)
 
@@ -154,15 +154,15 @@ Elevación de privilegios (resultado):
 
 Panel Jenkins accesible y versión:
 
-![](img/jenkins-panel.png)
+![](../evidencias/maquina1/jenkins-panel.png)
 
 Opciones previas a la explotación:
 
-![](img/jenkins-options-antesdelexploit.png)
+![](../evidencias/maquina1/jenkins-options-antesdelexploit.png)
 
 Explotación/ejecución remota:
 
-![](img/jenkins-explotacion.png)
+![](../evidencias/maquina1/jenkins-explotacion.png)
 
 ### HE-M1-05 — Elasticsearch expuesto sin autenticación (exposición de datos)
 
@@ -178,7 +178,7 @@ Explotación/ejecución remota:
 
 Acceso, listado de índices y lectura de datos:
 
-![](img/10-curl_elesticsearch.png)
+![](../evidencias/maquina1/10-curl_elesticsearch.png)
 
 ### HE-M1-06 — MySQL accesible con credenciales débiles / fuerza bruta
 
@@ -194,15 +194,15 @@ Acceso, listado de índices y lectura de datos:
 
 Enumeración/ataque de credenciales y acceso:
 
-![](img/11-explotacion_mysql.png)
+![](../evidencias/maquina1/11-explotacion_mysql.png)
 
 Enumeración de bases de datos (se observa WordPress):
 
-![](img/12-show-databases-mysql.png)
+![](../evidencias/maquina1/12-show-databases-mysql.png)
 
 Enumeración de tablas:
 
-![](img/13-show_tables_mysql.png)
+![](../evidencias/maquina1/13-show_tables_mysql.png)
 
 ### HE-M1-07 — Compromiso de WordPress vía base de datos
 
@@ -218,15 +218,15 @@ Enumeración de tablas:
 
 Manipulación/actualización de credenciales en la tabla de usuarios:
 
-![](img/14-update-wpusers.png)
+![](../evidencias/maquina1/14-update-wpusers.png)
 
 Acceso al login:
 
-![](img/15-wordpresslogin.png)
+![](../evidencias/maquina1/15-wordpresslogin.png)
 
 Acceso a panel administrativo:
 
-![](img/16-acceso-admin-wordpress.png)
+![](../evidencias/maquina1/16-acceso-admin-wordpress.png)
 
 ### HE-M1-08 — RDP expuesto
 

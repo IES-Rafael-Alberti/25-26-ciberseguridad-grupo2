@@ -22,7 +22,7 @@ Verificación de la dirección IP de la máquina atacante (Kali Linux) en la red
 
 > IP atacante: **192.168.122.40**
 
-![Preparación](img/1.iplinux.png)
+![Preparación](../evidencias/maquina2/1.iplinux.png)
 
 ---
 
@@ -32,7 +32,7 @@ Verificación de la dirección IP de la máquina atacante (Kali Linux) en la red
 
 Se identificó la máquina objetivo mediante un barrido de red con `nmap -sn`.
 
-![Reconocimiento](img/2.ipvictima.png)
+![Reconocimiento](../evidencias/maquina2/2.ipvictima.png)
 
 Se realizó un escaneo completo de puertos:
 
@@ -40,7 +40,7 @@ Se realizó un escaneo completo de puertos:
 nmap -p- -sS --min-rate 5000
 ```
 
-![Puertos](img/3.nmap-scan-services.png)
+![Puertos](../evidencias/maquina2/3.nmap-scan-services.png)
 
 Posteriormente, se ejecutó un escaneo profundo:
 
@@ -48,8 +48,8 @@ Posteriormente, se ejecutó un escaneo profundo:
 nmap -sC -sV
 ```
 
-![Enumeración](img/4.scan-enumerado.png)
-![Sistema](img/5.datos-sistema.png)
+![Enumeración](../evidencias/maquina2/4.scan-enumerado.png)
+![Sistema](../evidencias/maquina2/5.datos-sistema.png)
 
 ---
 
@@ -59,16 +59,16 @@ nmap -sC -sV
 
 Intento de acceso anónimo:
 
-![SMB](img/6.smbclient-result.png)
+![SMB](../evidencias/maquina2/6.smbclient-result.png)
 
 #### RPC / SMB
 
-![Enum4linux](img/7.1.enum4linux.png)
-![Denegado](img/7.2.denegado-users.png)
+![Enum4linux](../evidencias/maquina2/7.1.enum4linux.png)
+![Denegado](../evidencias/maquina2/7.2.denegado-users.png)
 
 #### LDAP
 
-![LDAP](img/8.LDAP-anonymous-bind-denegado.png)
+![LDAP](../evidencias/maquina2/8.LDAP-anonymous-bind-denegado.png)
 
 ---
 
@@ -76,8 +76,8 @@ Intento de acceso anónimo:
 
 Detección de vulnerabilidad crítica **MS17-010 (EternalBlue)**:
 
-![Vuln](img/9.1.vulnerabilidad-ms17-010-eternalblue.png)
-![Zoom](img/9.2.zoom-eternalblue.png)
+![Vuln](../evidencias/maquina2/9.1.vulnerabilidad-ms17-010-eternalblue.png)
+![Zoom](../evidencias/maquina2/9.2.zoom-eternalblue.png)
 
 ---
 
@@ -85,11 +85,11 @@ Detección de vulnerabilidad crítica **MS17-010 (EternalBlue)**:
 
 Configuración del exploit:
 
-![Config](img/10.1.configuracion-exploit-ms17-010.png)
+![Config](../evidencias/maquina2/10.1.configuracion-exploit-ms17-010.png)
 
 Ejecución exitosa:
 
-![Exploit](img/10.2.explotacion-exitosa-meterpreter.png)
+![Exploit](../evidencias/maquina2/10.2.explotacion-exitosa-meterpreter.png)
 
 ---
 
@@ -97,11 +97,11 @@ Ejecución exitosa:
 
 Verificación de privilegios:
 
-![Privilegios](img/11.post-explotacion-privilegios.png)
+![Privilegios](../evidencias/maquina2/11.post-explotacion-privilegios.png)
 
 Extracción de credenciales:
 
-![Hashdump](img/12.post-explotacion-hashdump-credenciales.png)
+![Hashdump](../evidencias/maquina2/12.post-explotacion-hashdump-credenciales.png)
 
 ---
 
@@ -109,15 +109,15 @@ Extracción de credenciales:
 
 Pass-the-Hash:
 
-![PTH](img/13.Pass-the-Hash.png)
+![PTH](../evidencias/maquina2/13.Pass-the-Hash.png)
 
 WinRM:
 
-![WinRM Config](img/14.configuracion-winrm-pth.png)
+![WinRM Config](../evidencias/maquina2/14.configuracion-winrm-pth.png)
 
 Acceso exitoso:
 
-![WinRM](img/15.explotacion-winrm-exitosa.png)
+![WinRM](../evidencias/maquina2/15.explotacion-winrm-exitosa.png)
 
 ---
 
@@ -125,27 +125,27 @@ Acceso exitoso:
 
 Fuerza bruta en WinRM:
 
-![Bruteforce](img/16.winrm-bruteforce-audit.png)
+![Bruteforce](../evidencias/maquina2/16.winrm-bruteforce-audit.png)
 
 RDP expuesto:
 
-![RDP](img/17.RDP-service-audit.png)
+![RDP](../evidencias/maquina2/17.RDP-service-audit.png)
 
 Tokens e impersonation:
 
-![Tokens](img/18.token-impersonation-audit.png)
+![Tokens](../evidencias/maquina2/18.token-impersonation-audit.png)
 
 Servicios:
 
-![Servicios](img/19.service-configuration-audit.png)
+![Servicios](../evidencias/maquina2/19.service-configuration-audit.png)
 
 Conexiones:
 
-![Netstat](img/20.netstat-conexiones-internas.png)
+![Netstat](../evidencias/maquina2/20.netstat-conexiones-internas.png)
 
 Vulnerabilidades locales:
 
-![Local Exploits](img/21.local-exploit-suggester-results.png)
+![Local Exploits](../evidencias/maquina2/21.local-exploit-suggester-results.png)
 
 ---
 
