@@ -89,15 +89,12 @@ te dejo la parte del ping:
 | Herramienta | Uso en la investigación |
 |---|---|
 | Volatility (Framework v2.6) | Análisis forense avanzado de memoria RAM. Utilizado para extraer el historial de comandos (`linux_bash`), conexiones de red activas (`linux_netstat`), procesos (`linux_pstree`) y archivos abiertos (`linux_lsof`) en el momento del incidente. |
-| Autopsy | Herramienta para el análisis forense del disco. Especialmente útil para generar la línea de tiempo (Timeline / MAC times) y analizar artefactos sin alterar la evidencia original. |
+| FTK Imager | Herramienta para el análisis forense de discos y volúmenes. Permite examinar y extraer artefactos, generar líneas de tiempo (MAC times) y visualizar evidencias sin alterarlas. |
 | Comandos de gestión de archivos (Linux) | Comandos como `unzip`, `mkdir` y `cp`, utilizados en Kali Linux para preparar el entorno forense (descompresión y carga manual de evidencias, por ejemplo perfiles `.zip` para Volatility). |
 | Comandos de exploración nativos | Comandos como `cat` y `ls -la`, usados para inspección directa de evidencias en disco (p. ej., comprobar el estado de `/var/log/samba/log.192.168.1.6` o revisar permisos de rutas web). |
 | `grep` | Filtrado de texto y búsqueda de indicadores/artefactos concretos en evidencias o salidas de herramientas. |
 | `strings` | Extracción de cadenas legibles desde volcados binarios (p. ej., memoria) para localizar indicadores. |
 | `sha256sum` | Cálculo y verificación de integridad mediante hashes SHA-256 de las evidencias adquiridas. |
-
-Ejemplo de búsqueda de indicadores con `strings` + `grep`:
-
 
 ### 7.2. Procesos
 
@@ -148,13 +145,6 @@ El análisis de disco se centró en localizar **artefactos persistentes**: códi
 	- Se revisó el árbol de `/var/www/` y otros directorios relevantes en busca de ficheros generados durante el incidente (por ejemplo, volcados a texto accesibles por web), y se correlacionó con los indicadores obtenidos en RAM y con los accesos en los logs.
 6. **Documentación y anexos**
 	- Los extractos relevantes y capturas se referenciaron como anexos para justificar cada conclusión del análisis.
-
-
-## 8. Limitaciones
-
-La limitación más crítica del caso es que el archivo log.192.168.1.6 tiene 0 bytes. La configuración de Samba solo se define la ruta y el tamaño máximo del log, pero no se especifica el nivel de log. Por defecto, Samba utiliza el nivel 0, lo que genera archivos de log vacíos.
-
-Como consecuencia directa:
 
 ## 8. Limitaciones
 
