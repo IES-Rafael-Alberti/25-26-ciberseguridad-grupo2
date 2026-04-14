@@ -13,4 +13,3 @@ appsettings.Development.json
 # Ignorar archivos temporales y del editor
 .vscode/
 .idea/
-*.log
