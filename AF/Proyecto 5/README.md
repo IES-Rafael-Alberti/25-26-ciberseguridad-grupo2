@@ -132,7 +132,7 @@ La siguiente tabla resume la secuencia del incidente según las evidencias exist
 |     7 | 15:09:37                     | Última modificación del archivo `ping.php`.                                                                                                |
 |     8 | 15:13:49                     | Última modificación del archivo `passwd.txt`.                                                                                              |
 |     9 | N/D                          | Sesión **SMB** establecida asociada a `smbd` entre **192.168.1.28** y **192.168.1.6**, consistente con canal de transferencia de datos.    |
-|    10 | N/D                          | El fichero `/var/log/samba/log.192.168.1.6` aparece con **0 bytes**, consistente con vaciado/limpieza de log (posible acción antiforense). |
+|    10 | N/D                          | El fichero `/var/log/samba/log.192.168.1.6` aparece con **0 bytes**, consistente con vaciado/limpieza de log |
 
 #### 7.2.1. Análisis de memoria RAM
 
@@ -286,17 +286,15 @@ Los peritos responsables de este informe son:
 
 ## 13. Anexo 4. Otras necesidades
 
-### 12.1. Índice de evidencias (capturas)
+### 12.1. Índice de hallazgos
 
-Las siguientes capturas se adjuntan como soporte de los hallazgos descritos en la sección 7.2:
-
-- `img/Anexo_1.png`: extracto de `access.log` con peticiones desde **192.168.1.6** a `ping.php` y User-Agent.
-- `img/Anexo_2.png`: fragmento del código de `/var/www/ping.php` donde se ejecuta el comando del sistema con el parámetro recibido.
-- `img/Anexo_3.png`: evidencia del parámetro/payload con encadenamiento de comandos y referencia a `passwd.txt`.
-- `img/Anexo_4.png`: conexión SMB establecida entre servidor y atacante (asociada a `smbd`).
-- `img/Anexo_5.png`: evidencia en disco de `log.192.168.1.6` con **0 bytes** (posible purga antiforense).
-- `img/Anexo_6.png`: detalle adicional de la conexión SMB establecida.
-- `img/Anexo_7.png`: salida de Volatility (`linux_bash`) con el comando `sudo nano /var/www/ping.php`.
+| Ruta | Contenido | MAC | Tamaño (bytes) | HASH MD5 | HASH SHA1 |
+|------|-----------|--------------|---------------|----------|-----------|
+| /root/var/www/ping.php | ping.php | 20/05/2022 15:09:37 | 542 | d3f424335dac2d8af26ad3f0a99a1a7d | 525132ce24328226594b0f97d0ef2d3f8b7a422e |
+| /root/var/www/passwd.txt | passwd.txt | 20/05/2022 15:13:49 | 1626 | 7cd7b33f99cc526d01473b553e1042d5 | 2d8c72a744c486342f5ec770ac27e8dd7b2f2ee0 |
+| /root/var/log/apache2/access.log | access.log | 20/05/2022 15:21:03 | 3494 | a71e80bd1ad541352d5907628f1bb3ce | 640b5541fb9d263389b923ad786701ab149f84f9 |
+| /root/var/log/samba/log.192.168.1.6 | log.192.168.1.6 | 20/05/2022 15:03:03 | 0 | 620f0b67a91f7f74151bc5be745b7110 | 1ceaf73df40e531df3bfb26b4fb7cd95fb7bff1d |
+| /root/var/log/samba/log.kali | log.kali | 15:03:03 | 0 | 620f0b67a91f7f74151bc5be745b7110 | 1ceaf73df40e531df3bfb26b4fb7cd95fb7bff1d |
 
 <table>
 	<thead>
