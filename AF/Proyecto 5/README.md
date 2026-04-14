@@ -67,8 +67,9 @@ Los objetivos de este informe forense son:
 
 ## 6. Fuentes de información
 
-### 6.1. Adquisición de evidencias
-
+### 6.1. Adquisición de hallazgos
+te dejo la parte del ping:
+![alt text](hallazgos/ping.png)
 ## 7. Análisis
 
 ### 7.1. Herramientas utilizadas
