@@ -1,39 +1,65 @@
-Estructura del informe
+# Estructura del informe
 
-1- Juramento && Declaración de abstención y tacha
+Este documento define la **estructura** y el **orden** de los apartados del informe.
 
-2- Palabras clave
+## Índice
 
-3- Índice de figuras
+1. [Juramento y declaración de abstención y tacha](#1-juramento-y-declaración-de-abstención-y-tacha)
+2. [Palabras clave](#2-palabras-clave)
+3. [Índice de figuras](#3-índice-de-figuras)
+4. [Resumen ejecutivo](#4-resumen-ejecutivo)
+5. [Introducción](#5-introducción)
+	1. [Antecedentes](#51-antecedentes)
+	2. [Objetivos](#52-objetivos)
+6. [Fuentes de información](#6-fuentes-de-información)
+	1. [Adquisición de evidencias](#61-adquisición-de-evidencias)
+7. [Análisis](#7-análisis)
+	1. [Herramientas utilizadas](#71-herramientas-utilizadas)
+	2. [Procesos](#72-procesos)
+		1. [Análisis de XXX](#721-análisis-de-xxx)
+		2. [Análisis de YYY](#722-análisis-de-yyy)
+8. [Limitaciones](#8-limitaciones)
+9. [Conclusiones](#9-conclusiones)
+10. [Anexo 1. Sobre el perito](#10-anexo-1-sobre-el-perito)
+11. [Anexo 2. Sumas de verificación](#11-anexo-2-sumas-de-verificación)
+12. [Anexo 3. Otras necesidades](#12-anexo-3-otras-necesidades)
 
-4- Resumen Ejecutivo
+---
 
-5- Introducción
+## 1. Juramento y declaración de abstención y tacha
 
-5.1- Antecedentes
+## 2. Palabras clave
 
-5.2- Objetivos
+## 3. Índice de figuras
 
-6- Fuentes de información
+## 4. Resumen ejecutivo
 
-6.1- Adquisición de evidencias
+## 5. Introducción
 
-7- Análisis
+### 5.1. Antecedentes
 
-7.1- Herramientas utilizadas
+### 5.2. Objetivos
 
-7.2- Procesos
+## 6. Fuentes de información
 
-7.2.1- Análisis de xxx
+### 6.1. Adquisición de evidencias
 
-7.2.2- Análisis de yyy
+## 7. Análisis
 
-8- Limitaciones
+### 7.1. Herramientas utilizadas
 
-9- Conclusiones
+### 7.2. Procesos
 
-10- Anexo 1. Sobre el perito
+#### 7.2.1. Análisis de XXX
 
-11- Anexo 2. Sumas de verificación
+#### 7.2.2. Análisis de YYY
 
-12- Anexo 3. Otras necesidades
+## 8. Limitaciones
+
+## 9. Conclusiones
+
+## 10. Anexo 1. Sobre el perito
+
+## 11. Anexo 2. Sumas de verificación
+
+## 12. Anexo 3. Otras necesidades
