@@ -40,6 +40,24 @@ En cumplimiento de las mejores prácticas y estándares de la industria, los per
 
 ## 2. Palabras clave
 
+- **Hash (SHA-256):** huella criptográfica usada para comprobar integridad; si el hash cambia, el contenido ha cambiado.
+- **Imagen de disco (`.dd`):** copia bit a bit de un soporte/partición; permite analizar el sistema de archivos sin modificar el original.
+- **Volcado de memoria (RAM dump):** captura del contenido de la memoria en un instante; puede contener procesos, conexiones y comandos que no quedan persistidos en disco.
+- **MAC time:** conjunto de marcas de tiempo de un fichero: **M**odified (modificación), **A**ccessed (acceso), **C**hanged (cambio de metadatos/permisos).
+- **Timeline (línea de tiempo):** correlación temporal de eventos y artefactos (MAC time, logs, ejecución de procesos) para reconstruir la secuencia del incidente.
+- **Log / registro:** fichero de eventos generado por un servicio (p. ej., Apache o Samba) que permite atribución técnica y reconstrucción de actividad.
+- **Apache `access.log`:** registro de peticiones HTTP; incluye IP origen, recurso solicitado, código de respuesta y a menudo el **User-Agent**.
+- **User-Agent:** cadena que identifica el cliente que realiza la petición web (navegador/versión y, en muchos casos, sistema operativo).
+- **Inyección de comandos (Command Injection):** vulnerabilidad donde entrada del usuario se concatena a una orden del sistema sin validación/escape, permitiendo ejecutar comandos arbitrarios.
+- **RCE (Remote Code Execution):** capacidad de ejecutar código/comandos en el servidor remotamente; en este caso se materializa a través de la inyección en `ping.php`.
+- **Payload:** parte “activa” del ataque (cadena/comando) diseñada para conseguir un efecto concreto (lectura de ficheros, creación de artefactos, etc.).
+- **Encadenamiento de comandos (`&&`, `;`, `|`):** operadores de shell que permiten ejecutar órdenes adicionales; son indicadores típicos en inyecciones.
+- **Redirección de salida (`>`):** operador de shell que vuelca la salida de un comando a un fichero; puede usarse para crear archivos con datos exfiltrados.
+- **Exfiltración:** salida no autorizada de información desde el sistema comprometido hacia un tercero.
+- **SMB / Samba:** protocolo y servicio de compartición de ficheros en red; en Linux suele estar gestionado por el proceso `smbd`.
+- **smbd:** daemon/proceso de Samba que gestiona conexiones SMB; una conexión establecida puede indicar transferencia de ficheros.
+- **Antiforense (acción antiforense):** técnica para dificultar la investigación (p. ej., borrado/vaciado de logs o eliminación de rastros).
+
 ## 3. Índice de figuras
 
 ## 4. Resumen ejecutivo
