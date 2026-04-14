@@ -60,14 +60,14 @@ En cumplimiento de las mejores prácticas y estándares de la industria, los per
 
 | Nº | Figura | Descripción | Sección |
 |----|--------|-------------|---------|
-| 1  | ![Anexo_1.png](img/Anexo_1.png) | Extracto de access.log con peticiones desde 192.168.1.6 a ping.php y User-Agent | Anexo 3 |
-| 2  | ![Anexo_2.png](img/Anexo_2.png) | Fragmento del código de /var/www/ping.php donde se ejecuta el comando del sistema con el parámetro recibido | Anexo 3 |
-| 3  | ![Anexo_3.png](img/Anexo_3.png) | Evidencia del parámetro/payload con encadenamiento de comandos y referencia a passwd.txt | Anexo 3 |
-| 4  | ![Anexo_4.png](img/Anexo_4.png) | Conexión SMB establecida entre servidor y atacante (asociada a smbd) | Anexo 3 |
-| 5  | ![Anexo_5.png](img/Anexo_5.png) | Evidencia en disco de log.192.168.1.6 con 0 bytes (posible purga antiforense) | Anexo 3 |
-| 6  | ![Anexo_6.png](img/Anexo_6.png) | Detalle adicional de la conexión SMB establecida | Anexo 3 |
-| 7  | ![Anexo_7.png](img/Anexo_7.png) | Salida de Volatility (linux_bash) con el comando sudo nano /var/www/ping.php | Anexo 3 |
-| 8  | ![hashes-verification.png](img/hashes-verification.png) | Sumas de verificación SHA-256 de las evidencias adquiridas | Anexo 2 |
+| 1  | ![Anexo_1.png](hallazgos/Anexo_1.png) | Extracto de access.log con peticiones desde 192.168.1.6 a ping.php y User-Agent | Anexo 3 |
+| 2  | ![Anexo_2.png](hallazgos/Anexo_2.png) | Fragmento del código de /var/www/ping.php donde se ejecuta el comando del sistema con el parámetro recibido | Anexo 3 |
+| 3  | ![Anexo_3.png](hallazgos/Anexo_3.png) | Evidencia del parámetro/payload con encadenamiento de comandos y referencia a passwd.txt | Anexo 3 |
+| 4  | ![Anexo_4.png](hallazgos/Anexo_4.png) | Conexión SMB establecida entre servidor y atacante (asociada a smbd) | Anexo 3 |
+| 5  | ![Anexo_5.png](hallazgos/Anexo_5.png) | Evidencia en disco de log.192.168.1.6 con 0 bytes (posible purga antiforense) | Anexo 3 |
+| 6  | ![Anexo_6.png](hallazgos/Anexo_6.png) | Detalle adicional de la conexión SMB establecida | Anexo 3 |
+| 7  | ![Anexo_7.png](hallazgos/Anexo_7.png) | Salida de Volatility (linux_bash) con el comando sudo nano /var/www/ping.php | Anexo 3 |
+| 8  | ![hashes-verification.png](hallazgos/hashes-verification.png) | Sumas de verificación SHA-256 de las evidencias adquiridas | Anexo 2 |
 
 ## 4. Resumen ejecutivo
 
@@ -142,13 +142,13 @@ El análisis de memoria se orientó a identificar **actividad en ejecución**, *
 	- Se revisaron procesos y servicios relevantes para el caso (Apache y Samba), así como puertos en escucha y conexiones activas.
 3. **Identificación de conexiones de red relevantes (SMB)**
 	- Se localizaron conexiones establecidas hacia el puerto SMB, asociadas al proceso `smbd`.
-	- Evidencia: conexión TCP entre el servidor (**192.168.1.28**) y el atacante (**192.168.1.6**) (ver `img/Anexo_4.png` y `img/Anexo_6.png`).
+	- Evidencia: conexión TCP entre el servidor (**192.168.1.28**) y el atacante (**192.168.1.6**) (ver `hallazgos/Anexo_4.png` y `hallazgos/Anexo_6.png`).
 4. **Recuperación de historial de comandos (traza de terminal)**
 	- Se extrajo el historial de comandos en memoria para reconstruir acciones realizadas durante la ventana del incidente.
-	- Evidencia: aparición del comando de edición del fichero web (`sudo nano /var/www/ping.php`) (ver `img/Anexo_7.png`).
+	- Evidencia: aparición del comando de edición del fichero web (`sudo nano /var/www/ping.php`) (ver `hallazgos/Anexo_7.png`).
 5. **Búsqueda de indicadores y cadenas en memoria (payloads)**
 	- Se realizaron búsquedas de texto/indicadores en memoria para localizar rastros de la inyección.
-	- Evidencia: cadena compatible con el encadenamiento de comandos y redirección a `passwd.txt` (ver `img/Anexo_3.png`).
+	- Evidencia: cadena compatible con el encadenamiento de comandos y redirección a `passwd.txt` (ver `hallazgos/Anexo_3.png`).
 6. **Documentación y anexos**
 	- Los resultados (salidas relevantes y capturas) se consolidaron como anexos para su trazabilidad en el informe.
 
@@ -161,13 +161,13 @@ El análisis de disco se centró en localizar **artefactos persistentes**: códi
 	- Se extrajeron metadatos de los ficheros de interés (MAC time, tamaño lógico) para su documentación posterior.
 2. **Localización y revisión del recurso web vulnerable**
 	- Se localizó el fichero `/var/www/ping.php` y se revisó su contenido para validar el origen de la vulnerabilidad.
-	- Evidencia: uso de llamada al sistema con entrada controlada por el usuario sin validación estricta (ver `hallazgos/ping.png` y `img/Anexo_2.png`).
+	- Evidencia: uso de llamada al sistema con entrada controlada por el usuario sin validación estricta (ver `hallazgos/ping.png` y `hallazgos/Anexo_2.png`).
 3. **Correlación con registros web (Apache)**
 	- Se analizaron los logs de Apache (p. ej., `/var/log/apache2/access.log`) filtrando por el recurso `ping.php` y la IP **192.168.1.6**.
-	- Evidencia: peticiones hacia `ping.php` desde la IP del atacante y User-Agent que identifica cliente y sistema operativo (ver `img/Anexo_1.png`).
+	- Evidencia: peticiones hacia `ping.php` desde la IP del atacante y User-Agent que identifica cliente y sistema operativo (ver `hallazgos/Anexo_1.png`).
 4. **Revisión de rastros del servicio Samba (SMB)**
 	- Se revisaron los logs del servicio Samba, especialmente el fichero de log por IP.
-	- Evidencia: existencia de `/var/log/samba/log.192.168.1.6` con **tamaño 0 bytes**, compatible con un borrado/limpieza del registro (ver `img/Anexo_5.png`).
+	- Evidencia: existencia de `/var/log/samba/log.192.168.1.6` con **tamaño 0 bytes**, compatible con un borrado/limpieza del registro (ver `hallazgos/Anexo_5.png`).
 5. **Búsqueda de artefactos de exfiltración**
 	- Se revisó el árbol de `/var/www/` y otros directorios relevantes en busca de ficheros generados durante el incidente (por ejemplo, volcados a texto accesibles por web), y se correlacionó con los indicadores obtenidos en RAM y con los accesos en los logs.
 6. **Documentación y anexos**
@@ -222,7 +222,7 @@ Los peritos responsables de este informe son:
 	Correo: luiscarlos.romero@g.educaand.es
 
 ## 11. Anexo 2. Sumas de verificación
-![alt text](img/hashes-verification.png)
+![alt text](hallazgos/hashes-verification.png)
 
 ## 12. Anexo 3. Otras necesidades
 
@@ -230,13 +230,13 @@ Los peritos responsables de este informe son:
 
 Las siguientes capturas se adjuntan como soporte de los hallazgos descritos en la sección 7.2:
 
-- `img/Anexo_1.png`: extracto de `access.log` con peticiones desde **192.168.1.6** a `ping.php` y User-Agent.
-- `img/Anexo_2.png`: fragmento del código de `/var/www/ping.php` donde se ejecuta el comando del sistema con el parámetro recibido.
-- `img/Anexo_3.png`: evidencia del parámetro/payload con encadenamiento de comandos y referencia a `passwd.txt`.
-- `img/Anexo_4.png`: conexión SMB establecida entre servidor y atacante (asociada a `smbd`).
-- `img/Anexo_5.png`: evidencia en disco de `log.192.168.1.6` con **0 bytes** (posible purga antiforense).
-- `img/Anexo_6.png`: detalle adicional de la conexión SMB establecida.
-- `img/Anexo_7.png`: salida de Volatility (`linux_bash`) con el comando `sudo nano /var/www/ping.php`.
+- `hallazgos/Anexo_1.png`: extracto de `access.log` con peticiones desde **192.168.1.6** a `ping.php` y User-Agent.
+- `hallazgos/Anexo_2.png`: fragmento del código de `/var/www/ping.php` donde se ejecuta el comando del sistema con el parámetro recibido.
+- `hallazgos/Anexo_3.png`: evidencia del parámetro/payload con encadenamiento de comandos y referencia a `passwd.txt`.
+- `hallazgos/Anexo_4.png`: conexión SMB establecida entre servidor y atacante (asociada a `smbd`).
+- `hallazgos/Anexo_5.png`: evidencia en disco de `log.192.168.1.6` con **0 bytes** (posible purga antiforense).
+- `hallazgos/Anexo_6.png`: detalle adicional de la conexión SMB establecida.
+- `hallazgos/Anexo_7.png`: salida de Volatility (`linux_bash`) con el comando `sudo nano /var/www/ping.php`.
 
 -------------------------------------------------------------
 
@@ -253,19 +253,19 @@ Las siguientes capturas se adjuntan como soporte de los hallazgos descritos en l
 		<tr>
 			<td>Carlos Alcina</td>
 			<td>Técnico Superior en Desarrollo de Aplicaciones Multiplataforma (DAM)</td>
-			<td><img src="img/firma_carlos.png" alt="Firma Carlos Alcina" height="60"></td>
+			<td><img src="hallazgos/firma_carlos.png" alt="Firma Carlos Alcina" height="60"></td>
 			<td>14/04/2026</td>
 		</tr>
 		<tr>
 			<td>Pablo González</td>
 			<td>Técnico Superior en Desarrollo de Aplicaciones Multiplataforma (DAM) y Técnico Superior en Desarrollo de Aplicaciones Web (DAW)</td>
-			<td><img src="img/firma_pg.jpeg" alt="Firma de Pablo González" height="60"></td>
+			<td><img src="hallazgos/firma_pg.jpeg" alt="Firma de Pablo González" height="60"></td>
 			<td>14/04/2026</td>
 		</tr>
 		<tr>
 			<td>Luis Carlos Romero</td>
 			<td>Técnico Superior en Desarrollo de Aplicaciones Web (DAW)</td>
-			<td><img src="img/lc_firma.png" alt="Firma de Luis Carlos Romero" height="60"></td>
+			<td><img src="hallazgos/lc_firma.png" alt="Firma de Luis Carlos Romero" height="60"></td>
 			<td>14/04/2026</td>
 		</tr>
 	</tbody>
