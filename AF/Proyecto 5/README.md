@@ -4,7 +4,7 @@ Este documento define la **estructura** y el **orden** de los apartados del info
 
 ## Índice
 
-1. [Juramento y declaración de abstención y tacha](#1-juramento-y-declaración-de-abstención-y-tacha)
+1. [Juramento y declaración de abstención](#1-juramento-y-declaración-de-abstención)
 2. [Palabras clave](#2-palabras-clave)
 3. [Índice de figuras](#3-índice-de-figuras)
 4. [Resumen ejecutivo](#4-resumen-ejecutivo)
@@ -13,7 +13,7 @@ Este documento define la **estructura** y el **orden** de los apartados del info
 	2. [Objetivos](#52-objetivos)
 6. [Fuentes de información](#6-fuentes-de-información)
 	1. [Comprobación de hashes (SHA-256)](#61-comprobación-de-hashes-sha-256)
-	2. [Adquisición de evidencias](#62-adquisición-de-evidencias)
+	2. [Adquisición de hallazgos](#62-adquisición-de-hallazgos)
 7. [Análisis](#7-análisis)
 	1. [Herramientas utilizadas](#71-herramientas-utilizadas)
 	2. [Procesos](#72-procesos)
@@ -78,12 +78,26 @@ Los objetivos de este informe forense son:
 | captura_ram.lime | `0f5d751208b08450e298b8d27f22451dd2ae158dfc1cb80b974f360e9a88ff05` | `0f5d751208b08450e298b8d27f22451dd2ae158dfc1cb80b974f360e9a88ff05` |
 | image_disco.dd | `9f2b2dace6cfebec1b6f956fc231e199c00f39e05d50286b8f284043537d65d9` | `9f2b2dace6cfebec1b6f956fc231e199c00f39e05d50286b8f284043537d65d9` |
 
+
 ### 6.2. Adquisición de hallazgos
 te dejo la parte del ping:
 ![alt text](hallazgos/ping.png)
 ## 7. Análisis
 
 ### 7.1. Herramientas utilizadas
+
+| Herramienta | Uso en la investigación |
+|---|---|
+| Volatility (Framework v2.6) | Análisis forense avanzado de memoria RAM. Utilizado para extraer el historial de comandos (`linux_bash`), conexiones de red activas (`linux_netstat`), procesos (`linux_pstree`) y archivos abiertos (`linux_lsof`) en el momento del incidente. |
+| Autopsy | Herramienta para el análisis forense del disco. Especialmente útil para generar la línea de tiempo (Timeline / MAC times) y analizar artefactos sin alterar la evidencia original. |
+| Comandos de gestión de archivos (Linux) | Comandos como `unzip`, `mkdir` y `cp`, utilizados en Kali Linux para preparar el entorno forense (descompresión y carga manual de evidencias, por ejemplo perfiles `.zip` para Volatility). |
+| Comandos de exploración nativos | Comandos como `cat` y `ls -la`, usados para inspección directa de evidencias en disco (p. ej., comprobar el estado de `/var/log/samba/log.192.168.1.6` o revisar permisos de rutas web). |
+| `grep` | Filtrado de texto y búsqueda de indicadores/artefactos concretos en evidencias o salidas de herramientas. |
+| `strings` | Extracción de cadenas legibles desde volcados binarios (p. ej., memoria) para localizar indicadores. |
+| `sha256sum` | Cálculo y verificación de integridad mediante hashes SHA-256 de las evidencias adquiridas. |
+
+Ejemplo de búsqueda de indicadores con `strings` + `grep`:
+
 
 ### 7.2. Procesos
 
