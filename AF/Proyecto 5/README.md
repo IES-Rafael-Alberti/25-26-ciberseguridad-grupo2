@@ -43,9 +43,9 @@ En cumplimiento de las mejores prácticas y estándares de la industria, los per
 
 ## 4. Resumen ejecutivo
 
-El análisis forense confirma que un **atacante externo** logró entrar en el servidor de la compañía (**192.168.1.28**) desde la IP (**192.168.1.6**). La causa principal fue un fallo en una página web del servidor (`/var/www/ping.php`): el formulario aceptaba datos sin controles suficientes y permitió que lo introducido se interpretara como **órdenes para el sistema**, dando al atacante la posibilidad de ejecutar acciones no autorizadas.
+Este informe detalla la investigación de un incidente de seguridad en un servidor web **Apache**. Se identificó una vulnerabilidad de **inyección de comandos** en el archivo `ping.php`, explotada por un atacante desde la IP **192.168.1.6**. El acceso no autorizado permitió comprometer el servidor de la compañía (**192.168.1.28**).
 
-Una vez dentro, el atacante **extrajo información sensible**. Entre los indicios más relevantes, se detectó la copia del archivo del sistema que contiene la **lista de cuentas** (`/etc/passwd`) y el uso del servicio de compartición de archivos **Samba (SMB)** para facilitar la salida de datos. También se observan intentos de **ocultar el rastro**, como el vaciado de registros de actividad (por ejemplo, `log.192.168.1.6` aparece con **0 bytes**), lo que dificulta reconstruir al 100% todo lo sustraído. Sin embargo, se han identificado evidencias claras de la intrusión y de las acciones realizadas por el atacante, lo que permite concluir que se produjo un acceso no autorizado y la extracción de información sensible.
+El ataque resultó en la exfiltración del contenido del archivo `/etc/passwd`, almacenado en un nuevo archivo `passwd.txt`. La investigación documenta el método de ataque, los datos comprometidos y la evidencia de que el archivo original no fue modificado. Se concluye que el atacante logró acceso no autorizado al servidor, comprometiendo la seguridad de la información almacenada en él.
 
 ## 5. Introducción
 
@@ -101,7 +101,7 @@ Los peritos responsables de este informe son:
 
 **Carlos Alcina**
 
-![Firma de Pablo González](img/firma-pablo.png)
+![Firma de Pablo González](img/firma_pg.jpeg)
 **Pablo González**
 
 **Luis Carlos Romero**
