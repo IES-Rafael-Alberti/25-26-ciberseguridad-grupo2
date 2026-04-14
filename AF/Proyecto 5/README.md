@@ -58,6 +58,16 @@ En cumplimiento de las mejores prácticas y estándares de la industria, los per
 - **Antiforense (acción antiforense):** técnica para dificultar la investigación (p. ej., borrado/vaciado de logs o eliminación de rastros).
 
 ## 3. Índice de figuras
+| Nº | Figura | Descripción | Sección |
+|----|--------|-------------|---------|
+| 1  | ![Anexo_1.png](hallazgos/Anexo_1.png) | Extracto de access.log con peticiones desde 192.168.1.6 a ping.php y User-Agent | Anexo 3 |
+| 2  | ![Anexo_2.png](hallazgos/Anexo_2.png) | Fragmento del código de /var/www/ping.php donde se ejecuta el comando del sistema con el parámetro recibido | Anexo 3 |
+| 3  | ![Anexo_3.png](hallazgos/Anexo_3.png) | Evidencia del parámetro/payload con encadenamiento de comandos y referencia a passwd.txt | Anexo 3 |
+| 4  | ![Anexo_4.png](hallazgos/Anexo_4.png) | Conexión SMB establecida entre servidor y atacante (asociada a smbd) | Anexo 3 |
+| 5  | ![Anexo_5.png](hallazgos/Anexo_5.png) | Evidencia en disco de log.192.168.1.6 con 0 bytes (posible purga antiforense) | Anexo 3 |
+| 6  | ![Anexo_6.png](hallazgos/Anexo_6.png) | Detalle adicional de la conexión SMB establecida | Anexo 3 |
+| 7  | ![Anexo_7.png](hallazgos/Anexo_7.png) | Salida de Volatility (linux_bash) con el comando sudo nano /var/www/ping.php | Anexo 3 |
+| 8  | ![hashes-verification.png](hallazgos/hashes-verification.png) | Sumas de verificación SHA-256 de las evidencias adquiridas | Anexo 2 |
 
 ## 4. Resumen ejecutivo
 
