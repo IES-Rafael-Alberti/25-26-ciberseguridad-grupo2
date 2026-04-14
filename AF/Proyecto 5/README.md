@@ -20,8 +20,9 @@
 8. [Limitaciones](#8-limitaciones)
 9. [Conclusiones](#9-conclusiones)
 10. [Anexo 1. Sobre el perito](#10-anexo-1-sobre-el-perito)
-11. [Anexo 2. Sumas de verificación](#11-anexo-2-sumas-de-verificación)
-12. [Anexo 3. Otras necesidades](#12-anexo-3-otras-necesidades)
+11. [Anexo 2. Cadena de custodia](#11-anexo-2-cadena-de-custodia)
+12. [Anexo 3. Sumas de verificación](#12-anexo-3-sumas-de-verificación)
+13. [Anexo 4. Otras necesidades](#13-anexo-4-otras-necesidades)
 
 ---
 
@@ -94,10 +95,6 @@ Los objetivos de este informe forense son:
 | captura_ram.lime | `0f5d751208b08450e298b8d27f22451dd2ae158dfc1cb80b974f360e9a88ff05` | `0f5d751208b08450e298b8d27f22451dd2ae158dfc1cb80b974f360e9a88ff05` |
 | image_disco.dd | `9f2b2dace6cfebec1b6f956fc231e199c00f39e05d50286b8f284043537d65d9` | `9f2b2dace6cfebec1b6f956fc231e199c00f39e05d50286b8f284043537d65d9` |
 
-
-### 6.2. Adquisición de hallazgos
-te dejo la parte del ping:
-![alt text](hallazgos/ping.png)
 ## 7. Análisis
 
 ### 7.1. Herramientas utilizadas
@@ -227,12 +224,68 @@ Los peritos responsables de este informe son:
 	Titulación: Técnico Superior en Desarrollo de Aplicaciones Web (DAW)  
 	Correo: luiscarlos.romero@g.educaand.es
 
-## 11. Anexo 2. Sumas de verificación
+## 11. Anexo 2. Cadena de custodia
+
+### 11.1. Información del caso
+
+| Campo | Valor |
+|---|---|
+| Número de Caso | 05 |
+| Tipo de Investigación | Análisis forense de incidente de seguridad web |
+| Fecha de Adquisición | 13/04/2026 |
+| Lugar de Adquisición | C. Amiel, s/n, 11012 Barriada de la Paz, Cádiz |
+
+### 11.2. Descripción del hallazgo en original
+
+| Campo | Valor |
+|---|---|
+| Tipo de Dispositivo | Imagen de disco (`image_disco.dd`) |
+| Hash del Hallazgo Original (SHA-256) | `9f2b2dace6cfebec1b6f956fc231e199c00f39e05d50286b8f284043537d65d9` |
+| Tipo de Dispositivo | Volcado de memoria RAM (`captura_ram.lime`) |
+| Hash del Hallazgo Original (SHA-256) | `0f5d751208b08450e298b8d27f22451dd2ae158dfc1cb80b974f360e9a88ff05` |
+| Tipo de Dispositivo | Archivo `ping.php` |
+| Hash del Hallazgo Original (SHA-1) | `525132ce24328226594b0f97d0ef2d3f8b7a422e` |
+| Tipo de Dispositivo | Archivo `passwd.txt` |
+| Hash del Hallazgo Original (SHA-1) | `2d8c72a744c486342f5ec770ac27e8dd7b2f2ee0` |
+| Tipo de Dispositivo | Archivo `access.log` |
+| Hash del Hallazgo Original (SHA-1) | `640b5541fb9d263389b923ad786701ab149f84f9` |
+
+### 11.3. Preservación del hallazgo original
+
+| Campo | Valor |
+|---|---|
+| Fecha de Entrega | 13/04/2026 |
+| Hora de Entrega | 9:00 |
+| Recibido por | Manuel Jesús Rivas Sández |
+| Ubicación en el Juzgado | C. Amiel, s/n, 11012 Barriada de la Paz, Cádiz |
+
+### 11.4. Creación y verificación de copias
+
+| Campo | Valor |
+|---|---|
+| Fecha y Hora de Creación | 14/04/2026 , 10:15 |
+| Técnico Responsable | Carlos Alcina Romero |
+| Hash de la Copia (SHA-256) | `9f2b2dace6cfebec1b6f956fc231e199c00f39e05d50286b8f284043537d65d9` |
+| Verificación de Integridad | Sí |
+| Entregado a | Manuel Jesús Rivas Sánchez |
+| Fecha y Hora de Entrega | 14/04/2026, 12:00 |
+
+### 11.5. Registro de accesos y verificaciones
+
+| Campo | Valor |
+|---|---|
+| Fecha y Hora | 21/03/2025, 19:50 |
+| Propósito | Análisis de hallazgos |
+| Técnico | Luis Carlos Romero |
+| Hash Verificado (SHA-256) | `9f2b2dace6cfebec1b6f956fc231e199c00f39e05d50286b8f284043537d65d9` |
+| Verificación de Integridad | Sí |
+
+## 12. Anexo 3. Sumas de verificación
 ![alt text](img/hashes-verification.png)
 
-## 12. Anexo 3. Otras necesidades
+## 13. Anexo 4. Otras necesidades
 
-### 12.1. Índice de evidencias (capturas)
+### 13.1. Índice de evidencias (capturas)
 
 Las siguientes capturas se adjuntan como soporte de los hallazgos descritos en la sección 7.2:
 
