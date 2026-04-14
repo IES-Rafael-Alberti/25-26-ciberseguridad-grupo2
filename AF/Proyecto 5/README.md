@@ -281,7 +281,7 @@ Los peritos responsables de este informe son:
 | Verificación de Integridad | Sí |
 
 ## 12. Anexo 3. Sumas de verificación
-![alt text](img/hashes-verification.png)
+![alt text](hallazgos/hashes-verification.png)
 
 ## 13. Anexo 4. Otras necesidades
 
