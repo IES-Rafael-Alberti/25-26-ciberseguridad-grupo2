@@ -149,7 +149,41 @@ El análisis de disco se centró en localizar **artefactos persistentes**: códi
 6. **Documentación y anexos**
 	- Los extractos relevantes y capturas se referenciaron como anexos para justificar cada conclusión del análisis.
 
+
 ## 8. Limitaciones
+
+La limitación más crítica del caso es que el archivo log.192.168.1.6 tiene 0 bytes. La configuración de Samba solo se define la ruta y el tamaño máximo del log, pero no se especifica el nivel de log. Por defecto, Samba utiliza el nivel 0, lo que genera archivos de log vacíos.
+
+Como consecuencia directa:
+
+## 8. Limitaciones
+
+### 8.1. Falta de registros detallados en Samba
+
+La principal limitación de esta investigación es la ausencia de información en el archivo `/var/log/samba/log.192.168.1.6`, que tiene 0 bytes. La configuración por defecto de Samba solo se define la ruta y el tamaño máximo del log, pero no se especifica el nivel de registro (`log level`).
+
+Por defecto, Samba utiliza `log level = 0`, lo que significa que no se almacena prácticamente ninguna información sobre las conexiones o actividades.
+
+**Consecuencias de esta limitación:**
+
+- No se puede determinar con exactitud qué otros archivos navegó o extrajo el atacante vía SMB.
+- El alcance real de la exfiltración queda indeterminado — solo se confirma `/etc/passwd`, pero podrían existir otros archivos robados que no dejaron rastro.
+
+
+### 8.2. Identificación limitada del atacante
+
+La IP identificada como origen del ataque es 192.168.1.6, una dirección privada de red local (RFC 1918). Esto supone varias limitaciones:
+
+- No es posible rastrear al atacante más allá del perímetro de la red interna.
+- No se puede asegurar si 192.168.1.6 corresponde a la máquina real del atacante o a un equipo intermedio comprometido (pivote).
+- La atribución definitiva del responsable requeriría el análisis forense del dispositivo físico con esa IP en el momento del incidente.
+
+### 8.3. Alcance desconocido de la sesión SMB
+
+Se confirma la existencia de una sesión SMB activa, pero debido a la falta de registros:
+
+- No se puede reconstruir el árbol de directorios navegado ni el listado de archivos transferidos por el atacante.
+- No se puede determinar si la sesión SMB fue utilizada también para subir herramientas adicionales al servidor (malware, scripts, etc.).
 
 ## 9. Conclusiones
 
