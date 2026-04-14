@@ -7,16 +7,16 @@
 3. [Índice de figuras](#3-índice-de-figuras)
 4. [Resumen ejecutivo](#4-resumen-ejecutivo)
 5. [Introducción](#5-introducción)
-	1. [Antecedentes](#51-antecedentes)
-	2. [Objetivos](#52-objetivos)
+   1. [Antecedentes](#51-antecedentes)
+   2. [Objetivos](#52-objetivos)
 6. [Fuentes de información](#6-fuentes-de-información)
-	1. [Comprobación de hashes (SHA-256)](#61-comprobación-de-hashes-sha-256)
-	2. [Adquisición de hallazgos](#62-adquisición-de-hallazgos)
+   1. [Comprobación de hashes (SHA-256)](#61-comprobación-de-hashes-sha-256)
+   2. [Adquisición de hallazgos](#62-adquisición-de-hallazgos)
 7. [Análisis](#7-análisis)
-	1. [Herramientas utilizadas](#71-herramientas-utilizadas)
-	2. [Procesos](#72-procesos)
-		1. [Análisis de memoria RAM](#721-análisis-de-memoria-ram)
-		2. [Análisis de imagen de disco](#722-análisis-de-imagen-de-disco)
+   1. [Herramientas utilizadas](#71-herramientas-utilizadas)
+   2. [Procesos](#72-procesos)
+      1. [Análisis de memoria RAM](#721-análisis-de-memoria-ram)
+      2. [Análisis de imagen de disco](#722-análisis-de-imagen-de-disco)
 8. [Limitaciones](#8-limitaciones)
 9. [Conclusiones](#9-conclusiones)
 10. [Anexo 1. Sobre el perito](#10-anexo-1-sobre-el-perito)
@@ -87,27 +87,27 @@ Los objetivos de este informe forense son:
 
 ### 6.1. Comprobación de hashes (SHA-256)
 
-| Archivo | Hash SHA-256 original | Hash SHA-256 verificado |
-|---|---|---|
-| perfil_memoria.zip | `18b30b973223b8ab233aa1581bccd35bef6c678b29e671b3fe3a7ee5ea24b076` | `18b30b973223b8ab233aa1581bccd35bef6c678b29e671b3fe3a7ee5ea24b076` |
+| Archivo              | Hash SHA-256 original                                              | Hash SHA-256 verificado                                            |
+| -------------------- | ------------------------------------------------------------------ | ------------------------------------------------------------------ |
+| perfil_memoria.zip   | `18b30b973223b8ab233aa1581bccd35bef6c678b29e671b3fe3a7ee5ea24b076` | `18b30b973223b8ab233aa1581bccd35bef6c678b29e671b3fe3a7ee5ea24b076` |
 | captura_ram.lime.zip | `632d3d95260753029d7c9ade15e0dcab69b8fe7eb08d7001d9f923b22ddf003f` | `632d3d95260753029d7c9ade15e0dcab69b8fe7eb08d7001d9f923b22ddf003f` |
-| imagen_disco.dd.zip | `b0189203fa682fd086ed3c52a3723ac46ab896a2fb8e4daf49ed6228bc7d3b76` | `b0189203fa682fd086ed3c52a3723ac46ab896a2fb8e4daf49ed6228bc7d3b76` |
-| captura_ram.lime | `0f5d751208b08450e298b8d27f22451dd2ae158dfc1cb80b974f360e9a88ff05` | `0f5d751208b08450e298b8d27f22451dd2ae158dfc1cb80b974f360e9a88ff05` |
-| image_disco.dd | `9f2b2dace6cfebec1b6f956fc231e199c00f39e05d50286b8f284043537d65d9` | `9f2b2dace6cfebec1b6f956fc231e199c00f39e05d50286b8f284043537d65d9` |
+| imagen_disco.dd.zip  | `b0189203fa682fd086ed3c52a3723ac46ab896a2fb8e4daf49ed6228bc7d3b76` | `b0189203fa682fd086ed3c52a3723ac46ab896a2fb8e4daf49ed6228bc7d3b76` |
+| captura_ram.lime     | `0f5d751208b08450e298b8d27f22451dd2ae158dfc1cb80b974f360e9a88ff05` | `0f5d751208b08450e298b8d27f22451dd2ae158dfc1cb80b974f360e9a88ff05` |
+| image_disco.dd       | `9f2b2dace6cfebec1b6f956fc231e199c00f39e05d50286b8f284043537d65d9` | `9f2b2dace6cfebec1b6f956fc231e199c00f39e05d50286b8f284043537d65d9` |
 
 ## 7. Análisis
 
 ### 7.1. Herramientas utilizadas
 
-| Herramienta | Uso en la investigación |
-|---|---|
-| Volatility (Framework v2.6) | Análisis forense avanzado de memoria RAM. Utilizado para extraer el historial de comandos (`linux_bash`), conexiones de red activas (`linux_netstat`), procesos (`linux_pstree`) y archivos abiertos (`linux_lsof`) en el momento del incidente. |
-| FTK Imager | Herramienta para el análisis forense de discos y volúmenes. Permite examinar y extraer artefactos, generar líneas de tiempo (MAC times) y visualizar evidencias sin alterarlas. |
-| Comandos de gestión de archivos (Linux) | Comandos como `unzip`, `mkdir` y `cp`, utilizados en Kali Linux para preparar el entorno forense (descompresión y carga manual de evidencias, por ejemplo perfiles `.zip` para Volatility). |
-| Comandos de exploración nativos | Comandos como `cat` y `ls -la`, usados para inspección directa de evidencias en disco (p. ej., comprobar el estado de `/var/log/samba/log.192.168.1.6` o revisar permisos de rutas web). |
-| `grep` | Filtrado de texto y búsqueda de indicadores/artefactos concretos en evidencias o salidas de herramientas. |
-| `strings` | Extracción de cadenas legibles desde volcados binarios (p. ej., memoria) para localizar indicadores. |
-| `sha256sum` | Cálculo y verificación de integridad mediante hashes SHA-256 de las evidencias adquiridas. |
+| Herramienta                             | Uso en la investigación                                                                                                                                                                                                                          |
+| --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Volatility (Framework v2.6)             | Análisis forense avanzado de memoria RAM. Utilizado para extraer el historial de comandos (`linux_bash`), conexiones de red activas (`linux_netstat`), procesos (`linux_pstree`) y archivos abiertos (`linux_lsof`) en el momento del incidente. |
+| FTK Imager                              | Herramienta para el análisis forense de discos y volúmenes. Permite examinar y extraer artefactos, generar líneas de tiempo (MAC times) y visualizar evidencias sin alterarlas.                                                                  |
+| Comandos de gestión de archivos (Linux) | Comandos como `unzip`, `mkdir` y `cp`, utilizados en Kali Linux para preparar el entorno forense (descompresión y carga manual de evidencias, por ejemplo perfiles `.zip` para Volatility).                                                      |
+| Comandos de exploración nativos         | Comandos como `cat` y `ls -la`, usados para inspección directa de evidencias en disco (p. ej., comprobar el estado de `/var/log/samba/log.192.168.1.6` o revisar permisos de rutas web).                                                         |
+| `grep`                                  | Filtrado de texto y búsqueda de indicadores/artefactos concretos en evidencias o salidas de herramientas.                                                                                                                                        |
+| `strings`                               | Extracción de cadenas legibles desde volcados binarios (p. ej., memoria) para localizar indicadores.                                                                                                                                             |
+| `sha256sum`                             | Cálculo y verificación de integridad mediante hashes SHA-256 de las evidencias adquiridas.                                                                                                                                                       |
 
 ### 7.2. Procesos
 
@@ -119,62 +119,62 @@ Para la **presentación de hallazgos**, en cada vestigio se ha documentado: **ru
 
 #### Línea de tiempo del incidente
 
-La siguiente tabla resume la secuencia del incidente según las evidencias disponibles. Las horas indicadas se han extraído de la figura [Línea_del_tiempo.jpeg](Línea_del_tiempo.jpeg) (IP origen **192.168.1.6**). En aquellos hallazgos donde no existe marca temporal directa en dicha figura, se mantiene el valor **N/D**.
+La siguiente tabla resume la secuencia del incidente según las evidencias existentes (IP origen **192.168.1.6**). En aquellos hallazgos donde no existe marca temporal directa en dicha figura, se mantiene el valor **N/D**.
 
-| Orden | Fecha/hora (según evidencia) | Evento / hallazgo |
-|---:|---|---|
-| 1 | 11:04:48 | Accesos no autorizados detectados en múltiples intentos de conexión SSH. |
-| 2 | 11:05:21 | Conexión SSH establecida correctamente. |
-| 3 | 11:06:13 | Copia del archivo `ping.php` al directorio `/var/www/`. |
-| 4 | 11:07:12 | Apertura/edición del archivo `ping.php` mediante el editor `nano`. |
-| 5 | 11:09:53 | Recepción de múltiples solicitudes POST HTTP al recurso `/ping.php`. |
-| 6 | 11:09:53 | Evidencia del payload con encadenamiento de comandos y redirección a `passwd.txt` (extracción de `/etc/passwd`). |
-| 7 | 15:09:37 | Última modificación del archivo `ping.php`. |
-| 8 | 15:13:49 | Última modificación del archivo `passwd.txt`. |
-| 9 | N/D | Sesión **SMB** establecida asociada a `smbd` entre **192.168.1.28** y **192.168.1.6**, consistente con canal de transferencia de datos. |
-| 10 | N/D | El fichero `/var/log/samba/log.192.168.1.6` aparece con **0 bytes**, consistente con vaciado/limpieza de log (posible acción antiforense). |
+| Orden | Fecha/hora (según evidencia) | Evento / hallazgo                                                                                                                          |
+| ----: | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+|     1 | 11:04:48                     | Accesos no autorizados detectados en múltiples intentos de conexión SSH.                                                                   |
+|     2 | 11:05:21                     | Conexión SSH establecida correctamente.                                                                                                    |
+|     3 | 11:06:13                     | Copia del archivo `ping.php` al directorio `/var/www/`.                                                                                    |
+|     4 | 11:07:12                     | Apertura/edición del archivo `ping.php` mediante el editor `nano`.                                                                         |
+|     5 | 11:09:53                     | Recepción de múltiples solicitudes POST HTTP al recurso `/ping.php`.                                                                       |
+|     6 | 11:09:53                     | Evidencia del payload con encadenamiento de comandos y redirección a `passwd.txt` (extracción de `/etc/passwd`).                           |
+|     7 | 15:09:37                     | Última modificación del archivo `ping.php`.                                                                                                |
+|     8 | 15:13:49                     | Última modificación del archivo `passwd.txt`.                                                                                              |
+|     9 | N/D                          | Sesión **SMB** establecida asociada a `smbd` entre **192.168.1.28** y **192.168.1.6**, consistente con canal de transferencia de datos.    |
+|    10 | N/D                          | El fichero `/var/log/samba/log.192.168.1.6` aparece con **0 bytes**, consistente con vaciado/limpieza de log (posible acción antiforense). |
 
 #### 7.2.1. Análisis de memoria RAM
 
 El análisis de memoria se orientó a identificar **actividad en ejecución**, **conexiones de red** y **rastros de comandos/payloads** que no necesariamente quedan reflejados en disco.
 
 1. **Preparación y validación**
-	- Se verificó el hash de `captura_ram.lime` y de sus contenedores comprimidos.
-	- Se utilizó Volatility Framework (perfil Linux proporcionado para el caso) para poder ejecutar plugins Linux de forma consistente.
+   - Se verificó el hash de `captura_ram.lime` y de sus contenedores comprimidos.
+   - Se utilizó Volatility Framework (perfil Linux proporcionado para el caso) para poder ejecutar plugins Linux de forma consistente.
 2. **Enumeración inicial del sistema en memoria**
-	- Se revisaron procesos y servicios relevantes para el caso (Apache y Samba), así como puertos en escucha y conexiones activas.
+   - Se revisaron procesos y servicios relevantes para el caso (Apache y Samba), así como puertos en escucha y conexiones activas.
 3. **Identificación de conexiones de red relevantes (SMB)**
-	- Se localizaron conexiones establecidas hacia el puerto SMB, asociadas al proceso `smbd`.
-	- Evidencia: conexión TCP entre el servidor (**192.168.1.28**) y el atacante (**192.168.1.6**) (ver `img/Anexo_4.png` y `img/Anexo_6.png`).
+   - Se localizaron conexiones establecidas hacia el puerto SMB, asociadas al proceso `smbd`.
+   - Evidencia: conexión TCP entre el servidor (**192.168.1.28**) y el atacante (**192.168.1.6**) (ver `img/Anexo_4.png` y `img/Anexo_6.png`).
 4. **Recuperación de historial de comandos (traza de terminal)**
-	- Se extrajo el historial de comandos en memoria para reconstruir acciones realizadas durante la ventana del incidente.
-	- Evidencia: aparición del comando de edición del fichero web (`sudo nano /var/www/ping.php`) (ver `img/Anexo_7.png`).
+   - Se extrajo el historial de comandos en memoria para reconstruir acciones realizadas durante la ventana del incidente.
+   - Evidencia: aparición del comando de edición del fichero web (`sudo nano /var/www/ping.php`) (ver `img/Anexo_7.png`).
 5. **Búsqueda de indicadores y cadenas en memoria (payloads)**
-	- Se realizaron búsquedas de texto/indicadores en memoria para localizar rastros de la inyección.
-	- Evidencia: cadena compatible con el encadenamiento de comandos y redirección a `passwd.txt` (ver `img/Anexo_3.png`).
+   - Se realizaron búsquedas de texto/indicadores en memoria para localizar rastros de la inyección.
+   - Evidencia: cadena compatible con el encadenamiento de comandos y redirección a `passwd.txt` (ver `img/Anexo_3.png`).
 6. **Documentación y anexos**
-	- Los resultados (salidas relevantes y capturas) se consolidaron como anexos para su trazabilidad en el informe.
+   - Los resultados (salidas relevantes y capturas) se consolidaron como anexos para su trazabilidad en el informe.
 
 #### 7.2.2. Análisis de imagen de disco
 
 El análisis de disco se centró en localizar **artefactos persistentes**: código vulnerable, registros del sistema y evidencias de actividad del atacante.
 
 1. **Apertura de la imagen y trabajo en modo solo lectura**
-	- Se verificó el hash de `image_disco.dd` (sección 6.1) y se analizó la imagen en modo de solo lectura.
-	- Se extrajeron metadatos de los ficheros de interés (MAC time, tamaño lógico) para su documentación posterior.
+   - Se verificó el hash de `image_disco.dd` (sección 6.1) y se analizó la imagen en modo de solo lectura.
+   - Se extrajeron metadatos de los ficheros de interés (MAC time, tamaño lógico) para su documentación posterior.
 2. **Localización y revisión del recurso web vulnerable**
-	- Se localizó el fichero `/var/www/ping.php` y se revisó su contenido para validar el origen de la vulnerabilidad.
-	- Evidencia: uso de llamada al sistema con entrada controlada por el usuario sin validación estricta (ver `hallazgos/ping.png` y `img/Anexo_2.png`).
+   - Se localizó el fichero `/var/www/ping.php` y se revisó su contenido para validar el origen de la vulnerabilidad.
+   - Evidencia: uso de llamada al sistema con entrada controlada por el usuario sin validación estricta (ver `hallazgos/ping.png` y `img/Anexo_2.png`).
 3. **Correlación con registros web (Apache)**
-	- Se analizaron los logs de Apache (p. ej., `/var/log/apache2/access.log`) filtrando por el recurso `ping.php` y la IP **192.168.1.6**.
-	- Evidencia: peticiones hacia `ping.php` desde la IP del atacante y User-Agent que identifica cliente y sistema operativo (ver `img/Anexo_1.png`).
+   - Se analizaron los logs de Apache (p. ej., `/var/log/apache2/access.log`) filtrando por el recurso `ping.php` y la IP **192.168.1.6**.
+   - Evidencia: peticiones hacia `ping.php` desde la IP del atacante y User-Agent que identifica cliente y sistema operativo (ver `img/Anexo_1.png`).
 4. **Revisión de rastros del servicio Samba (SMB)**
-	- Se revisaron los logs del servicio Samba, especialmente el fichero de log por IP.
-	- Evidencia: existencia de `/var/log/samba/log.192.168.1.6` con **tamaño 0 bytes**, compatible con un borrado/limpieza del registro (ver `img/Anexo_5.png`).
+   - Se revisaron los logs del servicio Samba, especialmente el fichero de log por IP.
+   - Evidencia: existencia de `/var/log/samba/log.192.168.1.6` con **tamaño 0 bytes**, compatible con un borrado/limpieza del registro (ver `img/Anexo_5.png`).
 5. **Búsqueda de artefactos de exfiltración**
-	- Se revisó el árbol de `/var/www/` y otros directorios relevantes en busca de ficheros generados durante el incidente (por ejemplo, volcados a texto accesibles por web), y se correlacionó con los indicadores obtenidos en RAM y con los accesos en los logs.
+   - Se revisó el árbol de `/var/www/` y otros directorios relevantes en busca de ficheros generados durante el incidente (por ejemplo, volcados a texto accesibles por web), y se correlacionó con los indicadores obtenidos en RAM y con los accesos en los logs.
 6. **Documentación y anexos**
-	- Los extractos relevantes y capturas se referenciaron como anexos para justificar cada conclusión del análisis.
+   - Los extractos relevantes y capturas se referenciaron como anexos para justificar cada conclusión del análisis.
 
 ## 8. Limitaciones
 
@@ -188,7 +188,6 @@ Por defecto, Samba utiliza `log level = 0`, lo que significa que no se almacena 
 
 - No se puede determinar con exactitud qué otros archivos navegó o extrajo el atacante vía SMB.
 - El alcance real de la exfiltración queda indeterminado — solo se confirma `/etc/passwd`, pero podrían existir otros archivos robados que no dejaron rastro.
-
 
 ### 8.2. Identificación limitada del atacante
 
@@ -209,83 +208,81 @@ Se confirma la existencia de una sesión SMB activa, pero debido a la falta de r
 
 ## 10. Anexo 1. Sobre el perito
 
-
 Los peritos responsables de este informe son:
 
 - Carlos Alcina  
-	Titulación: Técnico Superior en Desarrollo de Aplicaciones Multiplataforma (DAM)  
-	Correo: calcrom0607@g.educaand.es
+  Titulación: Técnico Superior en Desarrollo de Aplicaciones Multiplataforma (DAM)  
+  Correo: calcrom0607@g.educaand.es
 
 - Pablo González  
-	Titulación: Técnico Superior en Desarrollo de Aplicaciones Multiplataforma (DAM) y Técnico Superior en Desarrollo de Aplicaciones Web (DAW)  
-	Correo: pablo.gonzalez@g.educaand.es
+  Titulación: Técnico Superior en Desarrollo de Aplicaciones Multiplataforma (DAM) y Técnico Superior en Desarrollo de Aplicaciones Web (DAW)  
+  Correo: pablo.gonzalez@g.educaand.es
 
 - Luis Carlos Romero  
-	Titulación: Técnico Superior en Desarrollo de Aplicaciones Web (DAW)  
-	Correo: luiscarlos.romero@g.educaand.es
+  Titulación: Técnico Superior en Desarrollo de Aplicaciones Web (DAW)  
+  Correo: luiscarlos.romero@g.educaand.es
 
 ## 11. Anexo 2. Cadena de custodia
 
 ### 11.1. Información del caso
 
-| Campo | Valor |
-|---|---|
-| Número de Caso | 05 |
+| Campo                 | Valor                                          |
+| --------------------- | ---------------------------------------------- |
+| Número de Caso        | 05                                             |
 | Tipo de Investigación | Análisis forense de incidente de seguridad web |
-| Fecha de Adquisición | 13/04/2026 |
-| Lugar de Adquisición | C. Amiel, s/n, 11012 Barriada de la Paz, Cádiz |
+| Fecha de Adquisición  | 13/04/2026                                     |
+| Lugar de Adquisición  | C. Amiel, s/n, 11012 Barriada de la Paz, Cádiz |
 
 ### 11.2. Descripción del hallazgo en original
 
-| Campo | Valor |
-|---|---|
-| Tipo de Dispositivo | Imagen de disco (`image_disco.dd`) |
+| Campo                                | Valor                                                              |
+| ------------------------------------ | ------------------------------------------------------------------ |
+| Tipo de Dispositivo                  | Imagen de disco (`image_disco.dd`)                                 |
 | Hash del Hallazgo Original (SHA-256) | `9f2b2dace6cfebec1b6f956fc231e199c00f39e05d50286b8f284043537d65d9` |
-| Tipo de Dispositivo | Volcado de memoria RAM (`captura_ram.lime`) |
+| Tipo de Dispositivo                  | Volcado de memoria RAM (`captura_ram.lime`)                        |
 | Hash del Hallazgo Original (SHA-256) | `0f5d751208b08450e298b8d27f22451dd2ae158dfc1cb80b974f360e9a88ff05` |
-| Tipo de Dispositivo | Archivo `ping.php` |
-| Hash del Hallazgo Original (SHA-1) | `525132ce24328226594b0f97d0ef2d3f8b7a422e` |
-| Tipo de Dispositivo | Archivo `passwd.txt` |
-| Hash del Hallazgo Original (SHA-1) | `2d8c72a744c486342f5ec770ac27e8dd7b2f2ee0` |
-| Tipo de Dispositivo | Archivo `access.log` |
-| Hash del Hallazgo Original (SHA-1) | `640b5541fb9d263389b923ad786701ab149f84f9` |
+| Tipo de Dispositivo                  | Archivo `ping.php`                                                 |
+| Hash del Hallazgo Original (SHA-1)   | `525132ce24328226594b0f97d0ef2d3f8b7a422e`                         |
+| Tipo de Dispositivo                  | Archivo `passwd.txt`                                               |
+| Hash del Hallazgo Original (SHA-1)   | `2d8c72a744c486342f5ec770ac27e8dd7b2f2ee0`                         |
+| Tipo de Dispositivo                  | Archivo `access.log`                                               |
+| Hash del Hallazgo Original (SHA-1)   | `640b5541fb9d263389b923ad786701ab149f84f9`                         |
+
+![alt text](hallazgos/hashes-verification.png)
 
 ### 11.3. Preservación del hallazgo original
 
-| Campo | Valor |
-|---|---|
-| Fecha de Entrega | 13/04/2026 |
-| Hora de Entrega | 9:00 |
-| Recibido por | Manuel Jesús Rivas Sández |
+| Campo                   | Valor                                          |
+| ----------------------- | ---------------------------------------------- |
+| Fecha de Entrega        | 13/04/2026                                     |
+| Hora de Entrega         | 9:00                                           |
+| Recibido por            | Manuel Jesús Rivas Sández                      |
 | Ubicación en el Juzgado | C. Amiel, s/n, 11012 Barriada de la Paz, Cádiz |
 
 ### 11.4. Creación y verificación de copias
 
-| Campo | Valor |
-|---|---|
-| Fecha y Hora de Creación | 14/04/2026 , 10:15 |
-| Técnico Responsable | Carlos Alcina Romero |
+| Campo                      | Valor                                                              |
+| -------------------------- | ------------------------------------------------------------------ |
+| Fecha y Hora de Creación   | 14/04/2026 , 10:15                                                 |
+| Técnico Responsable        | Carlos Alcina Romero                                               |
 | Hash de la Copia (SHA-256) | `9f2b2dace6cfebec1b6f956fc231e199c00f39e05d50286b8f284043537d65d9` |
-| Verificación de Integridad | Sí |
-| Entregado a | Manuel Jesús Rivas Sánchez |
-| Fecha y Hora de Entrega | 14/04/2026, 12:00 |
+| Verificación de Integridad | Sí                                                                 |
+| Entregado a                | Manuel Jesús Rivas Sánchez                                         |
+| Fecha y Hora de Entrega    | 14/04/2026, 12:00                                                  |
 
 ### 11.5. Registro de accesos y verificaciones
 
-| Campo | Valor |
-|---|---|
-| Fecha y Hora | 21/03/2025, 19:50 |
-| Propósito | Análisis de hallazgos |
-| Técnico | Luis Carlos Romero |
-| Hash Verificado (SHA-256) | `9f2b2dace6cfebec1b6f956fc231e199c00f39e05d50286b8f284043537d65d9` |
-| Verificación de Integridad | Sí |
+| Campo                      | Valor                                                              |
+| -------------------------- | ------------------------------------------------------------------ |
+| Fecha y Hora               | 21/03/2025, 19:50                                                  |
+| Propósito                  | Análisis de hallazgos                                              |
+| Técnico                    | Luis Carlos Romero                                                 |
+| Hash Verificado (SHA-256)  | `9f2b2dace6cfebec1b6f956fc231e199c00f39e05d50286b8f284043537d65d9` |
+| Verificación de Integridad | Sí                                                                 |
 
-## 12. Anexo 3. Sumas de verificación
-![alt text](img/hashes-verification.png)
+## 12. Anexo 3. Otras necesidades
 
-## 13. Anexo 4. Otras necesidades
-
-### 13.1. Índice de evidencias (capturas)
+### 12.1. Índice de evidencias (capturas)
 
 Las siguientes capturas se adjuntan como soporte de los hallazgos descritos en la sección 7.2:
 
@@ -296,7 +293,6 @@ Las siguientes capturas se adjuntan como soporte de los hallazgos descritos en l
 - `img/Anexo_5.png`: evidencia en disco de `log.192.168.1.6` con **0 bytes** (posible purga antiforense).
 - `img/Anexo_6.png`: detalle adicional de la conexión SMB establecida.
 - `img/Anexo_7.png`: salida de Volatility (`linux_bash`) con el comando `sudo nano /var/www/ping.php`.
-
 
 <table>
 	<thead>
