@@ -4,7 +4,7 @@ Este documento define la **estructura** y el **orden** de los apartados del info
 
 ## Índice
 
-1. [Juramento y declaración de abstención y tacha](#1-juramento-y-declaración-de-abstención-y-tacha)
+1. [Juramento y declaración de abstención](#1-juramento-y-declaración-de-abstención)
 2. [Palabras clave](#2-palabras-clave)
 3. [Índice de figuras](#3-índice-de-figuras)
 4. [Resumen ejecutivo](#4-resumen-ejecutivo)
@@ -13,12 +13,12 @@ Este documento define la **estructura** y el **orden** de los apartados del info
 	2. [Objetivos](#52-objetivos)
 6. [Fuentes de información](#6-fuentes-de-información)
 	1. [Comprobación de hashes (SHA-256)](#61-comprobación-de-hashes-sha-256)
-	2. [Adquisición de evidencias](#62-adquisición-de-evidencias)
+	2. [Adquisición de hallazgos](#62-adquisición-de-hallazgos)
 7. [Análisis](#7-análisis)
 	1. [Herramientas utilizadas](#71-herramientas-utilizadas)
 	2. [Procesos](#72-procesos)
-		1. [Análisis de XXX](#721-análisis-de-xxx)
-		2. [Análisis de YYY](#722-análisis-de-yyy)
+		1. [Análisis de memoria RAM](#721-análisis-de-memoria-ram)
+		2. [Análisis de imagen de disco](#722-análisis-de-imagen-de-disco)
 8. [Limitaciones](#8-limitaciones)
 9. [Conclusiones](#9-conclusiones)
 10. [Anexo 1. Sobre el perito](#10-anexo-1-sobre-el-perito)
@@ -87,9 +87,53 @@ te dejo la parte del ping:
 
 ### 7.2. Procesos
 
-#### 7.2.1. Análisis de XXX
+En este apartado se documenta la metodología seguida para el análisis de las dos fuentes principales de evidencia: **memoria RAM** (volcado `captura_ram.lime`) e **imagen de disco** (`image_disco.dd`).
 
-#### 7.2.2. Análisis de YYY
+Durante todo el proceso se ha trabajado **sobre copias** de las evidencias y se ha comprobado la **integridad** mediante SHA-256 (ver sección 6.1 y anexo de sumas). Las capturas de pantalla y extractos más relevantes se incluyen como anexos para respaldar los hallazgos.
+
+Para la **presentación de hallazgos**, en cada vestigio se ha documentado: **ruta de localización**, **descripción del contenido**, **MAC time**, **tamaño lógico** y **valor hash** (cuando aplica), referenciando la evidencia visual correspondiente en anexos.
+
+#### 7.2.1. Análisis de memoria RAM
+
+El análisis de memoria se orientó a identificar **actividad en ejecución**, **conexiones de red** y **rastros de comandos/payloads** que no necesariamente quedan reflejados en disco.
+
+1. **Preparación y validación**
+	- Se verificó el hash de `captura_ram.lime` y de sus contenedores comprimidos.
+	- Se utilizó Volatility Framework (perfil Linux proporcionado para el caso) para poder ejecutar plugins Linux de forma consistente.
+2. **Enumeración inicial del sistema en memoria**
+	- Se revisaron procesos y servicios relevantes para el caso (Apache y Samba), así como puertos en escucha y conexiones activas.
+3. **Identificación de conexiones de red relevantes (SMB)**
+	- Se localizaron conexiones establecidas hacia el puerto SMB, asociadas al proceso `smbd`.
+	- Evidencia: conexión TCP entre el servidor (**192.168.1.28**) y el atacante (**192.168.1.6**) (ver `img/Anexo_4.png` y `img/Anexo_6.png`).
+4. **Recuperación de historial de comandos (traza de terminal)**
+	- Se extrajo el historial de comandos en memoria para reconstruir acciones realizadas durante la ventana del incidente.
+	- Evidencia: aparición del comando de edición del fichero web (`sudo nano /var/www/ping.php`) (ver `img/Anexo_7.png`).
+5. **Búsqueda de indicadores y cadenas en memoria (payloads)**
+	- Se realizaron búsquedas de texto/indicadores en memoria para localizar rastros de la inyección.
+	- Evidencia: cadena compatible con el encadenamiento de comandos y redirección a `passwd.txt` (ver `img/Anexo_3.png`).
+6. **Documentación y anexos**
+	- Los resultados (salidas relevantes y capturas) se consolidaron como anexos para su trazabilidad en el informe.
+
+#### 7.2.2. Análisis de imagen de disco
+
+El análisis de disco se centró en localizar **artefactos persistentes**: código vulnerable, registros del sistema y evidencias de actividad del atacante.
+
+1. **Apertura de la imagen y trabajo en modo solo lectura**
+	- Se verificó el hash de `image_disco.dd` (sección 6.1) y se analizó la imagen en modo de solo lectura.
+	- Se extrajeron metadatos de los ficheros de interés (MAC time, tamaño lógico) para su documentación posterior.
+2. **Localización y revisión del recurso web vulnerable**
+	- Se localizó el fichero `/var/www/ping.php` y se revisó su contenido para validar el origen de la vulnerabilidad.
+	- Evidencia: uso de llamada al sistema con entrada controlada por el usuario sin validación estricta (ver `hallazgos/ping.png` y `img/Anexo_2.png`).
+3. **Correlación con registros web (Apache)**
+	- Se analizaron los logs de Apache (p. ej., `/var/log/apache2/access.log`) filtrando por el recurso `ping.php` y la IP **192.168.1.6**.
+	- Evidencia: peticiones hacia `ping.php` desde la IP del atacante y User-Agent que identifica cliente y sistema operativo (ver `img/Anexo_1.png`).
+4. **Revisión de rastros del servicio Samba (SMB)**
+	- Se revisaron los logs del servicio Samba, especialmente el fichero de log por IP.
+	- Evidencia: existencia de `/var/log/samba/log.192.168.1.6` con **tamaño 0 bytes**, compatible con un borrado/limpieza del registro (ver `img/Anexo_5.png`).
+5. **Búsqueda de artefactos de exfiltración**
+	- Se revisó el árbol de `/var/www/` y otros directorios relevantes en busca de ficheros generados durante el incidente (por ejemplo, volcados a texto accesibles por web), y se correlacionó con los indicadores obtenidos en RAM y con los accesos en los logs.
+6. **Documentación y anexos**
+	- Los extractos relevantes y capturas se referenciaron como anexos para justificar cada conclusión del análisis.
 
 ## 8. Limitaciones
 
@@ -116,6 +160,18 @@ Los peritos responsables de este informe son:
 ![alt text](img/hashes-verification.png)
 
 ## 12. Anexo 3. Otras necesidades
+
+### 12.1. Índice de evidencias (capturas)
+
+Las siguientes capturas se adjuntan como soporte de los hallazgos descritos en la sección 7.2:
+
+- `img/Anexo_1.png`: extracto de `access.log` con peticiones desde **192.168.1.6** a `ping.php` y User-Agent.
+- `img/Anexo_2.png`: fragmento del código de `/var/www/ping.php` donde se ejecuta el comando del sistema con el parámetro recibido.
+- `img/Anexo_3.png`: evidencia del parámetro/payload con encadenamiento de comandos y referencia a `passwd.txt`.
+- `img/Anexo_4.png`: conexión SMB establecida entre servidor y atacante (asociada a `smbd`).
+- `img/Anexo_5.png`: evidencia en disco de `log.192.168.1.6` con **0 bytes** (posible purga antiforense).
+- `img/Anexo_6.png`: detalle adicional de la conexión SMB establecida.
+- `img/Anexo_7.png`: salida de Volatility (`linux_bash`) con el comando `sudo nano /var/www/ping.php`.
 
 
 ---
