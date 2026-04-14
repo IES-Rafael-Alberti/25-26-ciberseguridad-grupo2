@@ -280,11 +280,7 @@ Los peritos responsables de este informe son:
 | Hash Verificado (SHA-256)  | `9f2b2dace6cfebec1b6f956fc231e199c00f39e05d50286b8f284043537d65d9` |
 | Verificación de Integridad | Sí                                                                 |
 
-## 12. Anexo 3. Sumas de verificación
-
-![alt text](hallazgos/hashes-verification.png)
-
-## 13. Anexo 4. Otras necesidades
+## 12. Anexo 3. Otras necesidades
 
 ### 12.1. Índice de evidencias (capturas)
 
