@@ -78,7 +78,7 @@ Los peritos responsables de este informe son:
 
 - Carlos Alcina  
 	Titulación: Técnico Superior en Desarrollo de Aplicaciones Multiplataforma (DAM)  
-	Correo: carlos.alcina@g.educaand.es
+	Correo: calcrom0607@g.educaand.es
 
 - Pablo González  
 	Titulación: Técnico Superior en Desarrollo de Aplicaciones Multiplataforma (DAM) y Técnico Superior en Desarrollo de Aplicaciones Web (DAW)  
@@ -97,7 +97,7 @@ Los peritos responsables de este informe son:
 
 **Firmas:**
 
-![Firma de Carlos Alcina](img/carlos_firma.png)
+![Firma Carlos Alcina](img/firma_carlos.png)
 
 **Carlos Alcina**
 
