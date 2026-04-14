@@ -253,19 +253,19 @@ Las siguientes capturas se adjuntan como soporte de los hallazgos descritos en l
 		<tr>
 			<td>Carlos Alcina</td>
 			<td>Técnico Superior en Desarrollo de Aplicaciones Multiplataforma (DAM)</td>
-			<td><img src="hallazgos/firma_carlos.png" alt="Firma Carlos Alcina" height="60"></td>
+			<td><img src="img/firma_carlos.png" alt="Firma Carlos Alcina" height="60"></td>
 			<td>14/04/2026</td>
 		</tr>
 		<tr>
 			<td>Pablo González</td>
 			<td>Técnico Superior en Desarrollo de Aplicaciones Multiplataforma (DAM) y Técnico Superior en Desarrollo de Aplicaciones Web (DAW)</td>
-			<td><img src="hallazgos/firma_pg.jpeg" alt="Firma de Pablo González" height="60"></td>
+			<td><img src="img/firma_pg.jpeg" alt="Firma de Pablo González" height="60"></td>
 			<td>14/04/2026</td>
 		</tr>
 		<tr>
 			<td>Luis Carlos Romero</td>
 			<td>Técnico Superior en Desarrollo de Aplicaciones Web (DAW)</td>
-			<td><img src="hallazgos/lc_firma.png" alt="Firma de Luis Carlos Romero" height="60"></td>
+			<td><img src="img/lc_firma.png" alt="Firma de Luis Carlos Romero" height="60"></td>
 			<td>14/04/2026</td>
 		</tr>
 	</tbody>
