@@ -52,7 +52,19 @@ El ataque resultó en la exfiltración del contenido del archivo `/etc/passwd`, 
 
 ### 5.1. Antecedentes
 
+La organización detectó indicios de **actividad anómala y posible salida de información** desde un servidor Linux corporativo (**192.168.1.28**).
+
+Para esclarecer los hechos, se ha llevado a cabo una investigación basada en las adquisiciones facilitadas (imagen de almacenamiento y volcado de memoria), complementada con el análisis de artefactos del sistema (registros de distintos servicios, procesos en ejecución y cadenas recuperadas en memoria).
+
 ### 5.2. Objetivos
+
+Los objetivos de este informe forense son:
+
+- Identificar la **vulnerabilidad** explotada en la aplicación web y explicar su mecanismo (inyección de comandos).
+- Determinar la **IP de origen**, el **cliente (User-Agent)** y el **sistema operativo** empleado por el atacante a partir de evidencias de red y registros.
+- Verificar qué **datos fueron exfiltrados** y por qué canal/servicio se produjo la salida.
+- Explicar por qué el **archivo original** objeto del robo (p. ej., un fichero del sistema) puede no reflejar cambios en sus marcas de tiempo durante el incidente.
+- Proponer **medidas de reparación y mitigación** para evitar recurrencias (validación/saneamiento de entradas, hardening y controles de registro/monitorización).
 
 ## 6. Fuentes de información
 
