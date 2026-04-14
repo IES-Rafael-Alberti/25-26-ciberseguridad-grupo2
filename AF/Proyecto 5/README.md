@@ -12,7 +12,8 @@ Este documento define la **estructura** y el **orden** de los apartados del info
 	1. [Antecedentes](#51-antecedentes)
 	2. [Objetivos](#52-objetivos)
 6. [Fuentes de información](#6-fuentes-de-información)
-	1. [Adquisición de evidencias](#61-adquisición-de-evidencias)
+	1. [Comprobación de hashes (SHA-256)](#61-comprobación-de-hashes-sha-256)
+	2. [Adquisición de evidencias](#62-adquisición-de-evidencias)
 7. [Análisis](#7-análisis)
 	1. [Herramientas utilizadas](#71-herramientas-utilizadas)
 	2. [Procesos](#72-procesos)
@@ -55,7 +56,17 @@ El ataque resultó en la exfiltración del contenido del archivo `/etc/passwd`, 
 
 ## 6. Fuentes de información
 
-### 6.1. Adquisición de evidencias
+### 6.1. Comprobación de hashes (SHA-256)
+
+| Archivo | Hash SHA-256 original | Hash SHA-256 verificado |
+|---|---|---|
+| perfil_memoria.zip | `18b30b973223b8ab233aa1581bccd35bef6c678b29e671b3fe3a7ee5ea24b076` | `18b30b973223b8ab233aa1581bccd35bef6c678b29e671b3fe3a7ee5ea24b076` |
+| captura_ram.lime.zip | `632d3d95260753029d7c9ade15e0dcab69b8fe7eb08d7001d9f923b22ddf003f` | `632d3d95260753029d7c9ade15e0dcab69b8fe7eb08d7001d9f923b22ddf003f` |
+| imagen_disco.dd.zip | `b0189203fa682fd086ed3c52a3723ac46ab896a2fb8e4daf49ed6228bc7d3b76` | `b0189203fa682fd086ed3c52a3723ac46ab896a2fb8e4daf49ed6228bc7d3b76` |
+| captura_ram.live | `0f5d751208b08450e298b8d27f22451dd2ae158dfc1cb80b974f360e9a88ff05` | `0f5d751208b08450e298b8d27f22451dd2ae158dfc1cb80b974f360e9a88ff05` |
+| image_disco.dd | `9f2b2dace6cfebec1b6f956fc231e199c00f39e05d50286b8f284043537d65d9` | `9f2b2dace6cfebec1b6f956fc231e199c00f39e05d50286b8f284043537d65d9` |
+
+### 6.2. Adquisición de evidencias
 
 ## 7. Análisis
 
