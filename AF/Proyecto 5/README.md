@@ -216,6 +216,10 @@ Se confirma la existencia de una sesión SMB activa, pero debido a la falta de r
 
 ## 9. Conclusiones
 
+Despues de analizar todos los hallazgos que tenemos, queda claro que el incidente se originó por una vulnerabilidad de inyección de comandos en el archivo ping.php, lo que permitió al atacante acceder y exfiltrar información sensible del servidor. La investigación ha permitido reconstruir el método de ataque, identificar la IP de origen y los datos comprometidos, aunque ciertas limitaciones técnicas —como la falta de logs detallados en Samba— han impedido conocer el alcance total de la exfiltración.
+
+Pese a estas limitaciones, se ha podido demostrar que el atacante logró acceso no autorizado y que la seguridad del sistema quedó comprometida. Este caso pone de manifiesto la importancia de mantener una configuración adecuada de los servicios, validar correctamente las entradas de usuario y reforzar los controles de registro y monitorización. Solo así se podrá prevenir y detectar a tiempo este tipo de incidentes en el futuro.
+
 ## 10. Anexo 1. Sobre el perito
 
 Los peritos responsables de este informe son:
