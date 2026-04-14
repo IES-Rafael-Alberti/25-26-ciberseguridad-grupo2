@@ -1,6 +1,4 @@
-# Estructura del informe
-
-Este documento define la **estructura** y el **orden** de los apartados del informe.
+# Proyecto 5: Incident on Linux Server I
 
 ## Índice
 
