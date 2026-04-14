@@ -145,13 +145,13 @@ El análisis de memoria se orientó a identificar **actividad en ejecución**, *
    - Se revisaron procesos y servicios relevantes para el caso (Apache y Samba), así como puertos en escucha y conexiones activas.
 3. **Identificación de conexiones de red relevantes (SMB)**
    - Se localizaron conexiones establecidas hacia el puerto SMB, asociadas al proceso `smbd`.
-   - Evidencia: conexión TCP entre el servidor (**192.168.1.28**) y el atacante (**192.168.1.6**) (ver `img/Anexo_4.png` y `img/Anexo_6.png`).
+   - Evidencia: conexión TCP entre el servidor (**192.168.1.28**) y el atacante (**192.168.1.6**) (ver `hallazgos/Anexo_4.png` y `hallazgos/Anexo_6.png`).
 4. **Recuperación de historial de comandos (traza de terminal)**
    - Se extrajo el historial de comandos en memoria para reconstruir acciones realizadas durante la ventana del incidente.
-   - Evidencia: aparición del comando de edición del fichero web (`sudo nano /var/www/ping.php`) (ver `img/Anexo_7.png`).
+   - Evidencia: aparición del comando de edición del fichero web (`sudo nano /var/www/ping.php`) (ver `hallazgos/Anexo_7.png`).
 5. **Búsqueda de indicadores y cadenas en memoria (payloads)**
    - Se realizaron búsquedas de texto/indicadores en memoria para localizar rastros de la inyección.
-   - Evidencia: cadena compatible con el encadenamiento de comandos y redirección a `passwd.txt` (ver `img/Anexo_3.png`).
+   - Evidencia: cadena compatible con el encadenamiento de comandos y redirección a `passwd.txt` (ver `hallazgos/Anexo_3.png`).
 6. **Documentación y anexos**
    - Los resultados (salidas relevantes y capturas) se consolidaron como anexos para su trazabilidad en el informe.
 
@@ -164,13 +164,13 @@ El análisis de disco se centró en localizar **artefactos persistentes**: códi
    - Se extrajeron metadatos de los ficheros de interés (MAC time, tamaño lógico) para su documentación posterior.
 2. **Localización y revisión del recurso web vulnerable**
    - Se localizó el fichero `/var/www/ping.php` y se revisó su contenido para validar el origen de la vulnerabilidad.
-   - Evidencia: uso de llamada al sistema con entrada controlada por el usuario sin validación estricta (ver `hallazgos/ping.png` y `img/Anexo_2.png`).
+   - Evidencia: uso de llamada al sistema con entrada controlada por el usuario sin validación estricta (ver `hallazgos/ping.png` y `hallazgos/Anexo_2.png`).
 3. **Correlación con registros web (Apache)**
    - Se analizaron los logs de Apache (p. ej., `/var/log/apache2/access.log`) filtrando por el recurso `ping.php` y la IP **192.168.1.6**.
-   - Evidencia: peticiones hacia `ping.php` desde la IP del atacante y User-Agent que identifica cliente y sistema operativo (ver `img/Anexo_1.png`).
+   - Evidencia: peticiones hacia `ping.php` desde la IP del atacante y User-Agent que identifica cliente y sistema operativo (ver `hallazgos/Anexo_1.png`).
 4. **Revisión de rastros del servicio Samba (SMB)**
    - Se revisaron los logs del servicio Samba, especialmente el fichero de log por IP.
-   - Evidencia: existencia de `/var/log/samba/log.192.168.1.6` con **tamaño 0 bytes**, compatible con un borrado/limpieza del registro (ver `img/Anexo_5.png`).
+   - Evidencia: existencia de `/var/log/samba/log.192.168.1.6` con **tamaño 0 bytes**, compatible con un borrado/limpieza del registro (ver `hallazgos/Anexo_5.png`).
 5. **Búsqueda de artefactos de exfiltración**
    - Se revisó el árbol de `/var/www/` y otros directorios relevantes en busca de ficheros generados durante el incidente (por ejemplo, volcados a texto accesibles por web), y se correlacionó con los indicadores obtenidos en RAM y con los accesos en los logs.
 6. **Documentación y anexos**
@@ -274,7 +274,7 @@ Los peritos responsables de este informe son:
 
 | Campo                      | Valor                                                              |
 | -------------------------- | ------------------------------------------------------------------ |
-| Fecha y Hora               | 21/03/2025, 19:50                                                  |
+| Fecha y Hora               | 14/04/2026, 22:30                                                  |
 | Propósito                  | Análisis de hallazgos                                              |
 | Técnico                    | Luis Carlos Romero                                                 |
 | Hash Verificado (SHA-256)  | `9f2b2dace6cfebec1b6f956fc231e199c00f39e05d50286b8f284043537d65d9` |
@@ -286,11 +286,11 @@ Los peritos responsables de este informe son:
 
 | Ruta | Contenido | MAC | Tamaño (bytes) | HASH MD5 | HASH SHA1 |
 |------|-----------|--------------|---------------|----------|-----------|
-| /root/var/www/ping.php | ping.php | 20/05/2022 15:09:37 | 542 | d3f424335dac2d8af26ad3f0a99a1a7d | 525132ce24328226594b0f97d0ef2d3f8b7a422e |
-| /root/var/www/passwd.txt | passwd.txt | 20/05/2022 15:13:49 | 1626 | 7cd7b33f99cc526d01473b553e1042d5 | 2d8c72a744c486342f5ec770ac27e8dd7b2f2ee0 |
-| /root/var/log/apache2/access.log | access.log | 20/05/2022 15:21:03 | 3494 | a71e80bd1ad541352d5907628f1bb3ce | 640b5541fb9d263389b923ad786701ab149f84f9 |
-| /root/var/log/samba/log.192.168.1.6 | log.192.168.1.6 | 20/05/2022 15:03:03 | 0 | 620f0b67a91f7f74151bc5be745b7110 | 1ceaf73df40e531df3bfb26b4fb7cd95fb7bff1d |
-| /root/var/log/samba/log.kali | log.kali | 15:03:03 | 0 | 620f0b67a91f7f74151bc5be745b7110 | 1ceaf73df40e531df3bfb26b4fb7cd95fb7bff1d |
+| /var/www/ping.php | ping.php | 20/05/2022 15:09:37 | 542 | d3f424335dac2d8af26ad3f0a99a1a7d | 525132ce24328226594b0f97d0ef2d3f8b7a422e |
+| /var/www/passwd.txt | passwd.txt | 20/05/2022 15:13:49 | 1626 | 7cd7b33f99cc526d01473b553e1042d5 | 2d8c72a744c486342f5ec770ac27e8dd7b2f2ee0 |
+| /var/log/apache2/access.log | access.log | 20/05/2022 15:21:03 | 3494 | a71e80bd1ad541352d5907628f1bb3ce | 640b5541fb9d263389b923ad786701ab149f84f9 |
+| /var/log/samba/log.192.168.1.6 | log.192.168.1.6 | 20/05/2022 15:03:03 | 0 | 620f0b67a91f7f74151bc5be745b7110 | 1ceaf73df40e531df3bfb26b4fb7cd95fb7bff1d |
+| /var/log/samba/log.kali | log.kali | 15:03:03 | 0 | 620f0b67a91f7f74151bc5be745b7110 | 1ceaf73df40e531df3bfb26b4fb7cd95fb7bff1d |
 
 <table>
 	<thead>
