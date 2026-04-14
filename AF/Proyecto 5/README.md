@@ -58,6 +58,17 @@ En cumplimiento de las mejores prácticas y estándares de la industria, los per
 
 ## 3. Índice de figuras
 
+| Nº | Figura | Descripción | Sección |
+|----|--------|-------------|---------|
+| 1  | ![Anexo_1.png](img/Anexo_1.png) | Extracto de access.log con peticiones desde 192.168.1.6 a ping.php y User-Agent | Anexo 3 |
+| 2  | ![Anexo_2.png](img/Anexo_2.png) | Fragmento del código de /var/www/ping.php donde se ejecuta el comando del sistema con el parámetro recibido | Anexo 3 |
+| 3  | ![Anexo_3.png](img/Anexo_3.png) | Evidencia del parámetro/payload con encadenamiento de comandos y referencia a passwd.txt | Anexo 3 |
+| 4  | ![Anexo_4.png](img/Anexo_4.png) | Conexión SMB establecida entre servidor y atacante (asociada a smbd) | Anexo 3 |
+| 5  | ![Anexo_5.png](img/Anexo_5.png) | Evidencia en disco de log.192.168.1.6 con 0 bytes (posible purga antiforense) | Anexo 3 |
+| 6  | ![Anexo_6.png](img/Anexo_6.png) | Detalle adicional de la conexión SMB establecida | Anexo 3 |
+| 7  | ![Anexo_7.png](img/Anexo_7.png) | Salida de Volatility (linux_bash) con el comando sudo nano /var/www/ping.php | Anexo 3 |
+| 8  | ![hashes-verification.png](img/hashes-verification.png) | Sumas de verificación SHA-256 de las evidencias adquiridas | Anexo 2 |
+
 ## 4. Resumen ejecutivo
 
 Este informe detalla la investigación de un incidente de seguridad en un servidor web **Apache**. Se identificó una vulnerabilidad de **inyección de comandos** en el archivo `ping.php`, explotada por un atacante desde la IP **192.168.1.6**. El acceso no autorizado permitió comprometer el servidor de la compañía (**192.168.1.28**).
@@ -227,20 +238,35 @@ Las siguientes capturas se adjuntan como soporte de los hallazgos descritos en l
 - `img/Anexo_6.png`: detalle adicional de la conexión SMB establecida.
 - `img/Anexo_7.png`: salida de Volatility (`linux_bash`) con el comando `sudo nano /var/www/ping.php`.
 
+-------------------------------------------------------------
 
----
-
-**Firmas:**
-
-![Firma Carlos Alcina](img/firma_carlos.png)
-
-**Carlos Alcina**
-
-![Firma de Pablo González](img/firma_pg.jpeg)
-**Pablo González**
-
-**Luis Carlos Romero**
-
-![Firma de Luis Carlos Romero](img/lc_firma.png)
-
-Fecha: 14/04/2026
+<table>
+	<thead>
+		<tr>
+			<th>Nombre y Apellidos</th>
+			<th>Cargo / Titulación</th>
+			<th>Firma</th>
+			<th>Fecha</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>Carlos Alcina</td>
+			<td>Técnico Superior en Desarrollo de Aplicaciones Multiplataforma (DAM)</td>
+			<td><img src="img/firma_carlos.png" alt="Firma Carlos Alcina" height="60"></td>
+			<td>14/04/2026</td>
+		</tr>
+		<tr>
+			<td>Pablo González</td>
+			<td>Técnico Superior en Desarrollo de Aplicaciones Multiplataforma (DAM) y Técnico Superior en Desarrollo de Aplicaciones Web (DAW)</td>
+			<td><img src="img/firma_pg.jpeg" alt="Firma de Pablo González" height="60"></td>
+			<td>14/04/2026</td>
+		</tr>
+		<tr>
+			<td>Luis Carlos Romero</td>
+			<td>Técnico Superior en Desarrollo de Aplicaciones Web (DAW)</td>
+			<td><img src="img/lc_firma.png" alt="Firma de Luis Carlos Romero" height="60"></td>
+			<td>14/04/2026</td>
+		</tr>
+	</tbody>
+</table>
