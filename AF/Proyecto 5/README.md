@@ -28,6 +28,15 @@ Este documento define la **estructura** y el **orden** de los apartados del info
 
 ## 1. Juramento y declaración de abstención y tacha
 
+Los peritos abajo firmantes manifiestan, bajo juramento o promesa de decir verdad, que han actuado y actuarán con la mayor objetividad posible, considerando tanto lo que pueda favorecer como lo que pueda perjudicar a cualquiera de las partes. Asimismo, declaran conocer las sanciones penales en las que podrían incurrir si incumplen su deber como peritos.
+
+En cumplimiento de las mejores prácticas y estándares de la industria, los peritos declaran expresamente:
+
+- Que no existe conflicto de interés alguno que pueda comprometer la objetividad del presente informe.
+- Que no tienen parentesco, vínculo matrimonial o situación de hecho asimilable con ninguna de las partes, ni con sus abogados o procuradores.
+- Que no tienen interés directo ni indirecto en el objeto del pleito ni en su resolución.
+- Que no han prestado servicios profesionales anteriormente a ninguna de las partes en relación directa con este caso.
+
 ## 2. Palabras clave
 
 ## 3. Índice de figuras
@@ -64,6 +73,39 @@ Una vez dentro, el atacante **extrajo información sensible**. Entre los indicio
 
 ## 10. Anexo 1. Sobre el perito
 
+
+Los peritos responsables de este informe son:
+
+- Carlos Alcina  
+	Titulación: Técnico Superior en Desarrollo de Aplicaciones Multiplataforma (DAM)  
+	Correo: carlos.alcina@g.educaand.es
+
+- Pablo González  
+	Titulación: Técnico Superior en Desarrollo de Aplicaciones Multiplataforma (DAM) y Técnico Superior en Desarrollo de Aplicaciones Web (DAW)  
+	Correo: pablo.gonzalez@g.educaand.es
+
+- Luis Carlos Romero  
+	Titulación: Técnico Superior en Desarrollo de Aplicaciones Web (DAW)  
+	Correo: luiscarlos.romero@g.educaand.es
+
 ## 11. Anexo 2. Sumas de verificación
 
 ## 12. Anexo 3. Otras necesidades
+
+
+---
+
+**Firmas:**
+
+![Firma de Carlos Alcina](img/carlos_firma.png)
+
+**Carlos Alcina**
+
+![Firma de Pablo González](img/firma-pablo.png)
+**Pablo González**
+
+**Luis Carlos Romero**
+
+![Firma de Luis Carlos Romero](img/lc_firma.png)
+
+Fecha: 14/04/2026
