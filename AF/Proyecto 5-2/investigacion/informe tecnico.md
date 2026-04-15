@@ -1,0 +1,1 @@
+informe del analisis de la ram
