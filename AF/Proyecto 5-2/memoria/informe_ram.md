@@ -39,12 +39,13 @@ A continuación, se listan los artefactos localizados mediante la investigación
 
 ### 3.1. Soportes Base Adquiridos
 
-| Atributo | Soporte 1 | Soporte 2 |
+| Atributo | Soporte 1 (Memoria RAM) | Soporte 2 (Imagen de Disco) |
 |---|---|---|
-| Nombre del archivo | RAM.bin | [Completar nombre imagen disco] |
-| Localización original | Memoria Volátil del servidor | Disco físico del servidor |
-| Tamaño | [Completar ej. 1.0 GB] | [Completar ej. 20 GB] |
-| Valor Hash (SHA256/MD5) | [Completar Hash] | [Completar Hash] |
+| Nombre del archivo | RAM.bin | [Pendiente de Fase 2] |
+| Localización original | Memoria Volátil del servidor AWS | Disco físico del servidor AWS |
+| Tamaño | 1.073.336.384 bytes (1.0 GB) | [Pendiente de Fase 2] |
+| Valor Hash (MD5) | e063c257d2f41ddee65ea1fdabe64e95 | [Pendiente de Fase 2] |
+| Valor Hash (SHA1) | bc2ebb435e75b3406280a2967b1c2696fc3e160a | [Pendiente de Fase 2] |
 
 ### 3.2. Artefactos y Evidencias Extraídas
 
