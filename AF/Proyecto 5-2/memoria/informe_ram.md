@@ -52,14 +52,15 @@ A continuación, se listan los artefactos localizados mediante la investigación
 
 | Atributo | Detalle de la Evidencia |
 |---|---|
-| Nombre del archivo | access.log |
+| Nombre del archivo | access.log (extraído como access_dumped.log) |
 | Localización | /var/log/apache2/access.log |
-| MAC Time (Modified) | [Completar fecha y hora exacta] |
-| MAC Time (Accessed) | [Completar fecha y hora exacta] |
-| MAC Time (Changed) | [Completar fecha y hora exacta] |
-| Tamaño | [Completar tamaño en bytes/KB] |
-| Valor Hash | [Completar hash del archivo extraído del disco] |
-| Descripción / Atributo | Contiene el registro de las peticiones HTTP (WPScan y POST de explotación). Evidencia las IPs de los atacantes. |
+| MAC Time (Modified) | Pendiente de corroboración cruzada en análisis de disco. |
+| MAC Time (Accessed) | Pendiente de corroboración cruzada en análisis de disco. |
+| MAC Time (Changed) | Pendiente de corroboración cruzada en análisis de disco. |
+| Tamaño | 111.514 bytes |
+| Valor Hash (MD5) | 325d4e7fad4213e46faf58dcf76af017 |
+| Valor Hash (SHA256) | 46bf61392de369143890ae080e91502050f9478cd3d1dcb063c8223a6e58662e |
+| Descripción / Atributo | Contiene el registro de las peticiones HTTP (WPScan y POST de explotación). Evidencia las IPs de los atacantes y la cronología de peticiones maliciosas. |
 
 #### Artefacto 2: Script malicioso 1 (Webshell/Defacement)
 
@@ -67,11 +68,11 @@ A continuación, se listan los artefactos localizados mediante la investigación
 |---|---|
 | Nombre del archivo | PSMOfbPom.php |
 | Localización | /var/www/html/wordpress/wp-content/uploads/2018/07/PSMOfbPom.php |
-| MAC Time (Modified) | [Completar fecha y hora exacta] |
-| MAC Time (Accessed) | [Completar fecha y hora exacta] |
-| MAC Time (Changed) | [Completar fecha y hora exacta] |
-| Tamaño | [Completar tamaño en bytes/KB] |
-| Valor Hash | [Completar hash del archivo extraído del disco] |
+| MAC Time (Modified) | Pendiente de Fase 2 (Análisis de Disco) |
+| MAC Time (Accessed) | Pendiente de Fase 2 (Análisis de Disco) |
+| MAC Time (Changed) | Pendiente de Fase 2 (Análisis de Disco) |
+| Tamaño | Pendiente de Fase 2 (Análisis de Disco) |
+| Valor Hash | Evidencia no residente en memoria activa (limitación de análisis SLUB en RAM). Extracción física y cálculo de hash delegados a la imagen del disco. |
 | Descripción / Atributo | Script inyectado a través de la vulnerabilidad del plugin Reflex Gallery. Usado para comprometer la web. |
 
 #### Artefacto 3: Script malicioso 2 (Webshell/Defacement)
@@ -80,10 +81,10 @@ A continuación, se listan los artefactos localizados mediante la investigación
 |---|---|
 | Nombre del archivo | XLPYhlEtQOyiMKb.php |
 | Localización | /var/www/html/wordpress/wp-content/uploads/2018/07/XLPYhlEtQOyiMKb.php |
-| MAC Time (Modified) | [Completar fecha y hora exacta] |
-| MAC Time (Accessed) | [Completar fecha y hora exacta] |
-| MAC Time (Changed) | [Completar fecha y hora exacta] |
-| Tamaño | [Completar tamaño en bytes/KB] |
-| Valor Hash | [Completar hash del archivo extraído del disco] |
+| MAC Time (Modified) | Pendiente de Fase 2 (Análisis de Disco) |
+| MAC Time (Accessed) | Pendiente de Fase 2 (Análisis de Disco) |
+| MAC Time (Changed) | Pendiente de Fase 2 (Análisis de Disco) |
+| Tamaño | Pendiente de Fase 2 (Análisis de Disco) |
+| Valor Hash | Evidencia no residente en memoria activa (limitación de análisis SLUB en RAM). Extracción física y cálculo de hash delegados a la imagen del disco. |
 | Descripción / Atributo | Segundo script inyectado durante el ataque. |
 
