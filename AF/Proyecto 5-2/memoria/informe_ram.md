@@ -6,6 +6,8 @@ El análisis se ha llevado a cabo sobre una captura de memoria RAM (RAM.bin) cor
 
 Dadas las particularidades del análisis de memoria en sistemas Linux con la herramienta Volatility 2.6, el primer paso metodológico consistió en identificar la versión exacta del sistema operativo y compilar un perfil específico (Linuxubuntu_1604_aws_perfilx64) para poder estructurar y leer la memoria volátil correctamente.
 
+![Creando perfil Volatility](../hallazgos/memoria/1-creando-perfil.png)
+
 ## 2. Investigación Forense en Memoria RAM
 
 La investigación se dividió en dos fases: el descarte de compromiso a nivel de sistema operativo (pruebas con resultado negativo) y la búsqueda de artefactos a nivel de aplicación web.
@@ -15,14 +17,17 @@ La investigación se dividió en dos fases: el descarte de compromiso a nivel de
 De acuerdo a las buenas prácticas forenses, se ejecutaron diversos plugins para buscar persistencia, rootkits o reverse shells. Todas estas pruebas arrojaron un resultado negativo, indicando que el atacante no obtuvo acceso a nivel de terminal o root.
 
 - **Análisis de conexiones de red (`linux_netstat`)**: Se verificaron los puertos a la escucha y las conexiones establecidas. No se hallaron conexiones hacia IPs de Control y Mando (C2) ni puertos atípicos abiertos. Solo se evidenció tráfico legítimo en los puertos 80/443 y una conexión de administración por SSH.
+![linux_netstat](../hallazgos/memoria/2-linux_netstat.png)
 - **Jerarquía de procesos (`linux_pstree` / `linux_pslist`)**: El árbol de procesos mostró un comportamiento estándar. No se encontraron procesos camuflados, scripts maliciosos ejecutándose en segundo plano, ni procesos de terminal (bash, sh) colgando del servicio web apache2.
+![pslist - sin procesos sospechosos](../hallazgos/memoria/3-pslist-nohaynada.png)
 - **Búsqueda de código inyectado (`linux_malfind`)**: Se buscó código ofuscado o inyecciones de memoria. La herramienta detectó regiones con permisos RWX (Lectura, Escritura y Ejecución) en los procesos de Apache. No obstante, el análisis de las instrucciones en ensamblador reveló que se trata de un falso positivo generado por la compilación JIT del motor de PHP; no hay inyección de shellcodes maliciosos.
+![malfind](../hallazgos/memoria/4-malfind.png)
 
 ### 2.2. Reconstrucción de los Hechos (Cronología del Ataque)
 
 Tras descartar el compromiso del sistema, el análisis se enfocó en el vector de ataque web, recuperando de la memoria RAM el historial de comandos (bash) y fragmentos de los registros de Apache (access.log y error.log).
 
-A partir de estas evidencias, se ha reconstruido la siguiente línea temporal (Timeline):
+A partir de estos hallazgos, se ha reconstruido la siguiente línea temporal (Timeline):
 
 | Fecha y hora (UTC) | Evento | Detalle |
 |---|---|---|
@@ -33,7 +38,27 @@ A partir de estas evidencias, se ha reconstruido la siguiente línea temporal (T
 | 24 de Julio de 2018 - 05:24:19 UTC | Respuesta a Incidentes (Conexión Admin) | Se registra una conexión legítima vía SSH (evidenciada en el plugin linux_bash). El administrador del sistema se conecta para revisar los registros de acceso de Apache y evaluar los daños. |
 | 24 de Julio de 2018 - 05:27:03 UTC | Adquisición de Evidencia (Volcado RAM) | El administrador descarga, compila y ejecuta la herramienta forense LiME para volcar la memoria RAM del servidor, generando el archivo RAM.bin que fundamenta el presente análisis. |
 
-## 3. Registro y Atributos de las Evidencias Digitales
+#### Hallazgos visuales del ataque
+
+A continuación se muestran capturas relevantes extraídas durante el análisis, que ilustran los principales hitos de la intrusión:
+
+- **Reconocimiento automatizado (WPScan):**
+	![WPScan en access.log](../hallazgos/memoria/5-access.log-wpscan.png)
+
+- **Explotación de la vulnerabilidad y subida de payload:**
+	![Subida de payload](../hallazgos/memoria/6-access.log-subida-payload.png)
+
+- **Ejecución del payload a través del plugin Reflex Gallery:**
+	![Subida de payload plugin Reflex Gallery](../hallazgos/memoria/7-access-log-subida-payload-plugin-reflex-gallery.png)
+
+#### Vulnerabilidad del plugin Reflex Gallery
+
+La vulnerabilidad explotada corresponde al plugin Reflex Gallery, que permitía la subida arbitraria de archivos. A continuación se muestra la referencia visual del CVE asociado:
+La vulnerabilidad explotada corresponde al plugin Reflex Gallery, que permitía la subida arbitraria de archivos. A continuación se muestra la referencia visual del CVE asociado:
+
+![CVE Reflex Gallery](../img/memoria/8-cve.png)
+
+## 3. Registro y Atributos de los hallazgos Digitales
 
 A continuación, se listan los artefactos localizados mediante la investigación de la RAM. (Nota: Los detalles criptográficos y de tiempo (MAC time) se completarán tras la extracción física de los archivos desde la imagen del disco duro para garantizar su integridad forense).
 
@@ -47,7 +72,7 @@ A continuación, se listan los artefactos localizados mediante la investigación
 | Valor Hash (MD5) | e063c257d2f41ddee65ea1fdabe64e95 | [Pendiente de Fase 2] |
 | Valor Hash (SHA1) | bc2ebb435e75b3406280a2967b1c2696fc3e160a | [Pendiente de Fase 2] |
 
-### 3.2. Artefactos y Evidencias Extraídas
+### 3.2. Artefactos y hallazgos Extraídos
 
 #### Artefacto 1: Archivo de registro del servidor (Log)
 
