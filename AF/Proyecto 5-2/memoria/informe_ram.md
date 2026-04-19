@@ -2,6 +2,16 @@
 
 ## 1. Entorno de Análisis y Preparación
 
+## Comprobación de Hashes MD5 y SHA1
+
+Para garantizar la integridad de los archivos extraídos y evidencias digitales, se realizó la comprobación de los valores hash utilizando herramientas forenses estándar (por ejemplo, `md5sum` y `sha1sum`). A continuación se muestra una captura de ejemplo del proceso de verificación de hash sobre la imagen de memoria RAM:
+
+![Comprobación de hash RAM.bin](../hallazgos/memoria/9-comprobacion-hash.png)
+
+Esta comprobación permite asegurar que el archivo RAM.bin no ha sido alterado desde su adquisición, validando así la cadena de custodia y la fiabilidad de los análisis realizados.
+
+---
+
 El análisis se ha llevado a cabo sobre una captura de memoria RAM (RAM.bin) correspondiente a un servidor Linux alojado en la nube de Amazon Web Services (AWS).
 
 Dadas las particularidades del análisis de memoria en sistemas Linux con la herramienta Volatility 2.6, el primer paso metodológico consistió en identificar la versión exacta del sistema operativo y compilar un perfil específico (Linuxubuntu_1604_aws_perfilx64) para poder estructurar y leer la memoria volátil correctamente.
