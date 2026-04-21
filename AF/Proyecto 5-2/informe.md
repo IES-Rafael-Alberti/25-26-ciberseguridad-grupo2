@@ -129,7 +129,21 @@ En cuanto al alcance, el triaje del sistema en memoria (conexiones, procesos y b
 
 Se recomienda retirar o actualizar el componente vulnerable (Reflex Gallery), revisar el resto de plugins/temas, sanear la carpeta `uploads` eliminando scripts no autorizados y endurecer la configuración para **impedir la ejecución de PHP** en rutas de subida. Asimismo, mantener la trazabilidad (hashes, copias de logs y evidencias) para soportar contención, erradicación y posibles acciones posteriores.
 
-10- Anexo 1. Sobre el perito
+## 10. Anexo 1. Sobre el perito
+
+Los peritos responsables del presente informe son:
+
+- **Carlos Alcina**
+	- **Titulación:** Técnico Superior en Desarrollo de Aplicaciones Multiplataforma (DAM)
+	- **Correo:** calcrom0607@g.educaand.es
+
+- **Pablo González**
+	- **Titulación:** Técnico Superior en Desarrollo de Aplicaciones Multiplataforma (DAM) y Técnico Superior en Desarrollo de Aplicaciones Web (DAW)
+	- **Correo:** pablo.gonzalez@g.educaand.es
+
+- **Luis Carlos Romero**
+	- **Titulación:** Técnico Superior en Desarrollo de Aplicaciones Web (DAW)
+	- **Correo:** luiscarlos.romero@g.educaand.es
 
 11- Anexo 2. Sumas de verificación
 
