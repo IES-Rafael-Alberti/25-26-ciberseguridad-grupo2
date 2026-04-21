@@ -99,6 +99,8 @@ De forma específica, se establecen los siguientes objetivos:
 - **Determinación del alcance:** evaluar, hasta donde lo permitan las evidencias aportadas, qué componentes se han visto afectados (defacement/webshells) y si existen indicios de compromiso a nivel de sistema.
 - **Soporte a respuesta:** aportar conclusiones técnicas orientadas a medidas correctoras y preventivas, sin exceder las limitaciones del material analizado.
 
+--LUISKA
+
 6- Fuentes de información
 
 6.1- Adquisición de evidencias
