@@ -73,3 +73,31 @@ La metodología aplicada prioriza la **integridad de la evidencia** (verificaci�
 ### 5.1. Antecedentes
 
 El propietario de la organización es notificado por varios cl
+
+-- LUISKA
+
+6- Fuentes de información
+
+6.1- Adquisición de evidencias
+
+7- Análisis
+
+7.1- Herramientas utilizadas
+
+7.2- Procesos
+
+7.2.1- Análisis de xxx
+
+7.2.2- Análisis de yyy
+
+-- PABLO
+
+8- Limitaciones
+
+9- Conclusiones
+
+10- Anexo 1. Sobre el perito
+
+11- Anexo 2. Sumas de verificación
+
+12- Anexo 3. Otras necesidades
