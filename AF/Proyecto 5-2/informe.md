@@ -72,9 +72,32 @@ La metodología aplicada prioriza la **integridad de la evidencia** (verificaci�
 
 ### 5.1. Antecedentes
 
-El propietario de la organización es notificado por varios cl
+El incidente se inicia cuando el responsable del sitio web recibe avisos de terceros (usuarios/clientes) informando de que la página muestra contenido alterado de forma no autorizada (**defacement**) y/o presenta un comportamiento anómalo.
 
--- LUISKA
+El activo afectado corresponde a un entorno **WordPress** desplegado sobre un servidor **Linux** alojado en **AWS**, con servicio web **Apache**. Tras la detección, se considera que la causa más probable es un ataque remoto a través de la aplicación (capa web), por tratarse de un servicio expuesto a Internet.
+
+En una primera revisión operativa, se identifican indicios en los **registros del servicio web** (principalmente `access.log` y `error.log`) compatibles con actividad automatizada sobre recursos de WordPress y con la aparición/ejecución de ficheros PHP no esperados en rutas típicas de subida de contenidos (carpeta `uploads`). Estos indicios motivan la apertura formal del análisis forense.
+
+Con el fin de preservar la evidencia y posibilitar un análisis reproducible, se procede a:
+
+- Aislar el sistema afectado (o limitar su exposición) para evitar nuevas modificaciones y contaminación de artefactos.
+- Adquirir y custodiar una **captura de memoria** del servidor (**RAM.bin**), con verificación de integridad mediante hashes.
+- Disponer de una **imagen forense de disco** para la corroboración de artefactos (ficheros y registros) sin trabajar sobre el sistema original.
+
+Las evidencias facilitadas se sitúan en la ventana temporal de finales de **julio de 2018** y permiten orientar el análisis hacia los **registros de Apache** (peticiones HTTP y errores) y los componentes de WordPress (plugins/temas), con el objetivo de reconstruir el vector de entrada y el alcance de la alteración observada.
+
+### 5.2. Objetivos
+
+El presente análisis tiene como finalidad determinar, con base en evidencias digitales verificables, las circunstancias técnicas del incidente y su alcance.
+
+De forma específica, se establecen los siguientes objetivos:
+
+- **Preservación e integridad:** verificar y documentar la integridad de las evidencias suministradas (memoria y disco) mediante sumas hash y procedimientos reproducibles.
+- **Reconstrucción temporal:** elaborar una línea de tiempo de los eventos relevantes a partir de artefactos en memoria y en registros del servicio web.
+- **Identificación del vector de entrada:** determinar el mecanismo de compromiso (p. ej., vulnerabilidad explotada en componentes de WordPress) y la ruta técnica empleada.
+- **Identificación de artefactos e IOCs:** localizar y describir evidencias asociadas (rutas, ficheros, IPs, User-Agent, recursos solicitados) que permitan detectar y contener actividad similar.
+- **Determinación del alcance:** evaluar, hasta donde lo permitan las evidencias aportadas, qué componentes se han visto afectados (defacement/webshells) y si existen indicios de compromiso a nivel de sistema.
+- **Soporte a respuesta:** aportar conclusiones técnicas orientadas a medidas correctoras y preventivas, sin exceder las limitaciones del material analizado.
 
 6- Fuentes de información
 
