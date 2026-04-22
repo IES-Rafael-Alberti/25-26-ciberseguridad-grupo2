@@ -218,15 +218,13 @@ Adicionalmente, el análisis en disco muestra que algunos ficheros con extensió
 
 ## 9. Conclusiones
 
-Con base en el análisis del volcado de memoria **RAM.bin** y la corroboración de artefactos en **disco**, el incidente investigado es consistente con un **defacement** derivado de un **ataque web** contra un WordPress expuesto a Internet. La causa más probable es la explotación de una vulnerabilidad de **subida arbitraria de ficheros** en el plugin **Reflex Gallery** (**CVE-2015-4133**), donde se evidencian controles insuficientes en el manejo/validación de entradas y de los ficheros subidos.
+Con lo que hemos visto en **RAM.bin** y en el **disco**, el caso encaja muy bien con un **defacement** por **ataque web** a WordPress. El punto de entrada más probable es el plugin **Reflex Gallery (CVE-2015-4133)**, explotado para subir ficheros y luego ejecutarlos desde `wp-content/uploads/2018/07/`.
 
-La corroboración en disco refuerza el impacto visible del incidente: se ha identificado una **modificación de `index.html`** compatible con defacement. Asimismo, en la ruta `wp-content/uploads/2018/07/` se han localizado varios ficheros `.php` subidos de forma no autorizada cuyo contenido no corresponde a una webshell convencional (p. ej., cabeceras PGP), lo que es consistente con el uso de **señuelos/pruebas de subida** o con una **limpieza parcial** posterior al incidente.
+En disco aparece además la parte “visible” del impacto: **`index.html` modificado**. En `uploads` también hay `.php` subidos que no parecen una webshell típica (hay contenido tipo cabecera PGP), así que lo interpretamos como **señuelo/prueba de subida** o como rastro de **limpieza parcial**.
 
-Los registros recuperados (incluyendo fragmentos de **access.log** obtenidos desde RAM y registros disponibles en disco) reflejan un patrón de **reconocimiento automatizado (WPScan)** seguido de explotación mediante **peticiones POST** y ejecución posterior de ficheros PHP alojados en `wp-content/uploads/2018/07/`. Se identifican como IOCs relevantes las IPs `94.242.54.22` y `88.0.112.115`, así como nombres de scripts observados (p. ej., `PSMOfbPom.php`, `XLPYhlEtQOyiMKb.php`).
+En memoria no nos sale nada sólido de compromiso del sistema operativo (procesos/conexiones/inyección), así que el alcance más razonable se queda en la **capa web**.
 
-En cuanto al alcance, el triaje del sistema en memoria (conexiones, procesos y búsqueda de inyección) no aporta indicadores concluyentes de **compromiso a nivel de sistema operativo**; las detecciones RWX en procesos de Apache son compatibles con **falsos positivos** (comportamiento legítimo tipo JIT). Por tanto, con la evidencia disponible, el impacto más consistente se circunscribe a la **capa de aplicación** (WordPress) y a la **ejecución de payloads** subidos.
-
-Se recomienda retirar o actualizar el componente vulnerable (Reflex Gallery), revisar el resto de plugins/temas, sanear la carpeta `uploads` eliminando scripts no autorizados y endurecer la configuración para **impedir la ejecución de PHP** en rutas de subida. Asimismo, mantener la trazabilidad (hashes, copias de logs y hallazgos) para soportar contención, erradicación y posibles acciones posteriores.
+Para dejarlo bien cerrado, actualizamos o eliminamos Reflex Gallery, revisamos el resto de plugins/temas y limpiamos `uploads`. Y, sobre todo, evitamos que se pueda ejecutar **PHP** dentro de las rutas de subida. Dejamos guardados hashes y copias de logs por si hay que repetir el análisis.
 
 ## 10. Anexo 1. Sobre el perito
 
@@ -278,7 +276,7 @@ Los peritos responsables del presente informe son:
 | Campo | Valor |
 |---|---|
 | Fecha y Hora de Creación | 20/04/2026, 08:00 |
-| Técnico Responsable | Carlos Alcina Romero (Grupo 2) |
+| Técnico Responsable | Carlos Alcina Romero |
 | Hash de la Copia (SHA-256) | Disc.E01: 8e90936d626024e01db33c129d2317a5dac6feedd6fa7c31fe1fbab365261e4a; Disc.E01.zip: 4e1b3861944f1e3da6869b4fb40fb864b18e1197c77d5915aa74c0943f0b10ff |
 | Verificación de Integridad | Sí |
 
@@ -293,7 +291,7 @@ Los peritos responsables del presente informe son:
 |---|---|
 | Fecha y Hora | lunes, 20 de abril de 2026, 08:00 |
 | Propósito | Inicio del análisis / verificación inicial |
-| Técnico | Luis Carlos Romero Navarro (Grupo 2) |
+| Técnico | Luis Carlos Romero Navarro |
 | Hash Verificado (SHA-256) | Disc.E01: 8e90936d626024e01db33c129d2317a5dac6feedd6fa7c31fe1fbab365261e4a |
 | Verificación de Integridad | Sí |
 
@@ -301,7 +299,7 @@ Los peritos responsables del presente informe son:
 |---|---|
 | Fecha y Hora | miércoles, 22 de abril de 2026, 23:45 |
 | Propósito | Cierre del análisis / verificación final |
-| Técnico | Pablo González Silva (Grupo 2) |
+| Técnico | Pablo González Silva |
 | Hash Verificado (SHA-256) | Disc.E01: 8e90936d626024e01db33c129d2317a5dac6feedd6fa7c31fe1fbab365261e4a |
 | Verificación de Integridad | Sí |
 
@@ -320,10 +318,10 @@ Los siguientes elementos se consideran **artefactos derivados** obtenidos de las
 
 | Fecha/hora | Actuación | Responsable | Observaciones |
 |---|---|---|---|
-| 13/04/2026 | Adquisición/recepción de evidencias | Carlos Alcina Romero (Grupo 2) | Registro inicial de E-01 y E-02. |
-| lunes, 20 de abril de 2026, 08:00 | Apertura del análisis | Luis Carlos Romero Navarro (Grupo 2) | Inicio del análisis sobre copias de trabajo; verificación de hashes disponibles. |
-| 20/04/2026–22/04/2026 | Extracción y verificación de artefactos | Pablo González Silva (Grupo 2) | Extracción de logs y ficheros de interés y verificación por hash (A-01 a A-04). |
-| miércoles, 22 de abril de 2026, 23:45 | Cierre del análisis | Pablo González Silva (Grupo 2) | Cierre de actuaciones y preparación de entregables. |
+| 13/04/2026 | Adquisición/recepción de evidencias | Carlos Alcina Romero | Registro inicial de E-01 y E-02. |
+| lunes, 20 de abril de 2026, 08:00 | Apertura del análisis | Luis Carlos Romero Navarro | Inicio del análisis sobre copias de trabajo; verificación de hashes disponibles. |
+| 20/04/2026–22/04/2026 | Extracción y verificación de artefactos | Pablo González Silva | Extracción de logs y ficheros de interés y verificación por hash (A-01 a A-04). |
+| miércoles, 22 de abril de 2026, 23:45 | Cierre del análisis | Pablo González Silva | Cierre de actuaciones y preparación de entregables. |
 
 ## 12. Anexo 3. Otras necesidades
 
