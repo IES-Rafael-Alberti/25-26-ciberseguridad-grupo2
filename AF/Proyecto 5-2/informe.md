@@ -163,7 +163,7 @@ Se montó la imagen de disco en modo solo lectura para evitar alteraciones. Se r
 Durante el análisis de la carpeta `wp-content/uploads` se identificaron varios archivos PHP subidos de forma no autorizada. Al inspeccionar su contenido, se observó que no contienen código malicioso típico (como webshells o backdoors), sino un bloque de texto que corresponde a una cabecera PGP firmada con metadatos de repositorios de Ubuntu. Este hallazgo es inusual, ya que los archivos PHP subidos no ejecutan código, sino que parecen haber sido utilizados como señuelo, relleno o para ocultar actividad. Es posible que el atacante intentara evadir mecanismos de detección o simplemente probar la capacidad de subida de archivos. Se recomienda mantener vigilancia sobre este tipo de archivos y restringir la ejecución de PHP en rutas de subida.
 
 #### Modificación del archivo index.html
-Se detectó que el archivo `index.html` de la aplicación web fue modificado. Este tipo de alteración es característico de ataques de defacement, donde el atacante sustituye o altera la página principal para mostrar mensajes, imágenes o simplemente para hallazgor el compromiso del sistema. La modificación del `index.html` constituye una prueba clara de acceso no autorizado y manipulación de los contenidos web. Se recomienda conservar una copia íntegra del archivo alterado como hallazgo y comparar su contenido con versiones legítimas para identificar los cambios introducidos. Este hallazgo refuerza la hipótesis de un ataque dirigido a la capa de aplicación, con impacto visible para los usuarios y potencial afectación reputacional.
+Se detectó que el archivo `index.html` de la aplicación web fue modificado. Este tipo de alteración es característico de ataques de defacement, donde el atacante sustituye o altera la página principal para mostrar mensajes, imágenes o simplemente para evidenciar el compromiso del sistema. La modificación del `index.html` constituye una prueba clara de acceso no autorizado y manipulación de los contenidos web. Se recomienda conservar una copia íntegra del archivo alterado como hallazgo y comparar su contenido con versiones legítimas para identificar los cambios introducidos. Este hallazgo refuerza la hipótesis de un ataque dirigido a la capa de aplicación, con impacto visible para los usuarios y potencial afectación reputacional.
 
 7.2.2- Análisis del volcado de memoria
 
@@ -178,13 +178,17 @@ Además, no todo lo que pasó se puede reconstruir entero: la memoria es voláti
 
 Por último, hay señales de que el atacante intentó dejar menos rastro (borrado de ficheros en `wp-content/uploads/`), lo que obliga a tirar de recuperación en disco (carving) y eso suele devolver fragmentos sueltos y sin metadatos. También puede haber manipulación de tiempos (timestomping), y algunas alertas de memoria (como RWX en Apache) pueden ser falsos positivos por comportamientos legítimos (p. ej., JIT), así que se ha priorizado la correlación con logs y la corroboración en disco del componente vulnerable.
 
+Adicionalmente, el análisis en disco muestra que algunos ficheros con extensión `.php` localizados en rutas de subida (`wp-content/uploads/`) no contienen una webshell típica, sino contenido no ejecutable (cabeceras PGP/metadata). Esto puede indicar archivos señuelo, pruebas de subida o limpieza parcial posterior, lo que limita la capacidad de atribuir con certeza el payload final únicamente a partir del sistema de ficheros.
+
 ## 9. Conclusiones
 
-Con base en el análisis del volcado de memoria **RAM.bin** y la corroboración de artefactos en **disco**, el incidente investigado es consistente con un **defacement** derivado de un **ataque web** contra un WordPress expuesto a Internet. La causa más probable es la explotación de una vulnerabilidad de **subida arbitraria de ficheros** en el plugin **Reflex Gallery** (**CVE-2015-4133**), donde se hallazgon controles insuficientes en el manejo/validación de entradas y de los ficheros subidos.
+Con base en el análisis del volcado de memoria **RAM.bin** y la corroboración de artefactos en **disco**, el incidente investigado es consistente con un **defacement** derivado de un **ataque web** contra un WordPress expuesto a Internet. La causa más probable es la explotación de una vulnerabilidad de **subida arbitraria de ficheros** en el plugin **Reflex Gallery** (**CVE-2015-4133**), donde se evidencian controles insuficientes en el manejo/validación de entradas y de los ficheros subidos.
+
+La corroboración en disco refuerza el impacto visible del incidente: se ha identificado una **modificación de `index.html`** compatible con defacement. Asimismo, en la ruta `wp-content/uploads/2018/07/` se han localizado varios ficheros `.php` subidos de forma no autorizada cuyo contenido no corresponde a una webshell convencional (p. ej., cabeceras PGP), lo que es consistente con el uso de **señuelos/pruebas de subida** o con una **limpieza parcial** posterior al incidente.
 
 Los registros recuperados (incluyendo fragmentos de **access.log** obtenidos desde RAM y registros disponibles en disco) reflejan un patrón de **reconocimiento automatizado (WPScan)** seguido de explotación mediante **peticiones POST** y ejecución posterior de ficheros PHP alojados en `wp-content/uploads/2018/07/`. Se identifican como IOCs relevantes las IPs `94.242.54.22` y `88.0.112.115`, así como nombres de scripts observados (p. ej., `PSMOfbPom.php`, `XLPYhlEtQOyiMKb.php`).
 
-En cuanto al alcance, el triaje del sistema en memoria (conexiones, procesos y búsqueda de inyección) no aporta indicadores concluyentes de **compromiso a nivel de sistema operativo**; las detecciones RWX en procesos de Apache son compatibles con **falsos positivos** (comportamiento legítimo tipo JIT). Por tanto, con la hallazgo disponible, el impacto más consistente se circunscribe a la **capa de aplicación** (WordPress) y a la **ejecución de payloads** subidos.
+En cuanto al alcance, el triaje del sistema en memoria (conexiones, procesos y búsqueda de inyección) no aporta indicadores concluyentes de **compromiso a nivel de sistema operativo**; las detecciones RWX en procesos de Apache son compatibles con **falsos positivos** (comportamiento legítimo tipo JIT). Por tanto, con la evidencia disponible, el impacto más consistente se circunscribe a la **capa de aplicación** (WordPress) y a la **ejecución de payloads** subidos.
 
 Se recomienda retirar o actualizar el componente vulnerable (Reflex Gallery), revisar el resto de plugins/temas, sanear la carpeta `uploads` eliminando scripts no autorizados y endurecer la configuración para **impedir la ejecución de PHP** en rutas de subida. Asimismo, mantener la trazabilidad (hashes, copias de logs y hallazgos) para soportar contención, erradicación y posibles acciones posteriores.
 
@@ -210,9 +214,9 @@ Los peritos responsables del presente informe son:
 
 | Campo | Valor |
 |---|---|
-| Número de Caso | 05 |
+| Número de Caso | 06 |
 | Tipo de Investigación | Análisis forense de incidente de seguridad web |
-| Fecha de Adquisición | 13/04/2026 |
+| Fecha de Adquisición | 18/04/2026 |
 | Lugar de Adquisición | C. Amiel, s/n, 11012 Barriada de la Paz, Cádiz |
 | Apertura | lunes, 20 de abril de 2026, 08:00 |
 | Cierre | miércoles, 22 de abril de 2026, 23:45 |
@@ -222,7 +226,7 @@ Los peritos responsables del presente informe son:
 | ID | Evidencia | Identificador/archivo | Tamaño | Hash/Integridad |
 |---|---|---|---:|---|
 | E-01 | Volcado de memoria RAM | RAM.bin | 1.073.336.384 bytes | MD5: e063c257d2f41ddee65ea1fdabe64e95; SHA1: bc2ebb435e75b3406280a2967b1c2696fc3e160a |
-| E-02 | Imagen forense de disco | Disc.E01 (extraído de Disc.E01.zip) | 984M (aprox.) | SHA256 (Disc.E01): 8e90936d626024e01db33c129d2317a5dac6feedd6fa7c31fe1fbab365261e4a; SHA256 (Disc.E01.zip): 4e1b3861944f1e3da6869b4fb40fb864b18e1197c77d5915aa74c0943f0b10ff |
+| E-02 | Imagen forense de disco | Disc.E01 (extraído de Disc.E01.zip) | 984M (aprox.) | SHA256 (Disc.E01): 8e90936d626024e01db33c129d2317a5dac6feedd6fa7c31fe1fbab365261e4a; MD5 (Disc.E01): bac5561328b477f0508fab7c5d9ee0a6; SHA1 (Disc.E01): 5b0a9cc8ff4ebd5aa3e1e36d8713e3b24b072e79; SHA256 (Disc.E01.zip): 4e1b3861944f1e3da6869b4fb40fb864b18e1197c77d5915aa74c0943f0b10ff |
 
 ### 11.3. Preservación del hallazgo original
 
@@ -285,16 +289,21 @@ Los siguientes elementos se consideran **artefactos derivados** obtenidos de las
 | 20/04/2026–22/04/2026 | Extracción y verificación de artefactos | Pablo González Silva (Grupo 2) | Extracción de logs y ficheros de interés y verificación por hash (A-01 a A-04). |
 | miércoles, 22 de abril de 2026, 23:45 | Cierre del análisis | Pablo González Silva (Grupo 2) | Cierre de actuaciones y preparación de entregables. |
 
-## 12- Anexo 3. Otras necesidades
+## 12. Anexo 3. Otras necesidades
 
 ### 12.1. Índice de hallazgos
 
 | Ruta | Contenido | MAC | Tamaño (bytes) | HASH MD5 | HASH SHA1 |
 |---|---|---|---:|---|---|
-| /var/log/apache2/access.log | access.log | N/D (metadatos del E01 no extraídos) | 111514 | 325d4e7fad4213e46faf58dcf76af017 | b9008fda5c891b12fd3b9bdc3a8bd5f958341057 |
-| /var/log/apache2/error.log | error.log | N/D (metadatos del E01 no extraídos) | 1369 | 496044572974077b25d87ecc950ec4bc | 064fdd82955e34d2872aede4aa97fc983f830fb6 |
-| /home/ubuntu/reflex-gallery.3.1.3.zip | reflex-gallery.3.1.3.zip | N/D (metadatos del E01 no extraídos) | 650283 | 61c84a3520511ebda3a502b77d90f617 | db17794998222e9c9a6d5b98af02754eff58a5d6 |
-| /var/www/html/wordpress/wp-content/plugins/reflex-gallery/admin/scripts/FileUploader/php.php | php.php | N/D (metadatos del E01 no extraídos) | 5590 | 020410718b64647311d6c4594e229bc5 | 5e8f0d5a917d2937318a9bafd0529135bd473e70 |
+| /var/log/apache2/access.log | access.log | M: 24/07/2018 05:19:11 | 111514 | 325d4e7fad4213e46faf58dcf76af017 | b9008fda5c891b12fd3b9bdc3a8bd5f958341057 |
+| /var/log/apache2/error.log | error.log | M: 23/07/2018 11:10:16 | 1369 | 496044572974077b25d87ecc950ec4bc | 064fdd82955e34d2872aede4aa97fc983f830fb6 |
+| /home/ubuntu/reflex-gallery.3.1.3.zip | reflex-gallery.3.1.3.zip | M: 20/07/2018 09:35:53 | 650283 | 61c84a3520511ebda3a502b77d90f617 | db17794998222e9c9a6d5b98af02754eff58a5d6 |
+| /var/www/html/wordpress/wp-content/plugins/reflex-gallery/admin/scripts/FileUploader/php.php | php.php | M: 20/07/2018 09:54:05 | 5590 | 020410718b64647311d6c4594e229bc5 | 5e8f0d5a917d2937318a9bafd0529135bd473e70 |
+| /var/www/html/wordpress/index.html | index.html | M/C: 23/07/2018 14:00:18 CEST | N/D | N/D (no extraído) | N/D (no extraído) |
+| /var/www/html/wordpress/wp-content/uploads/2018/07/PLoeJFOEVoc.php | PLoeJFOEVoc.php | M/A/C/B: 23/07/2018 16:22:37 CEST | 102 | N/D (no extraído) | N/D (no extraído) |
+| /var/www/html/wordpress/wp-content/uploads/2018/07/XLPYhlEtQOyiMKb.php | XLPYhlEtQOyiMKb.php | M: 23/07/2018 20:34:03 CEST; C/A: 24/07/2018 02:46:56 CEST; B: 24/07/2018 02:46:55 CEST | 4257532 | N/D (no extraído) | N/D (no extraído) |
+| /var/www/html/wordpress/wp-content/uploads/2018/07/vmGAbaiewrSSuMs.php | vmGAbaiewrSSuMs.php | M: 24/07/2018 01:59:00 CEST; C/A: 24/07/2018 02:46:56 CEST; B: 24/07/2018 02:46:54 CEST | 106824 | N/D (no extraído) | N/D (no extraído) |
+| /var/www/html/wordpress/wp-content/uploads/2018/07/yDdoSpsx.php | yDdoSpsx.php | M: 24/07/2018 01:59:00 CEST; C/A: 24/07/2018 02:46:56 CEST; B: 24/07/2018 02:46:54 CEST | 109196 | N/D (no extraído) | N/D (no extraído) |
 
 <table>
 	<thead>
