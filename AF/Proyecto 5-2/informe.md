@@ -117,7 +117,13 @@ De forma específica, se establecen los siguientes objetivos:
 
 -- PABLO
 
-8- Limitaciones
+## 8. Limitaciones
+
+Este análisis tiene límites por cómo se obtuvo y cómo “vive” la evidencia. En RAM, al ser un servidor Linux en AWS con un kernel específico, Volatility no traía un perfil listo para usar y hubo que crear uno a medida; eso añade trabajo y puede hacer que algunos artefactos no salgan completos si el perfil no encaja al 100%.
+
+Además, no todo lo que pasó se puede reconstruir entero: la memoria es volátil y los ficheros pueden no estar “residentes” cuando se hace el volcado. Aunque vemos nombres/rutas de scripts y trazas en logs, no siempre es posible recuperar el contenido completo de todas las webshells o payloads.
+
+Por último, hay señales de que el atacante intentó dejar menos rastro (borrado de ficheros en `wp-content/uploads/`), lo que obliga a tirar de recuperación en disco (carving) y eso suele devolver fragmentos sueltos y sin metadatos. También puede haber manipulación de tiempos (timestomping), y algunas alertas de memoria (como RWX en Apache) pueden ser falsos positivos por comportamientos legítimos (p. ej., JIT), así que se ha priorizado la correlación con logs y la corroboración en disco del componente vulnerable.
 
 ## 9. Conclusiones
 
