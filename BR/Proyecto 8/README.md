@@ -4,7 +4,7 @@
 
 Carlos Alcina Romero - [Hardening TP-Link Archer C7](<Parte 1/Proyecto 8 - Hardening TP-Link Archer C7.pdf>)
 
-Luis Carlos Romero - [Hardening Asus](<Parte-1-Luis Carlos Romero.pdf>)
+Luis Carlos Romero - [Hardening Router ASUS](<Parte-1-Luis Carlos Romero.pdf>)
 
 ## Parte 2: Bastionado UniFi
 ### [Mapa de calor](plano-mapa-calor.pdf)
