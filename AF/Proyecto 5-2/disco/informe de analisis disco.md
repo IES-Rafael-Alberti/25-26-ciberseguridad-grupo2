@@ -46,4 +46,17 @@ Se incluye el registro de accesos (accesslog), que muestra las conexiones realiz
 
 ![Access Log](image-1.png)
 
+### 4.3. Archivos PHP subidos en uploads de WordPress
+
+Durante el análisis de la carpeta `wp-content/uploads` se identificaron varios archivos PHP subidos de forma no autorizada. Al inspeccionar su contenido, se observó que no contienen código malicioso típico (como webshells o backdoors), sino un bloque de texto que corresponde a una cabecera PGP firmada con metadatos de repositorios de Ubuntu.
+
+Este hallazgo es inusual, ya que los archivos PHP subidos no ejecutan código, sino que parecen haber sido utilizados como señuelo, relleno o para ocultar actividad. Es posible que el atacante intentara evadir mecanismos de detección o simplemente probar la capacidad de subida de archivos.
+![alt text](image-3.png)
+
+### 4.4. Modificación del archivo index.html
+
+Durante el análisis se detectó que el archivo `index.html` de la aplicación web fue modificado. Este tipo de alteración es característico de ataques de defacement, donde el atacante sustituye o altera la página principal para mostrar mensajes, imágenes o simplemente para evidenciar el compromiso del sistema.
+
+![alt text](image-4.png)
+
 ---
