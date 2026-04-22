@@ -204,6 +204,126 @@ Los peritos responsables del presente informe son:
 	- **Titulación:** Técnico Superior en Desarrollo de Aplicaciones Web (DAW)
 	- **Correo:** luiscarlos.romero@g.educaand.es
 
-11- Anexo 2. Sumas de verificación
+## 11. Anexo 2. Cadena de custodia
 
-12- Anexo 3. Otras necesidades
+### 11.1. Información del caso
+
+| Campo | Valor |
+|---|---|
+| Número de Caso | 05 |
+| Tipo de Investigación | Análisis forense de incidente de seguridad web |
+| Fecha de Adquisición | 13/04/2026 |
+| Lugar de Adquisición | C. Amiel, s/n, 11012 Barriada de la Paz, Cádiz |
+| Apertura | lunes, 20 de abril de 2026, 08:00 |
+| Cierre | miércoles, 22 de abril de 2026, 23:45 |
+
+### 11.2. Identificación de evidencias (soportes base)
+
+| ID | Evidencia | Identificador/archivo | Tamaño | Hash/Integridad |
+|---|---|---|---:|---|
+| E-01 | Volcado de memoria RAM | RAM.bin | 1.073.336.384 bytes | MD5: e063c257d2f41ddee65ea1fdabe64e95; SHA1: bc2ebb435e75b3406280a2967b1c2696fc3e160a |
+| E-02 | Imagen forense de disco | Disc.E01 (extraído de Disc.E01.zip) | 984M (aprox.) | SHA256 (Disc.E01): 8e90936d626024e01db33c129d2317a5dac6feedd6fa7c31fe1fbab365261e4a; SHA256 (Disc.E01.zip): 4e1b3861944f1e3da6869b4fb40fb864b18e1197c77d5915aa74c0943f0b10ff |
+
+### 11.3. Preservación del hallazgo original
+
+| Campo | Valor |
+|---|---|
+| Fecha de Entrega | 22/04/2026 |
+| Hora de Entrega | 23:45 |
+| Recibido por | Manuel Jesús Rivas Sánchez |
+| Ubicación en el Juzgado | C. Amiel, s/n, 11012 Barriada de la Paz, Cádiz |
+
+### 11.4. Creación y verificación de copias
+
+| Campo | Valor |
+|---|---|
+| Fecha y Hora de Creación | 20/04/2026, 08:00 |
+| Técnico Responsable | Carlos Alcina Romero (Grupo 2) |
+| Hash de la Copia (SHA-256) | Disc.E01: 8e90936d626024e01db33c129d2317a5dac6feedd6fa7c31fe1fbab365261e4a; Disc.E01.zip: 4e1b3861944f1e3da6869b4fb40fb864b18e1197c77d5915aa74c0943f0b10ff |
+| Verificación de Integridad | Sí |
+
+| Campo | Valor |
+|---|---|
+| Entregado a | Manuel Jesús Rivas Sánchez |
+| Fecha y Hora de Entrega | 22/04/2026, 23:45 |
+
+### 11.5. Registro de accesos y verificaciones
+
+| Campo | Valor |
+|---|---|
+| Fecha y Hora | lunes, 20 de abril de 2026, 08:00 |
+| Propósito | Inicio del análisis / verificación inicial |
+| Técnico | Luis Carlos Romero Navarro (Grupo 2) |
+| Hash Verificado (SHA-256) | Disc.E01: 8e90936d626024e01db33c129d2317a5dac6feedd6fa7c31fe1fbab365261e4a |
+| Verificación de Integridad | Sí |
+
+| Campo | Valor |
+|---|---|
+| Fecha y Hora | miércoles, 22 de abril de 2026, 23:45 |
+| Propósito | Cierre del análisis / verificación final |
+| Técnico | Pablo González Silva (Grupo 2) |
+| Hash Verificado (SHA-256) | Disc.E01: 8e90936d626024e01db33c129d2317a5dac6feedd6fa7c31fe1fbab365261e4a |
+| Verificación de Integridad | Sí |
+
+### 11.6. Artefactos derivados (extraídos para el análisis)
+
+Los siguientes elementos se consideran **artefactos derivados** obtenidos de las evidencias base (principalmente E-02) y/o recuperados desde memoria, manteniendo verificación de integridad mediante hashes.
+
+| ID | Artefacto | Ruta/Origen | Hash (MD5) | Hash (SHA1) |
+|---|---|---|---|---|
+| A-01 | access.log (Apache) | /var/log/apache2/access.log | 325d4e7fad4213e46faf58dcf76af017 | b9008fda5c891b12fd3b9bdc3a8bd5f958341057 |
+| A-02 | error.log (Apache) | /var/log/apache2/error.log | 496044572974077b25d87ecc950ec4bc | 064fdd82955e34d2872aede4aa97fc983f830fb6 |
+| A-03 | reflex-gallery.3.1.3.zip | /home/ubuntu/reflex-gallery.3.1.3.zip | 61c84a3520511ebda3a502b77d90f617 | db17794998222e9c9a6d5b98af02754eff58a5d6 |
+| A-04 | php.php (FileUploader) | /var/www/html/wordpress/wp-content/plugins/reflex-gallery/admin/scripts/FileUploader/php.php | 020410718b64647311d6c4594e229bc5 | 5e8f0d5a917d2937318a9bafd0529135bd473e70 |
+
+### 11.7. Registro de custodia y actuaciones
+
+| Fecha/hora | Actuación | Responsable | Observaciones |
+|---|---|---|---|
+| 13/04/2026 | Adquisición/recepción de evidencias | Carlos Alcina Romero (Grupo 2) | Registro inicial de E-01 y E-02. |
+| lunes, 20 de abril de 2026, 08:00 | Apertura del análisis | Luis Carlos Romero Navarro (Grupo 2) | Inicio del análisis sobre copias de trabajo; verificación de hashes disponibles. |
+| 20/04/2026–22/04/2026 | Extracción y verificación de artefactos | Pablo González Silva (Grupo 2) | Extracción de logs y ficheros de interés y verificación por hash (A-01 a A-04). |
+| miércoles, 22 de abril de 2026, 23:45 | Cierre del análisis | Pablo González Silva (Grupo 2) | Cierre de actuaciones y preparación de entregables. |
+
+## 12- Anexo 3. Otras necesidades
+
+### 12.1. Índice de hallazgos
+
+| Ruta | Contenido | MAC | Tamaño (bytes) | HASH MD5 | HASH SHA1 |
+|---|---|---|---:|---|---|
+| /var/log/apache2/access.log | access.log | N/D (metadatos del E01 no extraídos) | 111514 | 325d4e7fad4213e46faf58dcf76af017 | b9008fda5c891b12fd3b9bdc3a8bd5f958341057 |
+| /var/log/apache2/error.log | error.log | N/D (metadatos del E01 no extraídos) | 1369 | 496044572974077b25d87ecc950ec4bc | 064fdd82955e34d2872aede4aa97fc983f830fb6 |
+| /home/ubuntu/reflex-gallery.3.1.3.zip | reflex-gallery.3.1.3.zip | N/D (metadatos del E01 no extraídos) | 650283 | 61c84a3520511ebda3a502b77d90f617 | db17794998222e9c9a6d5b98af02754eff58a5d6 |
+| /var/www/html/wordpress/wp-content/plugins/reflex-gallery/admin/scripts/FileUploader/php.php | php.php | N/D (metadatos del E01 no extraídos) | 5590 | 020410718b64647311d6c4594e229bc5 | 5e8f0d5a917d2937318a9bafd0529135bd473e70 |
+
+<table>
+	<thead>
+		<tr>
+			<th>Nombre y Apellidos</th>
+			<th>Cargo / Titulación</th>
+			<th>Firma</th>
+			<th>Fecha</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>Carlos Alcina</td>
+			<td>Técnico Superior en Desarrollo de Aplicaciones Multiplataforma (DAM)</td>
+			<td><img src="img/firma_carlos.png" alt="Firma Carlos Alcina" height="60"></td>
+			<td>22/04/2026</td>
+		</tr>
+		<tr>
+			<td>Pablo González</td>
+			<td>Técnico Superior en Desarrollo de Aplicaciones Multiplataforma (DAM) y Técnico Superior en Desarrollo de Aplicaciones Web (DAW)</td>
+			<td><img src="img/firma_pg.jpeg" alt="Firma de Pablo González" height="60"></td>
+			<td>22/04/2026</td>
+		</tr>
+		<tr>
+			<td>Luis Carlos Romero</td>
+			<td>Técnico Superior en Desarrollo de Aplicaciones Web (DAW)</td>
+			<td><img src="img/lc_firma.png" alt="Firma de Luis Carlos Romero" height="60"></td>
+			<td>22/04/2026</td>
+		</tr>
+	</tbody>
+</table>
+
