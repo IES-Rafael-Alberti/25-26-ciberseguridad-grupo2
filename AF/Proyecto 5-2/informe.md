@@ -169,6 +169,16 @@ Se detectó que el archivo `index.html` de la aplicación web fue modificado. Es
 
 El volcado de memoria fue procesado con Volatility, identificando procesos activos en el momento de la adquisición, conexiones de red abiertas y módulos cargados en memoria. Se buscaron cadenas de texto y artefactos relacionados con la ejecución de payloads y comandos sospechosos. Se correlacionaron los hallazgos de memoria con los eventos registrados en disco para reconstruir la secuencia del ataque y determinar el alcance del compromiso.
 
+### 7.3. Cronología del ataque
+
+
+La siguiente tabla muestra únicamente los principales hitos relacionados con la actividad del atacante (IP 94.242.54.22):
+
+| Evento                                              | Fecha y hora (UTC/CEST)   | Artefacto/Origen    | IP implicada     |
+|-----------------------------------------------------|---------------------------|---------------------|------------------|
+| Explotación de vulnerabilidad en plugin Reflex Gallery | 23/07/2018 11:22          | access.log / Disco  | 94.242.54.22     |
+| Subida y ejecución de WebShells maliciosas            | 24/07/2018 02:46          | access.log / Disco  | 94.242.54.22     |
+| Creación del archivo de defacement (index.html)       | 24/07/2018 14:00          | Sistema de archivos | 94.242.54.22     |
 
 ## 8. Limitaciones
 
