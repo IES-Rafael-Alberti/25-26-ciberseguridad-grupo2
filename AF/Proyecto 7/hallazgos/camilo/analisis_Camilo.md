@@ -2,42 +2,18 @@
 
 ---
 
-> **Nota:** Este documento presenta un análisis técnico y cronológico de los hallazgos extraídos del dispositivo de Camillo Richbald, con soporte visual mediante capturas relevantes. No constituye un informe ejecutivo ni conclusivo, sino una exposición detallada de los hechos observados.
-
----
-
-| Campo | Detalle |
-|---|---|
-| **Fecha del informe** | 27 de abril de 2026 |
-| **Clasificación** | CONFIDENCIAL — Uso exclusivo judicial |
-| **Fuentes analizadas** | tabla.csv · adb-backup-Camillo-Richbald.ab · msgstore.db · wa.db · key |
-| **Período cubierto** | 28/04/2023 — 03/05/2023 |
-| **Perito** | Luis Carlos Romero |
-
----
-
 
 ## Índice
 
-1. [Introducción](#1-introducción)
 2. [Fuentes Analizadas](#2-fuentes-analizadas)
 3. [Identificación de Participantes](#3-identificación-de-participantes)
 4. [Hallazgos por Fuente](#4-hallazgos-por-fuente)
 5. [Mensajes Relevantes](#5-mensajes-relevantes)
 6. [Tabla de Mensajes](#6-tabla-de-mensajes)
 7. [Cronología del Ataque](#7-cronología-del-ataque)
-8. [Observaciones Finales](#8-observaciones-finales)
 9. [Registro de Hashes de Hallazgos](#9-registro-de-hallazgos)
 
 ---
-
-
-## 1. Introducción
-
-Este análisis técnico recoge los hallazgos obtenidos del estudio forense del dispositivo móvil de Camillo Richbald, en el contexto de un caso de ciberbullying. Se documentan los hechos observados, la cronología de los eventos y las pruebas visuales extraídas, sin emitir una valoración ejecutiva ni conclusiones jurídicas.
-
----
-
 
 ## 2. Fuentes Analizadas
 
@@ -156,7 +132,7 @@ La ruta completa en el dispositivo Android es: `/sdcard/WhatsApp/Media/WhatsApp 
 
 ### 4.2. Hallazgos en el ADB Backup — SMS
 
-> ⚠️ **HALLAZGO CLAVE — CORRELACIÓN TEMPORAL:** El dispositivo de Camillo recibió un código de verificación de WhatsApp **38 segundos antes** de que comenzara la conversación incriminatoria. Esto indica que la cuenta fue activada/registrada expresamente antes del incidente.
+El dispositivo de Camillo recibió un código de verificación de WhatsApp **38 segundos antes** de que comenzara la conversación incriminatoria. Esto indica que la cuenta fue activada/registrada expresamente antes del incidente.
 
 | Nº | Fecha/Hora (UTC) | Remitente | Contenido |
 |---|---|---|---|
@@ -287,17 +263,7 @@ Los siguientes 15 mensajes constituyen las evidencias de mayor valor probatorio 
 
 ---
 
-
-## 8. Observaciones Finales
-
-Este análisis muestra, mediante los hallazgos y capturas presentadas, la secuencia de acciones y la implicación de los participantes en el caso de ciberbullying. Se documenta la planificación, ejecución y resultado del ataque, así como la participación activa de Camillo Richbald y Atalus Grasstem. No se emiten valoraciones jurídicas ni conclusiones ejecutivas.
-
-**6. Integridad de las evidencias**
-La base de datos msgstore.db no presenta mensajes eliminados (tabla `message_revoked` vacía) ni mensajes editados (`message_edit_info` vacía), lo que refuerza la integridad del registro analizado.
-
----
-
-## 9. Registro de Hashes de Hallazgos
+## 8. Registro de Hashes de Hallazgos
 
 | Archivo | Algoritmo | Hash |
 |---|---|---|
@@ -311,7 +277,6 @@ La base de datos msgstore.db no presenta mensajes eliminados (tabla `message_rev
 | IMG-20230429-WA0000.jpg (original) | SHA-256 | `7LoUYBtLqr5h5znesFYbZOU0MotgJHBIblaXmMeIkCM=` (original_file_hash en msgstore.db) |
 
 ---
----
 
 ## Anexo: Capturas relevantes
 
@@ -319,3 +284,4 @@ La base de datos msgstore.db no presenta mensajes eliminados (tabla `message_rev
 ![Captura chat general](chats.png)
 ![Captura chat detalle 1](chat3.png)
 ![Captura chat detalle 2](chast2.png)
+![Captura imagen bullyng](perfil-bullyng.png)
