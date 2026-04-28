@@ -191,6 +191,17 @@ Se proporcionó una variedad de fuentes de evidencia digital que cubren: **dispo
 - Conservación de originales y análisis sobre copias.
 - Registro de cadena de custodia (ver Anexo 2) con fechas, responsables y método de adquisición.
 
+## 8. Limitaciones
+
+Las conclusiones del presente informe se basan en las fuentes aportadas y en el método de adquisición disponible. En consecuencia, deben interpretarse considerando las siguientes limitaciones:
+
+- **Herramientas y entorno:** durante el análisis se observó una incompatibilidad práctica en Linux para abrir la evidencia en formato **AD1** con la herramienta empleada, por lo que su revisión se realizó en **Windows 11**. Dependiendo de versión/herramienta/OS, la capacidad de parseo y visualización puede variar.
+- **Cobertura de adquisición móvil (ADB):** las copias **ADB estándar** pueden ser parciales. En particular, en el análisis del dispositivo del cómplice se documenta que **WhatsApp no incluye su multimedia** en backups ADB estándar, por lo que puede existir contenido no recuperado con este método.
+- **Mensajería y redes sociales (visibilidad de chats):** en algunas fuentes no se dispone de conversaciones persistentes visibles (p. ej., en Telegram se trabajó con trazas en caché/strings). Asimismo, la **ausencia de mensajes** en exportaciones o capturas de Instagram/Telegram puede deberse a limitaciones de exportación, sincronización o borrado previo, y no permite concluir por sí sola que no existiera comunicación.
+- **Atribución y vector de compromiso:** este informe **no atribuye culpabilidad definitiva**; describe hechos observables. La identificación del vector exacto de obtención de credenciales se plantea como **hipótesis técnica** y requiere correlación con evidencias externas (p. ej., cámara/CCTV, evidencias físicas, análisis del equipo intervenido).
+- **Temporalidad y zonas horarias:** los artefactos provienen de sistemas y servicios con formatos/husos horarios distintos; la cronología puede estar sujeta a desfases (UTC/CEST) y a cómo cada aplicación registra sus marcas temporales.
+- **Volatilidad/retención de artefactos:** cookies, cachés y ciertos logs pueden sobrescribirse o limpiarse con el uso normal; la ausencia de un rastro específico no implica necesariamente ausencia de actividad.
+
 ## 11. Anexo 2. Cadena de custodia
 
 La siguiente tabla documenta la cadena de custodia de todos los archivos y evidencias digitales tratados en el presente informe, asegurando la trazabilidad, integridad y control de acceso en cada etapa del proceso forense.
