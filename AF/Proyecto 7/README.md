@@ -464,7 +464,7 @@ La evidencia visual de presencia física en el puesto y posible conexión de un 
 
 Esta cronología consolida **marcas temporales exactas** tal y como constan en las fuentes aportadas. Dado que algunas evidencias registran en **UTC** (p. ej., WhatsApp en el dispositivo del cómplice) y otras en **hora local** (p. ej., actividad de Instagram en el entorno de la víctima) o **sin zona horaria explícita**, **no se realiza conversión** para evitar introducir errores. Cuando aplica, se indica la zona horaria.
 
-#### 7.6.1. Tabla cronológica (timestamps exactos)
+#### 7.6.1. Tabla cronológica
 
 | Fecha/hora | Fuente | Hecho observado | Evidencia |
 |---|---|---|---|
