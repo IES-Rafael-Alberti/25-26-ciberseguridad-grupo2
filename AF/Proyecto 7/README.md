@@ -10,19 +10,20 @@
    1. [Antecedentes](#51-antecedentes)
    2. [Objetivos](#52-objetivos)
 6. [Fuentes de información](#6-fuentes-de-información)
-   1. [Comprobación de hashes (MD5 y SHA1)](#61-comprobación-de-hashes-md5-y-sha-1)
+   1. [Comprobación de hashes (MD5 y SHA-1)](#61-comprobación-de-hashes-md5-y-sha-1)
    2. [Adquisición de hallazgos](#62-adquisición-de-hallazgos)
 7. [Análisis](#7-análisis)
    1. [Herramientas utilizadas](#71-herramientas-utilizadas)
-   2. [Procesos](#72-procesos)
-      1. [Análisis de la imagen de disco](#721-análisis-de-la-imagen-de-disco)
-      2. [Análisis del volcado de memoria](#722-análisis-del-volcado-de-memoria)
-      3. [Cronología del ataque](#73-cronología-del-ataque)
+   2. [Análisis sobre el principal sospechoso](#72-análisis-sobre-el-principal-sospechoso)
+   3. [Análisis sobre cómplice](#73-análisis-sobre-cómplice)
+   4. [Análisis sobre víctima](#74-análisis-sobre-víctima)
+   5. [Análisis sobre la camara](#75-análisis-sobre-la-camara)
+   6. [Cronología del ataque](#76-cronología-del-ataque)
 8. [Limitaciones](#8-limitaciones)
 9. [Conclusiones](#9-conclusiones)
-10. [Anexo 1. Sobre el perito](#10-anexo-1-sobre-el-perito)
 11. [Anexo 2. Cadena de custodia](#11-anexo-2-cadena-de-custodia)
 12. [Anexo 3. Otras necesidades](#12-anexo-3-otras-necesidades)
+    1. [Índice de hallazgos](#121-índice-de-hallazgos)
 
 ## 1. Juramento y declaración de abstención
 
@@ -515,6 +516,18 @@ Las conclusiones del presente informe se basan en las fuentes aportadas y en el 
 - **Atribución y vector de compromiso:** este informe **no atribuye culpabilidad definitiva**; describe hechos observables. La identificación del vector exacto de obtención de credenciales se plantea como **hipótesis técnica** y requiere correlación con evidencias externas (p. ej., cámara/CCTV, evidencias físicas, análisis del equipo intervenido).
 - **Temporalidad y zonas horarias:** los artefactos provienen de sistemas y servicios con formatos/husos horarios distintos; la cronología puede estar sujeta a desfases (UTC/CEST) y a cómo cada aplicación registra sus marcas temporales.
 - **Volatilidad/retención de artefactos:** cookies, cachés y ciertos logs pueden sobrescribirse o limpiarse con el uso normal; la ausencia de un rastro específico no implica necesariamente ausencia de actividad.
+
+## 9. Conclusiones
+
+En base a las evidencias analizadas (mensajería, actividad web, registros de cuenta/red social, artefactos de disco y capturas de cámara) y considerando las limitaciones descritas en el apartado 8, se concluye lo siguiente:
+
+- El conjunto de hallazgos es **consistente con un incidente de ciberacoso** que evoluciona hacia un **acceso no autorizado** a la cuenta de Instagram de la víctima y una **alteración del perfil (defacement)**.
+- Existe **coherencia temporal** entre (i) la preparación técnica atribuida al principal sospechoso (búsquedas/uso referido de “Rubber Ducky” y conducta intimidatoria), (ii) la **coordinación** con el cómplice en WhatsApp y (iii) los **eventos observables** en Instagram (inicios de sesión no habituales y cambios de perfil).
+- Se observan indicios técnicos compatibles con **captura/uso de credenciales** en el entorno analizado (p. ej., artefactos tipo keylogger, trazas de USB y modificaciones de configuración como `hosts`), que **apoyan** la hipótesis de compromiso por obtención de credenciales. No obstante, con el material aportado **no es posible** afirmar de forma concluyente el **vector exacto** (método preciso) ni la **autoría** con estándar de prueba judicial.
+- Las capturas de la cámara aportan un elemento de **correlación física** (presencia y manipulación del puesto con gesto compatible con conexión de periférico) que resulta **compatible** con el uso de un dispositivo USB de inyección; por sí solas, las imágenes **no permiten** identificar el modelo exacto ni confirmar la carga ejecutada.
+- A nivel de impacto, el objetivo aparente del incidente es **humillación/hostigamiento** (mensajería intimidatoria y uso de imagen/perfil), con afectación potencial a la **confidencialidad** (credenciales), **integridad** (perfil alterado) y **reputación** de la víctima.
+
+Recomendaciones técnicas inmediatas (sin perjuicio de actuaciones legales/procesales): **rotación de contraseñas**, **activación de 2FA**, **cierre de sesiones activas**, revisión de accesos/dispositivos autorizados en Instagram y servicios asociados, y **análisis/limpieza controlada** del equipo afectado y periféricos USB manteniendo **cadena de custodia** e integridad de evidencias.
 
 ## 11. Anexo 2. Cadena de custodia
 
