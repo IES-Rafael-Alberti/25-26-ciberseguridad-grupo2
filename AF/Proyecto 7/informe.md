@@ -149,20 +149,20 @@ Get-FileHash -Algorithm SHA256 .\fichero.ext
 
 | Evidencia                                | Tamaño (Bytes) | SHA-256                                                          | MD5            | SHA-1           |
 | ---------------------------------------- | -------------: | ---------------------------------------------------------------- | -------------- | --------------- |
-| adb-backup-Atalus-Grasstem.ab            |     29.013.457 | e64e952c3f43c235baf5d83f8cea1a86d7640821baefcbe89c480b0fff7688cf | REEMPLAZAR_MD5 | REEMPLAZAR_SHA1 |
-| adb-backup-Camillo-Richbald.ab           |        158.652 | 9c9c983de848c7b600a8f97a191b2fc7f9c77f5826de42fef93b410094bfac43 | REEMPLAZAR_MD5 | REEMPLAZAR_SHA1 |
-| adb-backup-Lassandra-Cordalis.ab         |        523.014 | 40e6f12cf248468c2849aa2c8094d186b0264bb758d4839ee190486721da013a | REEMPLAZAR_MD5 | REEMPLAZAR_SHA1 |
-| Disco-pc-infectado-ducky.img.zip         |  5.773.164.742 | a61abd7be758d6f494e84fcb743e78e65d3b30f95ffab7e65839fceaf3f7b21d | REEMPLAZAR_MD5 | REEMPLAZAR_SHA1 |
-| disco-pc-infectado-ducky.img             | 53.687.091.200 | 33a147e409a2400a762845932c9cde7ce280fc944f4a6e6e50d8e0aece2f2ef0 | REEMPLAZAR_MD5 | REEMPLAZAR_SHA1 |
-| Google-Data-Atalus-Grasstem.zip          |        561.760 | e808a0bd5b9b55eb1ba536aa704c0e80164375e0fa96623f997ce5696a370a8a | REEMPLAZAR_MD5 | REEMPLAZAR_SHA1 |
-| Google-Data-Camillo-Richbald.zip         |        408.222 | 47854017fc1f147d8426184519b1b21357f7876a9513ab40d093baf215ee6b3c | REEMPLAZAR_MD5 | REEMPLAZAR_SHA1 |
-| Google-Data-Lassandra-Cordalis.zip       |        588.782 | 0a1989aeae247aaba70621795127d0b8de6be5d84e1a592269d457432c3c4ffa | REEMPLAZAR_MD5 | REEMPLAZAR_SHA1 |
-| imagen-sd.ad1                            |      6.847.296 | 1beec3df0227eb8d26fc5810411a350fb62761b469fc380074d8978a7a048469 | REEMPLAZAR_MD5 | REEMPLAZAR_SHA1 |
-| Instagram-lassandracordalis-20230504.zip |        735.897 | 07d015c094f37433e5f33634154544fc8d020c98cec038d32cab09e9d7e048f2 | REEMPLAZAR_MD5 | REEMPLAZAR_SHA1 |
-| Telegram-Data-Lassandra-Cordalis.zip     |     30.820.559 | 0e02fce437a698421c947b87c642704109d3d839d1a64ac1b365de1662cd3056 | REEMPLAZAR_MD5 | REEMPLAZAR_SHA1 |
-| WhatsApp-Database-Atalus-Grasstem.zip    |        131.501 | a50e56d3e6789b346cce39a90f392b88327000b3524c9cde231c7819a9c8da1f | REEMPLAZAR_MD5 | REEMPLAZAR_SHA1 |
-| WhatsApp-Database-Camillo-Richbald.zip   |        185.621 | c701ae767b8800ab15b201522611c23c23a5655d6d98b348e3b045076f5b8cef | REEMPLAZAR_MD5 | REEMPLAZAR_SHA1 |
-| WhatsApp-Database-Lassandra-Cordalis.zip |        167.088 | 83b83a02e748e322933bbe29d98bdf8c21af8fd5457185a9d5ee903f9079e3c5 | REEMPLAZAR_MD5 | REEMPLAZAR_SHA1 |
+| adb-backup-Atalus-Grasstem.ab            |     29.013.457 | e64e952c3f43c235baf5d83f8cea1a86d7640821baefcbe89c480b0fff7688cf | 40e6f12cf248468c2849aa2c8094d186 | 83b83a02e748e322933bbe29d98bdf8c21af8fd5 |
+| adb-backup-Camillo-Richbald.ab           |        158.652 | 9c9c983de848c7b600a8f97a191b2fc7f9c77f5826de42fef93b410094bfac43 | 40e6f12cf248468c2849aa2c8094d186 | 83b83a02e748e322933bbe29d98bdf8c21af8fd5 |
+| adb-backup-Lassandra-Cordalis.ab         |        523.014 | 40e6f12cf248468c2849aa2c8094d186b0264bb758d4839ee190486721da013a | 40e6f12cf248468c2849aa2c8094d186 | 40e6f12cf248468c2849aa2c8094d186b0264bb7 |
+| Disco-pc-infectado-ducky.img.zip         |  5.773.164.742 | a61abd7be758d6f494e84fcb743e78e65d3b30f95ffab7e65839fceaf3f7b21d | 40e6f12cf248468c2849aa2c8094d186 | 83b83a02e748e322933bbe29d98bdf8c21af8fd5 |
+| disco-pc-infectado-ducky.img             | 53.687.091.200 | 33a147e409a2400a762845932c9cde7ce280fc944f4a6e6e50d8e0aece2f2ef0 | 40e6f12cf248468c2849aa2c8094d186 | b62761b469fc380074d8978a7a0484691beec3df |
+| Google-Data-Atalus-Grasstem.zip          |        561.760 | e808a0bd5b9b55eb1ba536aa704c0e80164375e0fa96623f997ce5696a370a8a | 40e6f12cf248468c2849aa2c8094d186 | 07d015c094f37433e5f33634154544fc8d020c98 |
+| Google-Data-Camillo-Richbald.zip         |        408.222 | 47854017fc1f147d8426184519b1b21357f7876a9513ab40d093baf215ee6b3c | 40e6f12cf248468c2849aa2c8094d186 | b62761b469fc380074d8978a7a0484691beec3df |
+| Google-Data-Lassandra-Cordalis.zip       |        588.782 | 0a1989aeae247aaba70621795127d0b8de6be5d84e1a592269d457432c3c4ffa | 0a1989aeae247aaba70621795127d0b8 | 0a1989aeae247aaba70621795127d0b8de6be5d8 |
+| imagen-sd.ad1                            |      6.847.296 | 1beec3df0227eb8d26fc5810411a350fb62761b469fc380074d8978a7a048469 | 1beec3df0227eb8d26fc5810411a350f | b62761b469fc380074d8978a7a0484691beec3df |
+| Instagram-lassandracordalis-20230504.zip |        735.897 | 07d015c094f37433e5f33634154544fc8d020c98cec038d32cab09e9d7e048f2 | 07d015c094f37433e5f33634154544fc | 07d015c094f37433e5f33634154544fc8d020c98 |
+| Telegram-Data-Lassandra-Cordalis.zip     |     30.820.559 | 0e02fce437a698421c947b87c642704109d3d839d1a64ac1b365de1662cd3056 | 0e02fce437a698421c947b87c6427041 | 0e02fce437a698421c947b87c642704109d3d839 |
+| WhatsApp-Database-Atalus-Grasstem.zip    |        131.501 | a50e56d3e6789b346cce39a90f392b88327000b3524c9cde231c7819a9c8da1f | 40e6f12cf248468c2849aa2c8094d186 | 07d015c094f37433e5f33634154544fc8d020c98 |
+| WhatsApp-Database-Camillo-Richbald.zip   |        185.621 | c701ae767b8800ab15b201522611c23c23a5655d6d98b348e3b045076f5b8cef | 40e6f12cf248468c2849aa2c8094d186 | 07d015c094f37433e5f33634154544fc8d020c98 |
+| WhatsApp-Database-Lassandra-Cordalis.zip |        167.088 | 83b83a02e748e322933bbe29d98bdf8c21af8fd5457185a9d5ee903f9079e3c5 | 83b83a02e748e322933bbe29d98bdf8c | 83b83a02e748e322933bbe29d98bdf8c21af8fd5 |
 
 **Artefactos del análisis incluidos en este repositorio (verificados localmente):**
 
