@@ -7,17 +7,17 @@
 3. [Índice de figuras](#3-índice-de-figuras)
 4. [Resumen Ejecutivo](#4-resumen-ejecutivo)
 5. [Introducción](#5-introducción)
-	1. [Antecedentes](#51-antecedentes)
-	2. [Objetivos](#52-objetivos)
+   1. [Antecedentes](#51-antecedentes)
+   2. [Objetivos](#52-objetivos)
 6. [Fuentes de información](#6-fuentes-de-información)
-	1. [Comprobación de hashes (MD5 y SHA1)](#61-comprobación-de-hashes-md5-y-sha-1)
-	2. [Adquisición de hallazgos](#62-adquisición-de-hallazgos)
+   1. [Comprobación de hashes (MD5 y SHA1)](#61-comprobación-de-hashes-md5-y-sha-1)
+   2. [Adquisición de hallazgos](#62-adquisición-de-hallazgos)
 7. [Análisis](#7-análisis)
-	1. [Herramientas utilizadas](#71-herramientas-utilizadas)
-	2. [Procesos](#72-procesos)
-		1. [Análisis de la imagen de disco](#721-análisis-de-la-imagen-de-disco)
-		2. [Análisis del volcado de memoria](#722-análisis-del-volcado-de-memoria)
-		3. [Cronología del ataque](#73-cronología-del-ataque)
+   1. [Herramientas utilizadas](#71-herramientas-utilizadas)
+   2. [Procesos](#72-procesos)
+      1. [Análisis de la imagen de disco](#721-análisis-de-la-imagen-de-disco)
+      2. [Análisis del volcado de memoria](#722-análisis-del-volcado-de-memoria)
+      3. [Cronología del ataque](#73-cronología-del-ataque)
 8. [Limitaciones](#8-limitaciones)
 9. [Conclusiones](#9-conclusiones)
 10. [Anexo 1. Sobre el perito](#10-anexo-1-sobre-el-perito)
@@ -34,7 +34,6 @@ En cumplimiento de las mejores prácticas y estándares de la industria, los per
 - Que no tienen parentesco, vínculo matrimonial o situación de hecho asimilable con ninguna de las partes, ni con sus abogados o procuradores.
 - Que no tienen interés directo ni indirecto en el objeto del pleito ni en su resolución.
 - Que no han prestado servicios profesionales anteriormente a ninguna de las partes en relación directa con este caso.
-
 
 ## 2. Palabras clave
 
@@ -62,24 +61,24 @@ En cumplimiento de las mejores prácticas y estándares de la industria, los per
 
 ## 3. Índice de figuras
 
-| Figura | Descripción | Archivo |
-|---:|---|---|
-| 1 | Comprobación de hash del hallazgo RAM.bin | [hallazgos/memoria/9-comprobacion-hash.png](hallazgos/memoria/9-comprobacion-hash.png) |
-| 2 | Creación/compilación de perfil Volatility para Linux (x64) | [hallazgos/memoria/1-creando-perfil.png](hallazgos/memoria/1-creando-perfil.png) |
-| 3 | `linux_netstat`: conexiones/puertos observados en memoria | [hallazgos/memoria/2-linux_netstat.png](hallazgos/memoria/2-linux_netstat.png) |
-| 4 | `pslist/pstree`: árbol/listado de procesos sin indicios evidentes de terminal maliciosa | [hallazgos/memoria/3-pslist-nohaynada.png](hallazgos/memoria/3-pslist-nohaynada.png) |
-| 5 | `linux_malfind`: regiones RWX en Apache (evaluación de falso positivo JIT) | [hallazgos/memoria/4-malfind.png](hallazgos/memoria/4-malfind.png) |
-| 6 | hallazgo de reconocimiento (WPScan) en access.log recuperado | [hallazgos/memoria/5-access.log-wpscan.png](hallazgos/memoria/5-access.log-wpscan.png) |
-| 7 | hallazgo de explotación: subida de payload (petición POST) | [hallazgos/memoria/6-access.log-subida-payload.png](hallazgos/memoria/6-access.log-subida-payload.png) |
-| 8 | hallazgo de explotación asociada al plugin Reflex Gallery (FileUploader) | [hallazgos/memoria/7-access-log-subida-payload-plugin-reflex-gallery.png](hallazgos/memoria/7-access-log-subida-payload-plugin-reflex-gallery.png) |
-| 9 | Referencia visual de la vulnerabilidad (CVE-2015-4133) | [img/memoria/8-cve.png](img/memoria/8-cve.png) |
-| 10 | Artefacto en disco: `reflex-gallery.3.1.3.zip` localizado en el sistema | [hallazgos/disco/reflex.png](hallazgos/disco/reflex.png) |
-| 11 | Archivo PHP vulnerable (`php.php`) | [hallazgos/disco/php-vulnerable.png](hallazgos/disco/php-vulnerable.png) |
-| 12 | Fragmento de código vulnerable (sin restricción/sanitización) | [hallazgos/disco/parte-vulnerable.png](hallazgos/disco/parte-vulnerable.png) |
-| 13 | Registro de errores (error.log) con actividad sospechosa | [hallazgos/disco/error-log.png](hallazgos/disco/error-log.png) |
-| 14 | Registro de accesos (access.log) con conexiones relevantes | [hallazgos/disco/acces-log.png](hallazgos/disco/acces-log.png) |
-| 15 | Archivos PHP señuelo subidos en uploads | [hallazgos/disco/php-eliminados.png](hallazgos/disco/php-eliminados.png) |
-| 16 | Modificación de `index.html` tras el defacement | [hallazgos/disco/html-modificado.png](hallazgos/disco/html-modificado.png) |
+| Figura | Descripción                                                                             | Archivo                                                                                                                                            |
+| -----: | --------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+|      1 | Comprobación de hash del hallazgo RAM.bin                                               | [hallazgos/memoria/9-comprobacion-hash.png](hallazgos/memoria/9-comprobacion-hash.png)                                                             |
+|      2 | Creación/compilación de perfil Volatility para Linux (x64)                              | [hallazgos/memoria/1-creando-perfil.png](hallazgos/memoria/1-creando-perfil.png)                                                                   |
+|      3 | `linux_netstat`: conexiones/puertos observados en memoria                               | [hallazgos/memoria/2-linux_netstat.png](hallazgos/memoria/2-linux_netstat.png)                                                                     |
+|      4 | `pslist/pstree`: árbol/listado de procesos sin indicios evidentes de terminal maliciosa | [hallazgos/memoria/3-pslist-nohaynada.png](hallazgos/memoria/3-pslist-nohaynada.png)                                                               |
+|      5 | `linux_malfind`: regiones RWX en Apache (evaluación de falso positivo JIT)              | [hallazgos/memoria/4-malfind.png](hallazgos/memoria/4-malfind.png)                                                                                 |
+|      6 | hallazgo de reconocimiento (WPScan) en access.log recuperado                            | [hallazgos/memoria/5-access.log-wpscan.png](hallazgos/memoria/5-access.log-wpscan.png)                                                             |
+|      7 | hallazgo de explotación: subida de payload (petición POST)                              | [hallazgos/memoria/6-access.log-subida-payload.png](hallazgos/memoria/6-access.log-subida-payload.png)                                             |
+|      8 | hallazgo de explotación asociada al plugin Reflex Gallery (FileUploader)                | [hallazgos/memoria/7-access-log-subida-payload-plugin-reflex-gallery.png](hallazgos/memoria/7-access-log-subida-payload-plugin-reflex-gallery.png) |
+|      9 | Referencia visual de la vulnerabilidad (CVE-2015-4133)                                  | [img/memoria/8-cve.png](img/memoria/8-cve.png)                                                                                                     |
+|     10 | Artefacto en disco: `reflex-gallery.3.1.3.zip` localizado en el sistema                 | [hallazgos/disco/reflex.png](hallazgos/disco/reflex.png)                                                                                           |
+|     11 | Archivo PHP vulnerable (`php.php`)                                                      | [hallazgos/disco/php-vulnerable.png](hallazgos/disco/php-vulnerable.png)                                                                           |
+|     12 | Fragmento de código vulnerable (sin restricción/sanitización)                           | [hallazgos/disco/parte-vulnerable.png](hallazgos/disco/parte-vulnerable.png)                                                                       |
+|     13 | Registro de errores (error.log) con actividad sospechosa                                | [hallazgos/disco/error-log.png](hallazgos/disco/error-log.png)                                                                                     |
+|     14 | Registro de accesos (access.log) con conexiones relevantes                              | [hallazgos/disco/acces-log.png](hallazgos/disco/acces-log.png)                                                                                     |
+|     15 | Archivos PHP señuelo subidos en uploads                                                 | [hallazgos/disco/php-eliminados.png](hallazgos/disco/php-eliminados.png)                                                                           |
+|     16 | Modificación de `index.html` tras el defacement                                         | [hallazgos/disco/html-modificado.png](hallazgos/disco/html-modificado.png)                                                                         |
 
 ## 4. Resumen Ejecutivo
 
@@ -129,40 +128,42 @@ De forma específica, se establecen los siguientes objetivos:
 - **Determinación del alcance:** evaluar, hasta donde lo permitan los hallazgos aportadas, qué componentes se han visto afectados (defacement/webshells) y si existen indicios de compromiso a nivel de sistema.
 - **Soporte a respuesta:** aportar conclusiones técnicas orientadas a medidas correctoras y preventivas, sin exceder las limitaciones del material analizado.
 
-6- Fuentes de información
+## 6- Fuentes de información
 
-6.1- Comprobación de hashes (MD5 y SHA 1)
-
+### 6.1- Comprobación de hashes (MD5 y SHA 1)
 
 #### Sumas de verificación de hallazgos principales
 
-| hallazgo | MD5 original | MD5 verificado | SHA1 original | SHA1 verificado |
-|-----------|------------------------------------------|------------------------------------------|----------------------------------------------------------|----------------------------------------------------------|
-| Imagen de disco (disco.dd) | bac5561328b477f0508fab7c5d9ee0a6 | bac5561328b477f0508fab7c5d9ee0a6 | 5b0a9cc8ff4ebd5aa3e1e36d8713e3b24b072e79 | 5b0a9cc8ff4ebd5aa3e1e36d8713e3b24b072e79 |
+| hallazgo                          | MD5 original                     | MD5 verificado                   | SHA1 original                            | SHA1 verificado                          |
+| --------------------------------- | -------------------------------- | -------------------------------- | ---------------------------------------- | ---------------------------------------- |
+| Imagen de disco (disco.dd)        | bac5561328b477f0508fab7c5d9ee0a6 | bac5561328b477f0508fab7c5d9ee0a6 | 5b0a9cc8ff4ebd5aa3e1e36d8713e3b24b072e79 | 5b0a9cc8ff4ebd5aa3e1e36d8713e3b24b072e79 |
 | Volcado de memoria (memoria.lime) | e063c257d2f41ddee65ea1fdabe64e95 | e063c257d2f41ddee65ea1fdabe64e95 | bc2ebb435e75b3406280a2967b1c2696fc3e160a | bc2ebb435e75b3406280a2967b1c2696fc3e160a |
 
 La verificación de hashes garantiza que los archivos analizados no han sido alterados durante el proceso forense y que los resultados obtenidos son reproducibles.
 
 Para la elaboración de este informe se han consultado las siguientes fuentes:
+
 - hallazgos digitales proporcionadas (imagen de disco y volcado de memoria RAM).
 - Documentación técnica de los sistemas involucrados (WordPress, plugins instalados, sistema operativo Linux).
 - Bases de datos de vulnerabilidades (CVE, NIST, Exploit-DB) para identificación de fallos conocidos.
 - Manuales y documentación oficial de herramientas forenses empleadas (LiME, Volatility, hashdeep, etc.).
 - Logs y registros extraídos de los sistemas analizados.
 
-6.2- Adquisición de hallazgos
+  6.2- Adquisición de hallazgos
 
 La adquisición de hallazgos se realizó siguiendo procedimientos forenses estandarizados para garantizar la integridad y trazabilidad:
+
 - Se recibieron una imagen forense del disco y un volcado de memoria RAM.
 - Se verificó la integridad mediante el cálculo de sumas hash (MD5/SHA1) antes y después de cada manipulación.
 - Se documentó la cadena de custodia, registrando fechas, responsables y acciones realizadas sobre cada hallazgo.
 - Las copias de trabajo se generaron a partir de los originales, preservando estos en almacenamiento seguro y sin alteraciones.
 
-7- Análisis
+## 7- Análisis
 
-7.1- Herramientas utilizadas
+### 7.1 - Herramientas utilizadas
 
 Para el análisis de los hallazgos se emplearon las siguientes herramientas:
+
 - **LiME**: para la adquisición del volcado de memoria RAM en sistemas Linux.
 - **Volatility**: para el análisis de la memoria RAM y extracción de artefactos (procesos, conexiones, módulos, strings, etc.).
 - **hashdeep**: para el cálculo y verificación de sumas hash de archivos y hallazgos.
@@ -170,9 +171,10 @@ Para el análisis de los hallazgos se emplearon las siguientes herramientas:
 - **Grep, strings, less**: utilidades de análisis manual de texto y búsqueda de patrones en logs y memoria.
 - **Herramientas de análisis de logs**: para la revisión y correlación de eventos en los registros de Apache y del sistema.
 
-7.2- Procesos
+  7.2- Procesos
 
 El análisis se estructuró en varias fases:
+
 1. **Verificación de integridad**: comprobación de los hashes de los hallazgos recibidas.
 2. **Montaje y exploración de la imagen de disco**: identificación de rutas relevantes, archivos sospechosos y artefactos de interés.
 3. **Análisis del volcado de memoria**: extracción de procesos activos, conexiones de red, módulos cargados y búsqueda de indicadores de compromiso.
@@ -180,31 +182,31 @@ El análisis se estructuró en varias fases:
 5. **Identificación de IOCs**: localización de direcciones IP, rutas, nombres de archivos y patrones asociados a la intrusión.
 6. **Documentación y reporte**: registro detallado de hallazgos, procedimientos y resultados obtenidos.
 
-7.2.1- Análisis de la imagen de disco
-
+### 7.2.1- Análisis de la imagen de disco
 
 Se montó la imagen de disco en modo solo lectura para evitar alteraciones. Se revisaron las rutas asociadas a la aplicación web (WordPress), especialmente la carpeta `wp-content/uploads`, donde se identificaron archivos PHP sospechosos. Se analizaron los logs de Apache (`access.log`, `error.log`) para detectar patrones de acceso anómalos, intentos de subida de archivos y ejecución de scripts no autorizados. Se emplearon herramientas de recuperación para identificar archivos borrados o modificados recientemente.
 
 #### Archivos PHP subidos en uploads de WordPress
+
 Durante el análisis de la carpeta `wp-content/uploads` se identificaron varios archivos PHP subidos de forma no autorizada. Al inspeccionar su contenido, se observó que no contienen código malicioso típico (como webshells o backdoors), sino un bloque de texto que corresponde a una cabecera PGP firmada con metadatos de repositorios de Ubuntu. Este hallazgo es inusual, ya que los archivos PHP subidos no ejecutan código, sino que parecen haber sido utilizados como señuelo, relleno o para ocultar actividad. Es posible que el atacante intentara evadir mecanismos de detección o simplemente probar la capacidad de subida de archivos. Se recomienda mantener vigilancia sobre este tipo de archivos y restringir la ejecución de PHP en rutas de subida.
 
 #### Modificación del archivo index.html
+
 Se detectó que el archivo `index.html` de la aplicación web fue modificado. Este tipo de alteración es característico de ataques de defacement, donde el atacante sustituye o altera la página principal para mostrar mensajes, imágenes o simplemente para evidenciar el compromiso del sistema. La modificación del `index.html` constituye una prueba clara de acceso no autorizado y manipulación de los contenidos web. Se recomienda conservar una copia íntegra del archivo alterado como hallazgo y comparar su contenido con versiones legítimas para identificar los cambios introducidos. Este hallazgo refuerza la hipótesis de un ataque dirigido a la capa de aplicación, con impacto visible para los usuarios y potencial afectación reputacional.
 
-7.2.2- Análisis del volcado de memoria
+### 7.2.2- Análisis del volcado de memoria
 
 El volcado de memoria fue procesado con Volatility, identificando procesos activos en el momento de la adquisición, conexiones de red abiertas y módulos cargados en memoria. Se buscaron cadenas de texto y artefactos relacionados con la ejecución de payloads y comandos sospechosos. Se correlacionaron los hallazgos de memoria con los eventos registrados en disco para reconstruir la secuencia del ataque y determinar el alcance del compromiso.
 
-### 7.3. Cronología del ataque
-
+## 7.3. Cronología del ataque
 
 La siguiente tabla muestra únicamente los principales hitos relacionados con la actividad del atacante (IP 94.242.54.22):
 
-| Evento                                              | Fecha y hora (UTC/CEST)   | Artefacto/Origen    | IP implicada     |
-|-----------------------------------------------------|---------------------------|---------------------|------------------|
-| Explotación de vulnerabilidad en plugin Reflex Gallery | 23/07/2018 11:22          | access.log / Disco  | 94.242.54.22     |
-| Subida y ejecución de WebShells maliciosas            | 24/07/2018 02:46          | access.log / Disco  | 94.242.54.22     |
-| Creación del archivo de defacement (index.html)       | 24/07/2018 14:00          | Sistema de archivos | 94.242.54.22     |
+| Evento                                                 | Fecha y hora (UTC/CEST) | Artefacto/Origen    | IP implicada |
+| ------------------------------------------------------ | ----------------------- | ------------------- | ------------ |
+| Explotación de vulnerabilidad en plugin Reflex Gallery | 23/07/2018 11:22        | access.log / Disco  | 94.242.54.22 |
+| Subida y ejecución de WebShells maliciosas             | 24/07/2018 02:46        | access.log / Disco  | 94.242.54.22 |
+| Creación del archivo de defacement (index.html)        | 24/07/2018 14:00        | Sistema de archivos | 94.242.54.22 |
 
 ## 8. Limitaciones
 
@@ -231,113 +233,113 @@ Para dejarlo bien cerrado, actualizamos o eliminamos Reflex Gallery, revisamos e
 Los peritos responsables del presente informe son:
 
 - **Carlos Alcina**
-	- **Titulación:** Técnico Superior en Desarrollo de Aplicaciones Multiplataforma (DAM)
-	- **Correo:** calcrom0607@g.educaand.es
+  - **Titulación:** Técnico Superior en Desarrollo de Aplicaciones Multiplataforma (DAM)
+  - **Correo:** calcrom0607@g.educaand.es
 
 - **Pablo González**
-	- **Titulación:** Técnico Superior en Desarrollo de Aplicaciones Multiplataforma (DAM) y Técnico Superior en Desarrollo de Aplicaciones Web (DAW)
-	- **Correo:** pablo.gonzalez@g.educaand.es
+  - **Titulación:** Técnico Superior en Desarrollo de Aplicaciones Multiplataforma (DAM) y Técnico Superior en Desarrollo de Aplicaciones Web (DAW)
+  - **Correo:** pablo.gonzalez@g.educaand.es
 
 - **Luis Carlos Romero**
-	- **Titulación:** Técnico Superior en Desarrollo de Aplicaciones Web (DAW)
-	- **Correo:** luiscarlos.romero@g.educaand.es
+  - **Titulación:** Técnico Superior en Desarrollo de Aplicaciones Web (DAW)
+  - **Correo:** luiscarlos.romero@g.educaand.es
 
 ## 11. Anexo 2. Cadena de custodia
 
 ### 11.1. Información del caso
 
-| Campo | Valor |
-|---|---|
-| Número de Caso | 06 |
+| Campo                 | Valor                                          |
+| --------------------- | ---------------------------------------------- |
+| Número de Caso        | 06                                             |
 | Tipo de Investigación | Análisis forense de incidente de seguridad web |
-| Fecha de Adquisición | 18/04/2026 |
-| Lugar de Adquisición | C. Amiel, s/n, 11012 Barriada de la Paz, Cádiz |
-| Apertura | lunes, 20 de abril de 2026, 08:00 |
-| Cierre | miércoles, 22 de abril de 2026, 23:45 |
+| Fecha de Adquisición  | 18/04/2026                                     |
+| Lugar de Adquisición  | C. Amiel, s/n, 11012 Barriada de la Paz, Cádiz |
+| Apertura              | lunes, 20 de abril de 2026, 08:00              |
+| Cierre                | miércoles, 22 de abril de 2026, 23:45          |
 
 ### 11.2. Identificación de evidencias (soportes base)
 
-| ID | Evidencia | Identificador/archivo | Tamaño | Hash/Integridad |
-|---|---|---|---:|---|
-| E-01 | Volcado de memoria RAM | RAM.bin | 1.073.336.384 bytes | MD5: e063c257d2f41ddee65ea1fdabe64e95; SHA1: bc2ebb435e75b3406280a2967b1c2696fc3e160a |
-| E-02 | Imagen forense de disco | Disc.E01 (extraído de Disc.E01.zip) | 984M (aprox.) | SHA256 (Disc.E01): 8e90936d626024e01db33c129d2317a5dac6feedd6fa7c31fe1fbab365261e4a; MD5 (Disc.E01): bac5561328b477f0508fab7c5d9ee0a6; SHA1 (Disc.E01): 5b0a9cc8ff4ebd5aa3e1e36d8713e3b24b072e79; SHA256 (Disc.E01.zip): 4e1b3861944f1e3da6869b4fb40fb864b18e1197c77d5915aa74c0943f0b10ff |
+| ID   | Evidencia               | Identificador/archivo               |              Tamaño | Hash/Integridad                                                                                                                                                                                                                                                                           |
+| ---- | ----------------------- | ----------------------------------- | ------------------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| E-01 | Volcado de memoria RAM  | RAM.bin                             | 1.073.336.384 bytes | MD5: e063c257d2f41ddee65ea1fdabe64e95; SHA1: bc2ebb435e75b3406280a2967b1c2696fc3e160a                                                                                                                                                                                                     |
+| E-02 | Imagen forense de disco | Disc.E01 (extraído de Disc.E01.zip) |       984M (aprox.) | SHA256 (Disc.E01): 8e90936d626024e01db33c129d2317a5dac6feedd6fa7c31fe1fbab365261e4a; MD5 (Disc.E01): bac5561328b477f0508fab7c5d9ee0a6; SHA1 (Disc.E01): 5b0a9cc8ff4ebd5aa3e1e36d8713e3b24b072e79; SHA256 (Disc.E01.zip): 4e1b3861944f1e3da6869b4fb40fb864b18e1197c77d5915aa74c0943f0b10ff |
 
 ### 11.3. Preservación del hallazgo original
 
-| Campo | Valor |
-|---|---|
-| Fecha de Entrega | 22/04/2026 |
-| Hora de Entrega | 23:45 |
-| Recibido por | Manuel Jesús Rivas Sánchez |
+| Campo                   | Valor                                          |
+| ----------------------- | ---------------------------------------------- |
+| Fecha de Entrega        | 22/04/2026                                     |
+| Hora de Entrega         | 23:45                                          |
+| Recibido por            | Manuel Jesús Rivas Sánchez                     |
 | Ubicación en el Juzgado | C. Amiel, s/n, 11012 Barriada de la Paz, Cádiz |
 
 ### 11.4. Creación y verificación de copias
 
-| Campo | Valor |
-|---|---|
-| Fecha y Hora de Creación | 20/04/2026, 08:00 |
-| Técnico Responsable | Carlos Alcina Romero |
+| Campo                      | Valor                                                                                                                                                      |
+| -------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Fecha y Hora de Creación   | 20/04/2026, 08:00                                                                                                                                          |
+| Técnico Responsable        | Carlos Alcina Romero                                                                                                                                       |
 | Hash de la Copia (SHA-256) | Disc.E01: 8e90936d626024e01db33c129d2317a5dac6feedd6fa7c31fe1fbab365261e4a; Disc.E01.zip: 4e1b3861944f1e3da6869b4fb40fb864b18e1197c77d5915aa74c0943f0b10ff |
-| Verificación de Integridad | Sí |
+| Verificación de Integridad | Sí                                                                                                                                                         |
 
-| Campo | Valor |
-|---|---|
-| Entregado a | Manuel Jesús Rivas Sánchez |
-| Fecha y Hora de Entrega | 22/04/2026, 23:45 |
+| Campo                   | Valor                      |
+| ----------------------- | -------------------------- |
+| Entregado a             | Manuel Jesús Rivas Sánchez |
+| Fecha y Hora de Entrega | 22/04/2026, 23:45          |
 
 ### 11.5. Registro de accesos y verificaciones
 
-| Campo | Valor |
-|---|---|
-| Fecha y Hora | lunes, 20 de abril de 2026, 08:00 |
-| Propósito | Inicio del análisis / verificación inicial |
-| Técnico | Luis Carlos Romero Navarro |
-| Hash Verificado (SHA-256) | Disc.E01: 8e90936d626024e01db33c129d2317a5dac6feedd6fa7c31fe1fbab365261e4a |
-| Verificación de Integridad | Sí |
+| Campo                      | Valor                                                                      |
+| -------------------------- | -------------------------------------------------------------------------- |
+| Fecha y Hora               | lunes, 20 de abril de 2026, 08:00                                          |
+| Propósito                  | Inicio del análisis / verificación inicial                                 |
+| Técnico                    | Luis Carlos Romero Navarro                                                 |
+| Hash Verificado (SHA-256)  | Disc.E01: 8e90936d626024e01db33c129d2317a5dac6feedd6fa7c31fe1fbab365261e4a |
+| Verificación de Integridad | Sí                                                                         |
 
-| Campo | Valor |
-|---|---|
-| Fecha y Hora | miércoles, 22 de abril de 2026, 23:45 |
-| Propósito | Cierre del análisis / verificación final |
-| Técnico | Pablo González Silva |
-| Hash Verificado (SHA-256) | Disc.E01: 8e90936d626024e01db33c129d2317a5dac6feedd6fa7c31fe1fbab365261e4a |
-| Verificación de Integridad | Sí |
+| Campo                      | Valor                                                                      |
+| -------------------------- | -------------------------------------------------------------------------- |
+| Fecha y Hora               | miércoles, 22 de abril de 2026, 23:45                                      |
+| Propósito                  | Cierre del análisis / verificación final                                   |
+| Técnico                    | Pablo González Silva                                                       |
+| Hash Verificado (SHA-256)  | Disc.E01: 8e90936d626024e01db33c129d2317a5dac6feedd6fa7c31fe1fbab365261e4a |
+| Verificación de Integridad | Sí                                                                         |
 
 ### 11.6. Artefactos derivados (extraídos para el análisis)
 
 Los siguientes elementos se consideran **artefactos derivados** obtenidos de las evidencias base (principalmente E-02) y/o recuperados desde memoria, manteniendo verificación de integridad mediante hashes.
 
-| ID | Artefacto | Ruta/Origen | Hash (MD5) | Hash (SHA1) |
-|---|---|---|---|---|
-| A-01 | access.log (Apache) | /var/log/apache2/access.log | 325d4e7fad4213e46faf58dcf76af017 | b9008fda5c891b12fd3b9bdc3a8bd5f958341057 |
-| A-02 | error.log (Apache) | /var/log/apache2/error.log | 496044572974077b25d87ecc950ec4bc | 064fdd82955e34d2872aede4aa97fc983f830fb6 |
-| A-03 | reflex-gallery.3.1.3.zip | /home/ubuntu/reflex-gallery.3.1.3.zip | 61c84a3520511ebda3a502b77d90f617 | db17794998222e9c9a6d5b98af02754eff58a5d6 |
-| A-04 | php.php (FileUploader) | /var/www/html/wordpress/wp-content/plugins/reflex-gallery/admin/scripts/FileUploader/php.php | 020410718b64647311d6c4594e229bc5 | 5e8f0d5a917d2937318a9bafd0529135bd473e70 |
+| ID   | Artefacto                | Ruta/Origen                                                                                  | Hash (MD5)                       | Hash (SHA1)                              |
+| ---- | ------------------------ | -------------------------------------------------------------------------------------------- | -------------------------------- | ---------------------------------------- |
+| A-01 | access.log (Apache)      | /var/log/apache2/access.log                                                                  | 325d4e7fad4213e46faf58dcf76af017 | b9008fda5c891b12fd3b9bdc3a8bd5f958341057 |
+| A-02 | error.log (Apache)       | /var/log/apache2/error.log                                                                   | 496044572974077b25d87ecc950ec4bc | 064fdd82955e34d2872aede4aa97fc983f830fb6 |
+| A-03 | reflex-gallery.3.1.3.zip | /home/ubuntu/reflex-gallery.3.1.3.zip                                                        | 61c84a3520511ebda3a502b77d90f617 | db17794998222e9c9a6d5b98af02754eff58a5d6 |
+| A-04 | php.php (FileUploader)   | /var/www/html/wordpress/wp-content/plugins/reflex-gallery/admin/scripts/FileUploader/php.php | 020410718b64647311d6c4594e229bc5 | 5e8f0d5a917d2937318a9bafd0529135bd473e70 |
 
 ### 11.7. Registro de custodia y actuaciones
 
-| Fecha/hora | Actuación | Responsable | Observaciones |
-|---|---|---|---|
-| 13/04/2026 | Adquisición/recepción de evidencias | Carlos Alcina Romero | Registro inicial de E-01 y E-02. |
-| lunes, 20 de abril de 2026, 08:00 | Apertura del análisis | Luis Carlos Romero Navarro | Inicio del análisis sobre copias de trabajo; verificación de hashes disponibles. |
-| 20/04/2026–22/04/2026 | Extracción y verificación de artefactos | Pablo González Silva | Extracción de logs y ficheros de interés y verificación por hash (A-01 a A-04). |
-| miércoles, 22 de abril de 2026, 23:45 | Cierre del análisis | Pablo González Silva | Cierre de actuaciones y preparación de entregables. |
+| Fecha/hora                            | Actuación                               | Responsable                | Observaciones                                                                    |
+| ------------------------------------- | --------------------------------------- | -------------------------- | -------------------------------------------------------------------------------- |
+| 13/04/2026                            | Adquisición/recepción de evidencias     | Carlos Alcina Romero       | Registro inicial de E-01 y E-02.                                                 |
+| lunes, 20 de abril de 2026, 08:00     | Apertura del análisis                   | Luis Carlos Romero Navarro | Inicio del análisis sobre copias de trabajo; verificación de hashes disponibles. |
+| 20/04/2026–22/04/2026                 | Extracción y verificación de artefactos | Pablo González Silva       | Extracción de logs y ficheros de interés y verificación por hash (A-01 a A-04).  |
+| miércoles, 22 de abril de 2026, 23:45 | Cierre del análisis                     | Pablo González Silva       | Cierre de actuaciones y preparación de entregables.                              |
 
 ## 12. Anexo 3. Otras necesidades
 
 ### 12.1. Índice de hallazgos
 
-| Ruta | Contenido | MAC | Tamaño (bytes) | HASH MD5 | HASH SHA1 |
-|---|---|---|---:|---|---|
-| /var/log/apache2/access.log | access.log | M: 24/07/2018 05:19:11 | 111514 | 325d4e7fad4213e46faf58dcf76af017 | b9008fda5c891b12fd3b9bdc3a8bd5f958341057 |
-| /var/log/apache2/error.log | error.log | M: 23/07/2018 11:10:16 | 1369 | 496044572974077b25d87ecc950ec4bc | 064fdd82955e34d2872aede4aa97fc983f830fb6 |
-| /home/ubuntu/reflex-gallery.3.1.3.zip | reflex-gallery.3.1.3.zip | M: 20/07/2018 09:35:53 | 650283 | 61c84a3520511ebda3a502b77d90f617 | db17794998222e9c9a6d5b98af02754eff58a5d6 |
-| /var/www/html/wordpress/wp-content/plugins/reflex-gallery/admin/scripts/FileUploader/php.php | php.php | M: 20/07/2018 09:54:05 | 5590 | 020410718b64647311d6c4594e229bc5 | 5e8f0d5a917d2937318a9bafd0529135bd473e70 |
-| /var/www/html/wordpress/index.html | index.html | M/C: 23/07/2018 14:00:18 CEST | N/D | N/D (no extraído) | N/D (no extraído) |
-| /var/www/html/wordpress/wp-content/uploads/2018/07/PLoeJFOEVoc.php | PLoeJFOEVoc.php | M/A/C/B: 23/07/2018 16:22:37 CEST | 102 | N/D (no extraído) | N/D (no extraído) |
-| /var/www/html/wordpress/wp-content/uploads/2018/07/XLPYhlEtQOyiMKb.php | XLPYhlEtQOyiMKb.php | M: 23/07/2018 20:34:03 CEST; C/A: 24/07/2018 02:46:56 CEST; B: 24/07/2018 02:46:55 CEST | 4257532 | N/D (no extraído) | N/D (no extraído) |
-| /var/www/html/wordpress/wp-content/uploads/2018/07/vmGAbaiewrSSuMs.php | vmGAbaiewrSSuMs.php | M: 24/07/2018 01:59:00 CEST; C/A: 24/07/2018 02:46:56 CEST; B: 24/07/2018 02:46:54 CEST | 106824 | N/D (no extraído) | N/D (no extraído) |
-| /var/www/html/wordpress/wp-content/uploads/2018/07/yDdoSpsx.php | yDdoSpsx.php | M: 24/07/2018 01:59:00 CEST; C/A: 24/07/2018 02:46:56 CEST; B: 24/07/2018 02:46:54 CEST | 109196 | N/D (no extraído) | N/D (no extraído) |
+| Ruta                                                                                         | Contenido                | MAC                                                                                     | Tamaño (bytes) | HASH MD5                         | HASH SHA1                                |
+| -------------------------------------------------------------------------------------------- | ------------------------ | --------------------------------------------------------------------------------------- | -------------: | -------------------------------- | ---------------------------------------- |
+| /var/log/apache2/access.log                                                                  | access.log               | M: 24/07/2018 05:19:11                                                                  |         111514 | 325d4e7fad4213e46faf58dcf76af017 | b9008fda5c891b12fd3b9bdc3a8bd5f958341057 |
+| /var/log/apache2/error.log                                                                   | error.log                | M: 23/07/2018 11:10:16                                                                  |           1369 | 496044572974077b25d87ecc950ec4bc | 064fdd82955e34d2872aede4aa97fc983f830fb6 |
+| /home/ubuntu/reflex-gallery.3.1.3.zip                                                        | reflex-gallery.3.1.3.zip | M: 20/07/2018 09:35:53                                                                  |         650283 | 61c84a3520511ebda3a502b77d90f617 | db17794998222e9c9a6d5b98af02754eff58a5d6 |
+| /var/www/html/wordpress/wp-content/plugins/reflex-gallery/admin/scripts/FileUploader/php.php | php.php                  | M: 20/07/2018 09:54:05                                                                  |           5590 | 020410718b64647311d6c4594e229bc5 | 5e8f0d5a917d2937318a9bafd0529135bd473e70 |
+| /var/www/html/wordpress/index.html                                                           | index.html               | M/C: 23/07/2018 14:00:18 CEST                                                           |            N/D | N/D (no extraído)                | N/D (no extraído)                        |
+| /var/www/html/wordpress/wp-content/uploads/2018/07/PLoeJFOEVoc.php                           | PLoeJFOEVoc.php          | M/A/C/B: 23/07/2018 16:22:37 CEST                                                       |            102 | N/D (no extraído)                | N/D (no extraído)                        |
+| /var/www/html/wordpress/wp-content/uploads/2018/07/XLPYhlEtQOyiMKb.php                       | XLPYhlEtQOyiMKb.php      | M: 23/07/2018 20:34:03 CEST; C/A: 24/07/2018 02:46:56 CEST; B: 24/07/2018 02:46:55 CEST |        4257532 | N/D (no extraído)                | N/D (no extraído)                        |
+| /var/www/html/wordpress/wp-content/uploads/2018/07/vmGAbaiewrSSuMs.php                       | vmGAbaiewrSSuMs.php      | M: 24/07/2018 01:59:00 CEST; C/A: 24/07/2018 02:46:56 CEST; B: 24/07/2018 02:46:54 CEST |         106824 | N/D (no extraído)                | N/D (no extraído)                        |
+| /var/www/html/wordpress/wp-content/uploads/2018/07/yDdoSpsx.php                              | yDdoSpsx.php             | M: 24/07/2018 01:59:00 CEST; C/A: 24/07/2018 02:46:56 CEST; B: 24/07/2018 02:46:54 CEST |         109196 | N/D (no extraído)                | N/D (no extraído)                        |
 
 <table>
 	<thead>
@@ -369,4 +371,3 @@ Los siguientes elementos se consideran **artefactos derivados** obtenidos de las
 		</tr>
 	</tbody>
 </table>
-

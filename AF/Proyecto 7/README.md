@@ -100,6 +100,13 @@ En cumplimiento de las mejores prácticas y estándares de la industria, los per
 | 3.38 | ![Fig. 3.38](hallazgos/disco/image-8.png)                               | Resultados finales del análisis de disco                           |
 
 
+## 4. Resumen Ejecutivo
+
+Del análisis conjunto de evidencias (víctima, sospechoso principal y cómplice) se observa una escalada de acoso y una planificación explícita de intrusión mediante “Rubber Ducky” para obtener credenciales y alterar el perfil de Instagram de la víctima, con coordinación por mensajería y acciones orientadas a la humillación.
+
+En el equipo intervenido se identifican artefactos compatibles con el vector descrito (script `keylogger.ps1`, salida `keylogger.txt` con indicios de credenciales y rastros de conexión USB tipo DUCKY), además de manipulación del archivo `hosts`; en paralelo, los registros de Instagram reflejan inicios de sesión no habituales y cambios de perfil temporalmente coherentes con la ejecución del incidente, preservando la integridad mediante verificación de hashes.
+
+
 ## 11. Anexo 2. Cadena de custodia
 
 La siguiente tabla documenta la cadena de custodia de todos los archivos y evidencias digitales tratados en el presente informe, asegurando la trazabilidad, integridad y control de acceso en cada etapa del proceso forense.
