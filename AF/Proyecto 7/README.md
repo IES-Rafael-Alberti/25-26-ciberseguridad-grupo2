@@ -191,6 +191,347 @@ Se proporcionó una variedad de fuentes de evidencia digital que cubren: **dispo
 - Conservación de originales y análisis sobre copias.
 - Registro de cadena de custodia (ver Anexo 2) con fechas, responsables y método de adquisición.
 
+
+## 7. Análisis
+### 7.1 Herramientas utilizadas
+
+| Herramienta | Versión | Uso en el análisis |
+| --- | --- | --- |
+| Autopsy | v4.21.0 | Análisis forense de la imagen de disco, navegación por sistema de ficheros y revisión de artefactos (historial, caché, etc.). |
+| FTK Imager | v4.7 | Previsualización/adquisición y validación básica de evidencias; apoyo en extracción y verificación de integridad. |
+| Kali Linux | 2026.1 | Entorno de análisis y utilidades auxiliares para tratamiento de evidencias y apoyo a la investigación. |
+| DB Browser for SQLite | v3.12.2.0 | Inspección y consulta de bases de datos SQLite (p. ej., artefactos de navegador como cookies, historial, etc.). |
+| VLC media player | v3.0.21 | Reproducción y revisión de evidencias multimedia (vídeos/capturas) preservando el contenido original. |
+
+
+### 7.2. Análisis sobre el principal sospechoso
+
+Esta sección sintetiza los hallazgos atribuidos al principal sospechoso (**Atalus**) a partir de evidencias de mensajería, historial web y actividad asociada a Instagram. La finalidad es describir **hechos observables** y su **correlación temporal**
+
+**Fuentes analizadas (Atalus):**
+
+- Capturas de conversación (WhatsApp) y referencias a un dispositivo tipo *Rubber Ducky* (Fig. 3.11–3.14).
+- Actividad de búsqueda/navegación relacionada con técnicas de intrusión y *Rubber Ducky* (Fig. 3.15 y Fig. 3.17).
+- Registros de IP y eventos de inicio de sesión asociados a actividad móvil (Fig. 3.16).
+- Artefacto de mensajería Telegram recuperado desde base de datos/caché (Fig. 3.18).
+- Rastros de navegación y accesos a Instagram (Fig. 3.19 y Fig. 3.17).
+
+#### 7.2.1. Mensajería (WhatsApp): contacto e insistencia
+
+En la evidencia de mensajería se observan interacciones iniciales de contacto, propuestas para quedar y un tono progresivamente insistente/hostil:
+
+- **Identificación y acercamiento:** “Soy Atalus, de clase” junto a propuesta de quedar y sugerencias de lugar (p. ej., enlace a restaurante).
+- **Conducta de control e intimidación:** mensajes del tipo “Ayer te vi saliendo del cine”, “No era que estabas ocupada?”, “Crees que soy tonto?”, compatibles con **vigilancia** y presión psicológica.
+
+![Captura: primer contacto y propuesta de quedar](hallazgos/atalus/1-primer-contacto-invita-aocmer.png)
+
+![Captura: mensajes de control e intimidación](hallazgos/atalus/2-mensaje-whatsapp-enfadado.png)
+
+Estos elementos refuerzan el contexto de **ciberacoso**, en el que la obtención de acceso a cuentas puede actuar como mecanismo de humillación.
+
+#### 7.2.2. Preparación técnica: búsquedas y referencia a "Rubber Ducky"
+
+La evidencia contiene indicios de preparación/curiosidad técnica previa y posterior referencia explícita a un dispositivo orientado a captura de credenciales:
+
+- **Búsquedas registradas:** se observan consultas del tipo “como hackear a alguien” y “que es un rubber ducky” (27/04/2023 19:00–19:01 CEST), así como una visita a un artículo tipo “Cómo hackear”. Estas búsquedas son consistentes con una fase de **investigación** previa.
+- **Conversación sobre dispositivo:** aparecen mensajes explícitos indicando el uso de un “rubberducky” y describiéndolo como un mecanismo para “robarle las contraseñas”. Adicionalmente, se observa el mensaje “Ya me funciona así que utilizaremos el mío” y posteriormente “Ya está / Puedes mirar su perfil si quieres / Así aprenderá jajajaja”, compatibles con un **paso a ejecución**.
+
+![Captura: mensajes sobre “Rubber Ducky” y robo de contraseñas](hallazgos/atalus/3-mensaje-whatsapp-rubberducky.png)
+
+![Captura: “Ya está… puedes mirar su perfil…”](hallazgos/atalus/4-mensaje-whatsapp.png)
+
+![Captura: búsquedas relacionadas con “rubber ducky”/“hackear”](hallazgos/atalus/5-busqueda-rubberducky.png)
+
+
+#### 7.2.3. Telegram: mensajes amenazantes y alusión a acceso a datos
+
+En un artefacto de Telegram (registro de base de datos/caché) se observa un diálogo donde el sospechoso envía mensajes con tono intimidatorio y alusión a haber localizado “tus datos” por un “pequeño desliz”, junto con expresiones de presión (“No me gusta que me ignoren…”, “Deberías tener más cuidado…”).
+
+![Captura: mensajes intimidantes en Telegram](hallazgos/atalus/8-mensajes-telegram.png)
+
+Este contenido es consistente con:
+
+- **Intimidación/coacción** hacia la víctima.
+- **Reclamación de capacidad** para obtener información de la víctima.
+
+#### 7.2.4. Registros de IP y eventos de autenticación
+
+En los registros aportados se observan eventos de tipo **Login** asociados a direcciones IP ( 31.221.235.118 y 31.221.141.34) y cadenas de agente relacionadas con autenticación en Android. Aunque por sí solos no permiten atribución concluyente, aportan un elemento técnico para:
+
+- Comparar con ventanas de tiempo de accesos a servicios.
+- Correlacionar con otros artefactos de actividad móvil/navegación.
+
+![Captura: registros de IP y eventos de Login](hallazgos/atalus/6-ips.png)
+
+#### 7.2.5. Actividad de navegación y accesos a Instagram
+
+Se observan evidencias de actividad dirigida a Instagram:
+
+- En el historial/artefacto de navegación se identifican accesos a recursos de Instagram, incluyendo bandeja de entrada (*Direct*), visitas al perfil de la víctima y acceso a “Editar perfil”.
+
+![Captura: historial de navegación con accesos a Instagram](hallazgos/atalus/7-historial-navegador-hipotesis.png)
+
+![Captura: visualización del perfil de Instagram de la víctima](hallazgos/atalus/9-captura-instagram-victima.png)
+
+En conjunto, estos elementos son consistentes con **intentos de acceso y navegación activa** en Instagram dentro del periodo investigado.
+
+#### 7.2.6. Correlación temporal
+
+Basándonos en el resumen cronológico de artefactos:
+- **26/04/2023:** contacto inicial y propuestas para quedar.
+- **27/04/2023 (tarde):** búsquedas relacionadas con “hackear” y “rubber ducky”.
+- **28–29/04/2023:** referencias explícitas a disponer de un mecanismo para obtener contraseñas y mensajes indicando que “ya funciona” y que la víctima “puede mirar su perfil”.
+- **29/04/2023 (noche):** rastros de acceso a bandeja Direct/perfil de la víctima en Instagram.
+
+La secuencia observada (hostigamiento → preparación técnica → mensajes sobre captura de contraseñas → actividad en Instagram) es coherente con la hipótesis de **obtención de credenciales** y **acceso no autorizado** a la cuenta/perfil de la víctima
+
+### 7.3. Análisis sobre cómplice
+
+Esta sección recoge los hallazgos del dispositivo atribuido al **cómplice (Camillo Richbald)**. El análisis se apoya en artefactos de WhatsApp (base de datos y exportaciones) y en evidencias de integridad (hashes), con especial foco en la **coordinación** con el sospechoso principal y en la **aportación de contenido** para la alteración/humillación pública de la víctima.
+
+**Fuentes analizadas (Camilo):**
+
+- Evidencias de conversaciones y extracción/visualización en base de datos (Fig. 3.23–3.25).
+- Evidencia de imagen enviada y su uso para humillación/alteración de perfil (Fig. 3.26–3.27).
+- Evidencias de verificación de integridad por hashes (Fig. 3.28–3.29).
+
+#### 7.3.1. Identificación y contexto del chat (WhatsApp)
+
+Del documento de análisis incluido y de las capturas del visor de base de datos se desprende que la evidencia principal proviene de un chat de WhatsApp donde:
+
+- Los mensajes **enviados desde el dispositivo del cómplice** se identifican con el campo `from_me = 1`.
+- Los mensajes **recibidos** corresponden al interlocutor identificado como **Atalus Grasstem**.
+- Se documenta mención directa a la víctima (Lassandra) y una conversación orientada a represalias y burla.
+
+![Captura: vista general de chats](hallazgos/camilo/chats.png)
+
+#### 7.3.2. Contenido relevante: coordinación y apoyo al ataque
+
+En la conversación se observan elementos que apuntan a **planificación** y **apoyo activo** por parte del cómplice:
+
+- Referencias a haber “recopilado información” y a la motivación de hacerlo “para echarnos unas risas”, compatibles con intencionalidad de daño/escarnio.
+- Referencias explícitas a un dispositivo para obtener contraseñas y a “colarse” en cuentas, descritas en términos de represalia.
+- Mensajes del cómplice alentando el plan (“Va a ser legendario…”) y solicitando participar (“…ni se te ocurra empezar… sin mi”).
+
+![Captura: conversación comprometedora (parte 1)](hallazgos/camilo/chat3.png)
+
+![Captura: conversación comprometedora (parte 2)](hallazgos/camilo/chast2.png)
+
+
+#### 7.3.3. Aportación de contenido para la alteración/humillación del perfil
+
+Se identifica el envío de una **imagen** por parte del cómplice con el objetivo de que fuese utilizada como **foto de perfil** con finalidad de burla (“Ponle esto de foto de perfil…”) y mensajes posteriores del interlocutor confirmando que “Ya está… Puedes mirar su perfil…”.
+
+Este punto es especialmente relevante por vincular una acción concreta del cómplice con el resultado observable del incidente (alteración/defacement y humillación pública).
+
+![Captura: imagen enviada](hallazgos/camilo/imagen-enviada.png)
+
+![Captura: perfil utilizado en acoso](hallazgos/camilo/perfil-bullyng.png)
+
+
+#### 7.3.4. Correlación temporal
+
+Basándonos en la cronología descrita en el documento de análisis del dispositivo del cómplice:
+
+- **28/04/2023:** activación/inicio del chat y conversación inicial sobre la víctima.
+- **28/04/2023:** intercambio de mensajes con referencias a represalia/burla y a la obtención de contraseñas.
+- **29/04/2023:** solicitud de ayuda técnica y coordinación para ejecutar acciones.
+- **29/04/2023:** envío de imagen para su uso como foto de perfil y confirmación posterior de ejecución.
+
+En conjunto, la evidencia de Camillo Richbald es consistente con un rol de **colaboración** en el incidente: refuerzo del acoso, coordinación con el autor principal y aportación de material para la alteración/humillación del perfil de la víctima.
+
+
+### 7.4. Análisis sobre víctima
+
+Esta sección consolida los hallazgos observados en el **entorno digital de la víctima (Lassandra)**, incluyendo comunicaciones, actividad en Instagram y artefactos del equipo/disco aportado. El objetivo es describir **hechos observables** y su coherencia temporal.
+
+**Fuentes analizadas (víctima):**
+
+- Evidencias gráficas asociadas a víctima (WhatsApp/Instagram/Telegram/Google/EXIF) (Fig. 3.1–3.10).
+- Artefactos y capturas del análisis de disco (keylogger, cookies, USB, hosts, etc.) (Fig. 3.30–3.38).
+
+#### 7.4.1. Contexto previo: comunicaciones y búsqueda de ayuda
+
+En las evidencias se observa una dinámica previa compatible con **presión/hostigamiento**, y un contexto en el que la víctima busca minimizar conflicto.
+
+![Captura: conversación WhatsApp (víctima ↔ Atalus)](hallazgos/lassandra/1.Conversación-whatsapp.png)
+
+![Captura: historial de búsquedas de la víctima](hallazgos/lassandra/7.historial-lassandra.png)
+
+#### 7.4.2. Vínculo del sospechoso con el entorno de la víctima (Google/Telegram)
+
+Se documenta la presencia del identificador/nombre del sospechoso en distintas fuentes del entorno de la víctima, apoyando que no se trata de un actor completamente ajeno:
+
+![Captura: contacto del sospechoso en Google Contacts](hallazgos/lassandra/6.contacto-atalus-google.png)
+
+![Captura: presencia de “atalus” en artefactos de Telegram](hallazgos/lassandra/5.atalus-telegram.png)
+
+#### 7.4.3. Actividad en Instagram: inicio de sesión no habitual y defacement
+
+En los registros/capturas de Instagram se observan **inicios de sesión** en el periodo investigado y, a continuación, una **alteración del perfil** consistente con defacement (cambio de biografía y estado del perfil tras el cambio).
+
+![Captura: inicio de sesión sospechoso en Instagram](hallazgos/lassandra/2.inicio-sesion-sospechoso.png)
+
+![Captura: cambios en el perfil (bio)](hallazgos/lassandra/3.cambios-perfil.png)
+
+![Captura: estado del perfil tras la alteración](hallazgos/lassandra/4.perfil-lassandra.png)
+
+#### 7.4.4. Metadatos (EXIF) y huella técnica
+
+Se incluye el análisis de metadatos EXIF de una publicación, con el fin de preservar **huellas técnicas** (identificadores/fechas) que permitan correlación posterior con dispositivos físicos u otras fuentes.
+
+![Captura: publicación relevante](hallazgos/lassandra/8.1.post-ig.png)
+
+![Captura: metadatos EXIF de la publicación](hallazgos/lassandra/8.2.metadatos-post.png)
+
+![Captura: información del dispositivo/cámara](hallazgos/lassandra/9.info-camera.png)
+
+#### 7.4.5. Evidencias técnicas en el disco: keylogger, cookies y USB
+
+Del análisis de la imagen de disco aportada se desprenden indicios técnicos compatibles con **captura de credenciales** y uso de artefactos en el equipo:
+
+- Presencia de un script tipo keylogger (`keylogger.ps1`) y un fichero de salida (`keylogger.txt`).
+- Rastros de acceso a Instagram (búsqueda/acceso) y artefactos de sesión (cookies) en base de datos SQLite.
+- Indicadores de conexión de dispositivo USB asociado a la hipótesis del ataque.
+
+Importante: el fichero `keylogger.txt` contiene información **altamente sensible** (posibles credenciales/fragmentos de tecleo). Por buenas prácticas, este informe **no reproduce** credenciales en texto; se trabaja sobre copia y se preserva el archivo original con sus hashes.
+
+![Captura: detección/ubicación del keylogger](hallazgos/disco/image.png)
+
+![Captura: búsqueda de Instagram](hallazgos/disco/image-1.png)
+
+![Captura: acceso a Instagram](hallazgos/disco/image-2.png)
+
+![Captura: cookies asociadas a sesión de Instagram](hallazgos/disco/image-3.png)
+
+![Captura: dispositivo USB conectado (indicador técnico)](hallazgos/disco/image-4.png)
+
+![Captura: keylogger en documentos recientes](hallazgos/disco/image-5.png)
+
+#### 7.4.6. Manipulación de configuración (archivo hosts)
+
+Se observa modificación del archivo `hosts` con redirecciones a una IP local para dominios educativos. Aunque no se vincula de forma directa con el incidente de Instagram, sí constituye un indicador de **manipulación de configuración** en el equipo y debe conservarse para análisis contextual.
+
+![Captura: archivo hosts modificado](hallazgos/disco/image-7.png)
+
+#### 7.4.7. Correlación temporal
+
+Basándonos en el informe del entorno de la víctima y los artefactos del disco:
+
+- **26–27/04/2023:** escalada de tensión/acoso y búsqueda de consejo para “rechazar a alguien” (contexto).
+- **28–29/04/2023:** accesos a Instagram y alteración del perfil en una ventana temporal coherente con defacement.
+- **Periodo coincidente en el equipo:** rastros de ejecución/uso de artefactos (keylogger), accesos web/cookies y eventos asociados a dispositivos USB.
+
+La combinación de (i) accesos/alteración en Instagram y (ii) artefactos técnicos en el equipo (captura de credenciales + sesión/cookies) es consistente con una hipótesis de **obtención de credenciales** y posterior **acceso no autorizado**, pendiente de confirmación final por correlación con el resto de fuentes del caso.
+
+### 7.5. Análisis sobre la camara
+
+Esta sección describe los hallazgos obtenidos a partir de las **capturas aportadas de la cámara** del aula/laboratorio. El objetivo es aportar **corroboración visual** sobre el acceso físico al puesto y la posible conexión de un dispositivo externo, sin realizar atribuciones de identidad.
+
+**Fuentes analizadas (cámara):**
+
+- Captura de uso del puesto por parte de la víctima/usuario legítimo (Fig. 3.20).
+- Capturas de manipulación del puesto por un individuo con capucha y posible conexión de dispositivo externo (Fig. 3.21–3.22).
+
+#### 7.5.1. Escena de referencia: uso legítimo del puesto
+
+Se dispone de una captura en la que se observa a dos personas sentadas frente a un equipo en el aula, compatible con un contexto de uso normal del puesto.
+
+![Captura: uso del equipo en el aula (escena de referencia)](hallazgos/camara/lassandra-iniciando-sesion.png)
+
+#### 7.5.2. Manipulación del equipo y posible conexión de dispositivo USB
+
+En dos capturas adicionales se observa a un individuo con capucha interactuando con el puesto:
+
+- En una de ellas aparece un **timestamp sobreimpreso** (`2023-04-28 17:44:51`).
+- Se aprecia un objeto en la mano y un gesto compatible con **conexión/manipulación de un puerto** del equipo (posible dispositivo USB). En el contexto del caso, esto es consistente con la hipótesis de uso de un dispositivo de inyección tipo “Rubber Ducky”, sin que estas imágenes por sí solas permitan certificar el modelo exacto.
+
+![Captura: interacción con el equipo y posible conexión de dispositivo externo](hallazgos/camara/sospechoso-rubber-ducky.png)
+
+![Captura: manipulación del puesto (segundo ángulo/instante)](hallazgos/camara/sospechoso-rubber-ducky-2.png)
+
+#### 7.5.3. Correlación con el resto de evidencias
+
+La evidencia visual de presencia física en el puesto y posible conexión de un periférico externo resulta coherente con:
+
+- Los indicios en el disco analizado sobre **uso de dispositivos USB** y presencia de artefactos compatibles con automatización/captura (p. ej., keylogger).
+- La narrativa temporal del caso, en la que existe **preparación previa** y posterior actividad asociada al compromiso de la cuenta de la víctima.
+
+
+
+
+### 7.6. Cronología del ataque
+
+Esta cronología consolida **marcas temporales exactas** tal y como constan en las fuentes aportadas. Dado que algunas evidencias registran en **UTC** (p. ej., WhatsApp en el dispositivo del cómplice) y otras en **hora local** (p. ej., actividad de Instagram en el entorno de la víctima) o **sin zona horaria explícita**, **no se realiza conversión** para evitar introducir errores. Cuando aplica, se indica la zona horaria.
+
+#### 7.6.1. Tabla cronológica (timestamps exactos)
+
+| Fecha/hora (tal como consta) | Fuente | Hecho observado | Evidencia |
+|---|---|---|---|
+| 26/04/2023 15:12:36 (UTC) | Víctima (WhatsApp) | Inicio de conversación con Atalus (“Holita…”) | [hallazgos/lassandra/lassandra-informe.md](hallazgos/lassandra/lassandra-informe.md) |
+| 27/04/2023 16:54:46 (UTC) | Víctima (WhatsApp) | Advertencia explícita de acoso (“…quedAs advertido…”) | [hallazgos/lassandra/lassandra-informe.md](hallazgos/lassandra/lassandra-informe.md) |
+| 27/04/2023 17:01 (zona no indicada) | Atalus (navegación) | Búsqueda “cómo hackear” (wikihow) | [hallazgos/atalus/hallazgo-atalus.md](hallazgos/atalus/hallazgo-atalus.md) |
+| 27/04/2023 17:02 (zona no indicada) | Atalus (navegación) | Búsqueda “rubber ducky” (Amazon) | [hallazgos/atalus/hallazgo-atalus.md](hallazgos/atalus/hallazgo-atalus.md) |
+| 27/04/2023 19:01:16 (CEST; indicado) | Atalus (navegación) | Búsqueda relacionada con “cómo hackear” / robo de contraseñas y Rubber Ducky | [hallazgos/atalus/hallazgo-atalus.md](hallazgos/atalus/hallazgo-atalus.md) |
+| 28/04/2023 08:29 (zona no indicada) | Víctima (Instagram) | Inicio de sesión no habitual (Windows/Firefox) | [hallazgos/lassandra/lassandra-informe.md](hallazgos/lassandra/lassandra-informe.md) |
+| 28/04/2023 14:45:05 (UTC) | Cómplice (SMS) | Recarga de saldo (preparación del dispositivo) | [hallazgos/camilo/analisis_Camilo.md](hallazgos/camilo/analisis_Camilo.md) |
+| 28/04/2023 14:49:32 (UTC) | Cómplice (SMS) | Recepción de código de verificación de WhatsApp (preparación del dispositivo) | [hallazgos/camilo/analisis_Camilo.md](hallazgos/camilo/analisis_Camilo.md) |
+| 28/04/2023 14:50:02 (UTC) | Cómplice (WhatsApp) | Creación del chat Camilo ↔ Atalus (evento de sistema E2E) | [hallazgos/camilo/analisis_Camilo.md](hallazgos/camilo/analisis_Camilo.md) |
+| 28/04/2023 14:57:38 (UTC) | Cómplice (WhatsApp) | Atalus anuncia el uso de un “Rubber Ducky” | [hallazgos/camilo/analisis_Camilo.md](hallazgos/camilo/analisis_Camilo.md) |
+| 28/04/2023 15:00:23 (UTC) | Cómplice (WhatsApp) | Descripción del plan: “robar contraseñas” y “colarse” en cuentas | [hallazgos/camilo/analisis_Camilo.md](hallazgos/camilo/analisis_Camilo.md) |
+| 28/04/2023 15:04:37 (UTC) | Cómplice (WhatsApp) | Indicación de ejecución (“…mientras el coso funciona…”) | [hallazgos/camilo/analisis_Camilo.md](hallazgos/camilo/analisis_Camilo.md) |
+| 28/04/2023 15:04:45 (UTC) | Cómplice (WhatsApp) | Confirmación de desplazamiento/encuentro físico (“Dame 5 minutos…”) | [hallazgos/camilo/analisis_Camilo.md](hallazgos/camilo/analisis_Camilo.md) |
+| 28/04/2023 15:57 (zona no indicada) | Atalus (navegación) | Lectura de artículo sobre Rubber Ducky (peligrosidad) | [hallazgos/atalus/hallazgo-atalus.md](hallazgos/atalus/hallazgo-atalus.md) |
+| 28/04/2023 16:00 (zona no indicada) | Atalus (navegación) | Descarga/instalación de Telegram APK (para contacto/amenazas) | [hallazgos/atalus/hallazgo-atalus.md](hallazgos/atalus/hallazgo-atalus.md) |
+| 28/04/2023 17:07 (zona no indicada) | Atalus (Telegram) | Primer mensaje recibido de la víctima en Telegram | [hallazgos/atalus/hallazgo-atalus.md](hallazgos/atalus/hallazgo-atalus.md) |
+| 28/04/2023 17:31 (zona no indicada) | Atalus (Telegram) | Primer mensaje amenazante hacia la víctima | [hallazgos/atalus/hallazgo-atalus.md](hallazgos/atalus/hallazgo-atalus.md) |
+| 2023-04-28 17:44:51 (timestamp sobreimpreso) | Cámara | Manipulación del puesto con gesto compatible con conexión de dispositivo externo | [hallazgos/camara/sospechoso-rubber-ducky.png](hallazgos/camara/sospechoso-rubber-ducky.png) |
+| 29/04/2023 12:44 (zona no indicada) | Víctima (Instagram) | Acceso a Instagram desde terminal móvil “S25 / Android 9” | [hallazgos/lassandra/lassandra-informe.md](hallazgos/lassandra/lassandra-informe.md) |
+| 29/04/2023 12:47 (zona no indicada) | Víctima (Instagram) | Alteración del perfil (cambio de biografía) | [hallazgos/lassandra/lassandra-informe.md](hallazgos/lassandra/lassandra-informe.md) |
+| 29/04/2023 20:16:33 (UTC) | Cómplice (WhatsApp) | Atalus reporta problemas técnicos y plantea apoyo con el móvil de Camilo | [hallazgos/camilo/analisis_Camilo.md](hallazgos/camilo/analisis_Camilo.md) |
+| 29/04/2023 20:25:02 (UTC) | Cómplice (WhatsApp) | Resolución de problema (“Ya me funciona…”) | [hallazgos/camilo/analisis_Camilo.md](hallazgos/camilo/analisis_Camilo.md) |
+| 29/04/2023 20:25:11 (UTC) | Cómplice (WhatsApp) | Plan de contingencia (“si falla… usamos el tuyo”) | [hallazgos/camilo/analisis_Camilo.md](hallazgos/camilo/analisis_Camilo.md) |
+| 29/04/2023 20:32 (zona no indicada) | Atalus (navegación) | Consulta “¿Qué son los derechos de autor?” (Ayuda Google) | [hallazgos/atalus/hallazgo-atalus.md](hallazgos/atalus/hallazgo-atalus.md) |
+| 29/04/2023 20:35 (zona no indicada) | Atalus (navegación) | Consulta ayuda de Instagram (problemas con app) | [hallazgos/atalus/hallazgo-atalus.md](hallazgos/atalus/hallazgo-atalus.md) |
+| 29/04/2023 20:42 (zona no indicada) | Atalus (navegación) | Intento de acceso a publicación de Instagram (página no encontrada) | [hallazgos/atalus/hallazgo-atalus.md](hallazgos/atalus/hallazgo-atalus.md) |
+| 29/04/2023 20:33:52 (UTC) | Cómplice (WhatsApp) | Camilo envía imagen para usar como foto de perfil con intención de burla | [hallazgos/camilo/analisis_Camilo.md](hallazgos/camilo/analisis_Camilo.md) |
+| 29/04/2023 20:45 (zona no indicada) | Atalus (navegación) | Acceso a bandeja Direct y al perfil de la víctima | [hallazgos/atalus/hallazgo-atalus.md](hallazgos/atalus/hallazgo-atalus.md) |
+| 29/04/2023 20:46 (zona no indicada) | Atalus (navegación) | Acceso a “Editar perfil” (cuenta propia) | [hallazgos/atalus/hallazgo-atalus.md](hallazgos/atalus/hallazgo-atalus.md) |
+| 29/04/2023 20:47 (zona no indicada) | Atalus (navegación) | Segunda visita al perfil de la víctima | [hallazgos/atalus/hallazgo-atalus.md](hallazgos/atalus/hallazgo-atalus.md) |
+| 29/04/2023 20:49:30 (UTC) | Cómplice (WhatsApp) | Confirmación de ejecución: “Ya está / Puedes mirar su perfil…” | [hallazgos/camilo/analisis_Camilo.md](hallazgos/camilo/analisis_Camilo.md) |
+| 30/04/2023 10:28 (zona no indicada) | Víctima (Instagram) | Acceso considerado legítimo desde terminal de la víctima (Android 11) | [hallazgos/lassandra/lassandra-informe.md](hallazgos/lassandra/lassandra-informe.md) |
+
+#### 7.6.2. Resumen visual (Mermaid)
+
+```mermaid
+flowchart TB
+	subgraph Victima[Víctima (Instagram/WhatsApp)]
+		V1["26–27/04/2023\nEscalada de acoso (WhatsApp)"]
+		V2["28/04/2023 08:29\nLogin no habitual (Windows/Firefox)"]
+		V3["29/04/2023 12:44–12:47\nLogin + cambio de bio (defacement)"]
+		V4["30/04/2023 10:28\nLogin legítimo posterior"]
+		V1 --> V2 --> V3 --> V4
+	end
+
+	subgraph Camilo[Dispositivo cómplice (UTC)]
+		C1["28/04/2023 14:49:32 UTC\nSMS verificación WhatsApp"]
+		C2["28/04/2023 14:50:02 UTC\nChat creado"]
+		C3["28/04/2023 14:57:38 UTC\nMención Rubber Ducky"]
+		C4["29/04/2023 20:33:52 UTC\nImagen para perfil"]
+		C5["29/04/2023 20:49:30 UTC\nConfirmación 'Ya está'"]
+		C1 --> C2 --> C3 --> C4 --> C5
+	end
+
+	subgraph Camara[Cámara (timestamp sobreimpreso)]
+		K1["2023-04-28 17:44:51\nManipulación del puesto + posible USB"]
+	end
+
+	C3 --> K1
+	K1 --> V3
+	C5 --> V3
+```
+
+
 ## 8. Limitaciones
 
 Las conclusiones del presente informe se basan en las fuentes aportadas y en el método de adquisición disponible. En consecuencia, deben interpretarse considerando las siguientes limitaciones:
