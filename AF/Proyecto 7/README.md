@@ -466,7 +466,7 @@ Esta cronología consolida **marcas temporales exactas** tal y como constan en l
 
 #### 7.6.1. Tabla cronológica (timestamps exactos)
 
-| Fecha/hora (tal como consta) | Fuente | Hecho observado | Evidencia |
+| Fecha/hora | Fuente | Hecho observado | Evidencia |
 |---|---|---|---|
 | 26/04/2023 15:12:36 (UTC) | Víctima (WhatsApp) | Inicio de conversación con Atalus (“Holita…”) | [hallazgos/lassandra/lassandra-informe.md](hallazgos/lassandra/lassandra-informe.md) |
 | 27/04/2023 16:54:46 (UTC) | Víctima (WhatsApp) | Advertencia explícita de acoso (“…quedAs advertido…”) | [hallazgos/lassandra/lassandra-informe.md](hallazgos/lassandra/lassandra-informe.md) |
@@ -505,30 +505,48 @@ Esta cronología consolida **marcas temporales exactas** tal y como constan en l
 
 ```mermaid
 flowchart TB
-	subgraph Victima[Víctima (Instagram/WhatsApp)]
-		V1["26–27/04/2023\nEscalada de acoso (WhatsApp)"]
-		V2["28/04/2023 08:29\nLogin no habitual (Windows/Firefox)"]
-		V3["29/04/2023 12:44–12:47\nLogin + cambio de bio (defacement)"]
-		V4["30/04/2023 10:28\nLogin legítimo posterior"]
-		V1 --> V2 --> V3 --> V4
-	end
 
-	subgraph Camilo[Dispositivo cómplice (UTC)]
-		C1["28/04/2023 14:49:32 UTC\nSMS verificación WhatsApp"]
-		C2["28/04/2023 14:50:02 UTC\nChat creado"]
-		C3["28/04/2023 14:57:38 UTC\nMención Rubber Ducky"]
-		C4["29/04/2023 20:33:52 UTC\nImagen para perfil"]
-		C5["29/04/2023 20:49:30 UTC\nConfirmación 'Ya está'"]
-		C1 --> C2 --> C3 --> C4 --> C5
-	end
+%% --- FASE 1: ACOSO INICIAL ---
+subgraph F1["Fase 1: Acoso inicial"]
+A1["26/04 Inicio conversación WhatsApp"]
+A2["27/04 Advertencia de acoso"]
+end
+A1 --> A2
 
-	subgraph Camara[Cámara (timestamp sobreimpreso)]
-		K1["2023-04-28 17:44:51\nManipulación del puesto + posible USB"]
-	end
+%% --- FASE 2: PREPARACIÓN DEL ATAQUE ---
+subgraph F2["Fase 2: Preparación"]
+B1["27/04 Búsquedas cómo hackear"]
+B2["27/04 Búsqueda Rubber Ducky"]
+B3["28/04 14:49 UTC Código verificación WhatsApp"]
+B4["28/04 14:50 UTC Creación chat cómplice"]
+B5["28/04 14:57 UTC Anuncio uso Rubber Ducky"]
+B6["28/04 15:00 UTC Plan robar contraseñas"]
+end
+A2 --> B1 --> B2 --> B3 --> B4 --> B5 --> B6
 
-	C3 --> K1
-	K1 --> V3
-	C5 --> V3
+%% --- FASE 3: EJECUCIÓN ---
+subgraph F3["Fase 3: Ejecución"]
+C1["28/04 08:29 Login sospechoso Instagram"]
+C2["28/04 17:44 Manipulación física detectada"]
+C3["29/04 12:44 Acceso no autorizado"]
+C4["29/04 12:47 Cambio de bio"]
+end
+B6 --> C2
+C1 --> C3 --> C4
+C2 --> C3
+
+%% --- FASE 4: COORDINACIÓN ---
+subgraph F4["Fase 4: Coordinación"]
+D1["29/04 20:33 UTC Envío imagen burla"]
+D2["29/04 20:49 UTC Confirmación ya está"]
+end
+C4 --> D1 --> D2
+
+%% --- FASE 5: CONSECUENCIA ---
+subgraph F5["Fase 5: Consecuencia"]
+E1["30/04 Recuperación acceso legítimo"]
+end
+D2 --> E1
 ```
 
 
