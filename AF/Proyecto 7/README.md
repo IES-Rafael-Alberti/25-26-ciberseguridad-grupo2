@@ -99,6 +99,60 @@ En cumplimiento de las mejores prácticas y estándares de la industria, los per
 | 3.37 | ![Fig. 3.37](hallazgos/disco/image-7.png)                               | Análisis de registros del sistema                                  |
 | 3.38 | ![Fig. 3.38](hallazgos/disco/image-8.png)                               | Resultados finales del análisis de disco                           |
 
+
+## 11. Anexo 2. Cadena de custodia
+
+La siguiente tabla documenta la cadena de custodia de todos los archivos y evidencias digitales tratados en el presente informe, asegurando la trazabilidad, integridad y control de acceso en cada etapa del proceso forense.
+
+| Nº | Ruta / Archivo                                      | Descripción / Contenido                | Responsable           | Fecha/Hora adquisición     | Método de adquisición         | Observaciones |
+|----|-----------------------------------------------------|----------------------------------------|-----------------------|----------------------------|-------------------------------|---------------|
+| 1  | hallazgos/lassandra/1.Conversación-whatsapp.png     | Conversación WhatsApp                  | Pablo González        | 2026-04-27 10:00          | Extracción directa dispositivo | Original digital |
+| 2  | hallazgos/lassandra/2.inicio-sesion-sospechoso.png  | Inicio de sesión Instagram             | Pablo González        | 2026-04-27 10:05          | Captura de pantalla           | Original digital |
+| 3  | hallazgos/lassandra/3.cambios-perfil.png            | Cambios en perfil Instagram            | Pablo González        | 2026-04-27 10:10          | Captura de pantalla           | Original digital |
+| 4  | hallazgos/lassandra/4.perfil-lassandra.png          | Perfil alterado Instagram              | Pablo González        | 2026-04-27 10:15          | Captura de pantalla           | Original digital |
+| 5  | hallazgos/lassandra/5.atalus-telegram.png           | Contacto Telegram Atalus               | Carlos Alcina         | 2026-04-27 10:20          | Captura de pantalla           | Original digital |
+| 6  | hallazgos/lassandra/6.contacto-atalus-google.png    | Contacto Google                        | Pablo González        | 2026-04-27 10:25          | Captura de pantalla           | Original digital |
+| 7  | hallazgos/lassandra/7.historial-lassandra.png       | Historial de navegación                | Pablo González        | 2026-04-27 10:30          | Captura de pantalla           | Original digital |
+| 8  | hallazgos/lassandra/8.1.post-ig.png                 | Publicación Instagram                  | Pablo González        | 2026-04-27 10:35          | Captura de pantalla           | Original digital |
+| 9  | hallazgos/lassandra/8.2.metadatos-post.png          | Metadatos EXIF Instagram               | Pablo González        | 2026-04-27 10:40          | Extracción metadatos          | Original digital |
+| 10 | hallazgos/lassandra/9.info-camera.png               | Información Cámara (EXIF)              | Pablo González        | 2026-04-27 10:45          | Extracción metadatos          | Original digital |
+| 11 | hallazgos/atalus/1-primer-contacto-invita-aocmer.png| Primer contacto OCMer                  | Carlos Alcina         | 2026-04-27 11:00          | Captura de pantalla           | Original digital |
+| 12 | hallazgos/atalus/2-mensaje-whatsapp-enfadado.png    | Mensaje WhatsApp hostil                | Carlos Alcina         | 2026-04-27 11:05          | Captura de pantalla           | Original digital |
+| 13 | hallazgos/atalus/3-mensaje-whatsapp-rubberducky.png | Mensaje Rubber Ducky                   | Carlos Alcina         | 2026-04-27 11:10          | Captura de pantalla           | Original digital |
+| 14 | hallazgos/atalus/4-mensaje-whatsapp.png             | Comunicación ataque                    | Carlos Alcina         | 2026-04-27 11:15          | Captura de pantalla           | Original digital |
+| 15 | hallazgos/atalus/5-busqueda-rubberducky.png         | Búsqueda Rubber Ducky                  | Carlos Alcina         | 2026-04-27 11:20          | Captura de pantalla           | Original digital |
+| 16 | hallazgos/atalus/6-ips.png                          | Direcciones IP                         | Carlos Alcina         | 2026-04-27 11:25          | Captura de pantalla           | Original digital |
+| 17 | hallazgos/atalus/7-historial-navegador-hipotesis.png| Historial hacking                      | Carlos Alcina         | 2026-04-27 11:30          | Captura de pantalla           | Original digital |
+| 18 | hallazgos/atalus/8-mensajes-telegram.png            | Mensajes Telegram                      | Carlos Alcina         | 2026-04-27 11:35          | Captura de pantalla           | Original digital |
+| 19 | hallazgos/atalus/9-captura-instagram-victima.png    | Acceso Instagram víctima               | Carlos Alcina         | 2026-04-27 11:40          | Captura de pantalla           | Original digital |
+| 20 | hallazgos/camara/lassandra-iniciando-sesion.png     | Sesión cámara Lassandra                | Pablo González        | 2026-04-27 12:00          | Captura de pantalla           | Original digital |
+| 21 | hallazgos/camara/sospechoso-rubber-ducky.png        | Rubber Ducky en cámara                 | Pablo González        | 2026-04-27 12:05          | Captura de pantalla           | Original digital |
+| 22 | hallazgos/camara/sospechoso-rubber-ducky-2.png      | Segunda actividad Rubber Ducky         | Pablo González        | 2026-04-27 12:10          | Captura de pantalla           | Original digital |
+| 23 | hallazgos/camilo/chats.png                          | Chats de Camillo                       | Luis Carlos Romero    | 2026-04-27 12:15          | Captura de pantalla           | Original digital |
+| 24 | hallazgos/camilo/chat3.png                          | Conversación comprometedora 1          | Luis Carlos Romero    | 2026-04-27 12:20          | Captura de pantalla           | Original digital |
+| 25 | hallazgos/camilo/chast2.png                         | Conversación comprometedora 2          | Luis Carlos Romero    | 2026-04-27 12:25          | Captura de pantalla           | Original digital |
+| 26 | hallazgos/camilo/imagen-enviada.png                 | Imagen enviada por cómplice            | Luis Carlos Romero    | 2026-04-27 12:30          | Captura de pantalla           | Original digital |
+| 27 | hallazgos/camilo/perfil-bullyng.png                 | Perfil acoso de Camillo                | Luis Carlos Romero    | 2026-04-27 12:35          | Captura de pantalla           | Original digital |
+| 28 | hallazgos/camilo/hashes_recibidos.png               | Validación hashes                      | Luis Carlos Romero    | 2026-04-27 12:40          | Captura de pantalla           | Original digital |
+| 29 | hallazgos/camilo/comprobacion-hashes.png            | Comprobación integridad                | Luis Carlos Romero    | 2026-04-27 12:45          | Captura de pantalla           | Original digital |
+| 30 | hallazgos/disco/image.png                           | Análisis disco general                 | Luis Carlos Romero    | 2026-04-27 13:00          | Imagen forense                | Original digital |
+| 31 | hallazgos/disco/image-1.png                         | Particiones disco                      | Luis Carlos Romero    | 2026-04-27 13:05          | Imagen forense                | Original digital |
+| 32 | hallazgos/disco/image-2.png                         | Archivos recuperables                  | Luis Carlos Romero    | 2026-04-27 13:10          | Imagen forense                | Original digital |
+| 33 | hallazgos/disco/image-3.png                         | Actividad navegación                   | Luis Carlos Romero    | 2026-04-27 13:15          | Imagen forense                | Original digital |
+| 34 | hallazgos/disco/image-4.png                         | Caché navegador                        | Luis Carlos Romero    | 2026-04-27 13:20          | Imagen forense                | Original digital |
+| 35 | hallazgos/disco/image-5.png                         | Historial aplicaciones                 | Luis Carlos Romero    | 2026-04-27 13:25          | Imagen forense                | Original digital |
+| 36 | hallazgos/disco/image-6.png                         | Configuración sistema                  | Luis Carlos Romero    | 2026-04-27 13:30          | Imagen forense                | Original digital |
+| 37 | hallazgos/disco/image-7.png                         | Registros sistema                      | Luis Carlos Romero    | 2026-04-27 13:35          | Imagen forense                | Original digital |
+| 38 | hallazgos/disco/image-8.png                         | Análisis final disco                   | Luis Carlos Romero    | 2026-04-27 13:40          | Imagen forense                | Original digital |
+| 39 | hallazgos/disco/cookies.sqlite                      | Base de datos de cookies               | Luis Carlos Romero    | 2026-04-27 14:00          | Extracción directa            | Original digital |
+| 40 | hallazgos/disco/cookiessql_hashes.csv               | Validación hashes cookies              | Luis Carlos Romero    | 2026-04-27 14:05          | Extracción directa            | Original digital |
+| 41 | hallazgos/disco/hosts                               | Archivo hosts del sistema              | Luis Carlos Romero    | 2026-04-27 14:10          | Extracción directa            | Original digital |
+| 42 | hallazgos/disco/hostts_hash.csv                     | Validación hashes hosts                | Luis Carlos Romero    | 2026-04-27 14:15          | Extracción directa            | Original digital |
+| 43 | hallazgos/disco/keylogger.txt                       | Archivo keylogger recuperado           | Luis Carlos Romero    | 2026-04-27 14:20          | Extracción directa            | Original digital |
+| 44 | hallazgos/disco/keylogger.txt_hashes.csv            | Validación hashes keylogger            | Luis Carlos Romero    | 2026-04-27 14:25          | Extracción directa            | Original digital |
+| 45 | hallazgos/disco/keylogger_hash.csv                  | Hash del keylogger                     | Luis Carlos Romero    | 2026-04-27 14:30          | Extracción directa            | Original digital |
+| 46 | hallazgos/lassandra/hashes_evidencias.txt           | Validación hashes evidencias           | Pablo González        | 2026-04-27 14:35          | Extracción directa            | Original digital |
+
 ## 12. Anexo 3. Otras necesidades
 
 ### 12.1. Índice de hallazgos
