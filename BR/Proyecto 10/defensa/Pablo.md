@@ -4,6 +4,7 @@
 - Definición y ajuste de los activos principales.
 - Organización de los activos por capas y grupos.
 - Realización de la valoración de activos y apoyo en la revisión de amenazas.
+- Elaboración de aproximadamente la mitad de la presentación para la defensa.
 
 ## Calendario de tareas
 
@@ -13,4 +14,4 @@
 
 **10/05/2026** -> Organicé y consolidé los activos por capas y grupos, corrigiendo relaciones y dependencias para mejorar la coherencia del inventario.
 
-**11/05/2026** -> Realicé la valoración de activos y apoyé en la revisión de amenazas, realizando ajustes finales y preparando los puntos clave para la defensa.
+**11/05/2026** -> Realicé la valoración de activos y apoyé en la revisión de amenazas, realizando ajustes finales y elaborando aproximadamente la mitad de la presentación para la defensa.
