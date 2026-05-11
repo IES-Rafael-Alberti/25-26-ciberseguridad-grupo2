@@ -19,3 +19,54 @@
     1. [Índice de hallazgos](#121-índice-de-hallazgos)
 
 
+## 1. Juramento y declaración de abstención
+
+Los peritos abajo firmantes manifiestan, bajo juramento o promesa de decir verdad, que han actuado y actuarán con la mayor objetividad posible, considerando tanto lo que pueda favorecer como lo que pueda perjudicar a cualquiera de las partes. Asimismo, declaran conocer las sanciones penales en las que podrían incurrir si incumplen su deber como peritos.
+
+En cumplimiento de las mejores prácticas y estándares de la industria, los peritos declaran expresamente:
+
+- Que no existe conflicto de interés alguno que pueda comprometer la objetividad del presente informe.
+- Que no tienen parentesco, vínculo matrimonial o situación de hecho asimilable con ninguna de las partes, ni con sus abogados o procuradores.
+- Que no tienen interés directo ni indirecto en el objeto del pleito ni en su resolución.
+- Que no han prestado servicios profesionales anteriormente a ninguna de las partes en relación directa con este caso.
+
+
+
+
+
+
+
+
+
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Nombre y Apellidos</th>
+            <th>Cargo / Titulación</th>
+            <th>Firma</th>
+            <th>Fecha</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Carlos Alcina</td>
+            <td>Técnico Superior en Desarrollo de Aplicaciones Multiplataforma (DAM)</td>
+            <td><img src="img/firma_carlos.png" alt="Firma Carlos Alcina" height="60"></td>
+            <td>27/04/2026</td>
+        </tr>
+        <tr>
+            <td>Pablo González</td>
+            <td>Técnico Superior en Desarrollo de Aplicaciones Multiplataforma (DAM) y Técnico Superior en Desarrollo de Aplicaciones Web (DAW)</td>
+            <td><img src="img/firma_pg.jpeg" alt="Firma de Pablo González" height="60"></td>
+            <td>27/04/2026</td>
+        </tr>
+        <tr>
+            <td>Luis Carlos Romero</td>
+            <td>Técnico Superior en Desarrollo de Aplicaciones Web (DAW)</td>
+            <td><img src="img/lc_firma.png" alt="Firma de Luis Carlos Romero" height="60"></td>
+            <td>27/04/2026</td>
+        </tr>
+    </tbody>
+</table>
