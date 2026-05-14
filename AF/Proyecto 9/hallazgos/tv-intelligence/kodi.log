@@ -1,0 +1,256 @@
+﻿19:00:08.136 T:1958941616  NOTICE: special://profile/ is mapped to: special://masterprofile/
+19:00:08.136 T:1958941616  NOTICE: -----------------------------------------------------------------------
+19:00:08.136 T:1958941616  NOTICE: Starting Kodi (17.3). Platform: Linux ARM (Thumb) 32-bit
+19:00:08.136 T:1958941616  NOTICE: Using Release Kodi x32 build (version for Raspberry Pi)
+19:00:08.136 T:1958941616  NOTICE: Kodi compiled Jul  2 2017 by GCC 4.9.2 for Linux ARM (Thumb) 32-bit version 3.16.39 (200743)
+19:00:08.136 T:1958941616  NOTICE: Running on Open Source Media Center 2017.06-1, kernel: Linux ARM 32-bit version 4.9.29-8-osmc
+19:00:08.136 T:1958941616  NOTICE: FFmpeg version/source: ffmpeg-3.1-kodi
+19:00:08.136 T:1958941616  NOTICE: Host CPU: ARMv7 Processor rev 4 (v7l), 4 cores available
+19:00:08.136 T:1958941616  NOTICE: ARM Features: Neon disabled
+19:00:08.136 T:1958941616  NOTICE: special://xbmc/ is mapped to: /usr/share/kodi
+19:00:08.136 T:1958941616  NOTICE: special://xbmcbin/ is mapped to: /usr/lib/kodi
+19:00:08.136 T:1958941616  NOTICE: special://xbmcbinaddons/ is mapped to: /usr/lib/kodi/addons
+19:00:08.136 T:1958941616  NOTICE: special://masterprofile/ is mapped to: /home/osmc/.kodi/userdata
+19:00:08.136 T:1958941616  NOTICE: special://envhome/ is mapped to: /home/osmc
+19:00:08.136 T:1958941616  NOTICE: special://home/ is mapped to: /home/osmc/.kodi
+19:00:08.136 T:1958941616  NOTICE: special://temp/ is mapped to: /home/osmc/.kodi/temp
+19:00:08.136 T:1958941616  NOTICE: special://logpath/ is mapped to: /home/osmc/.kodi/temp
+19:00:08.136 T:1958941616  NOTICE: The executable running is: /usr/lib/kodi/kodi.bin
+19:00:08.136 T:1958941616  NOTICE: Local hostname: osmc
+19:00:08.136 T:1958941616  NOTICE: Log File is located: /home/osmc/.kodi/temp//kodi.log
+19:00:08.136 T:1958941616  NOTICE: -----------------------------------------------------------------------
+19:00:08.328 T:1958941616   ERROR: DBus: Error org.freedesktop.DBus.Error.ServiceUnknown - The name org.freedesktop.UPower was not provided by any .service files
+19:00:08.370 T:1958941616  NOTICE: load settings...
+19:00:08.513 T:1958941616  NOTICE: Found 2 Lists of Devices
+19:00:08.514 T:1958941616  NOTICE: Enumerated PI devices:
+19:00:08.514 T:1958941616  NOTICE:     Device 1
+19:00:08.514 T:1958941616  NOTICE:         m_deviceName      : HDMI
+19:00:08.514 T:1958941616  NOTICE:         m_displayName     : HDMI
+19:00:08.514 T:1958941616  NOTICE:         m_displayNameExtra:
+19:00:08.514 T:1958941616  NOTICE:         m_deviceType      : AE_DEVTYPE_HDMI
+19:00:08.514 T:1958941616  NOTICE:         m_channels        : FL,FR
+19:00:08.514 T:1958941616  NOTICE:         m_sampleRates     : 8000,11025,16000,22050,24000,32000,44100,48000,88200,96000,176400,192000
+19:00:08.514 T:1958941616  NOTICE:         m_dataFormats     : AE_FMT_FLOAT,AE_FMT_S32NE,AE_FMT_S16NE,AE_FMT_S32LE,AE_FMT_S16LE,AE_FMT_FLOATP,AE_FMT_S32NEP,AE_FMT_S16NEP,AE_FMT_RAW
+19:00:08.514 T:1958941616  NOTICE:         m_streamTypes     : STREAM_TYPE_AC3,STREAM_TYPE_EAC3,STREAM_TYPE_DTSHD_CORE,STREAM_TYPE_DTS_2048,STREAM_TYPE_DTS_1024,STREAM_TYPE_DTS_512
+19:00:08.514 T:1958941616  NOTICE:     Device 2
+19:00:08.514 T:1958941616  NOTICE:         m_deviceName      : Analogue
+19:00:08.514 T:1958941616  NOTICE:         m_displayName     : Analogue
+19:00:08.514 T:1958941616  NOTICE:         m_displayNameExtra:
+19:00:08.514 T:1958941616  NOTICE:         m_deviceType      : AE_DEVTYPE_PCM
+19:00:08.514 T:1958941616  NOTICE:         m_channels        : FL,FR
+19:00:08.514 T:1958941616  NOTICE:         m_sampleRates     : 48000
+19:00:08.514 T:1958941616  NOTICE:         m_dataFormats     : AE_FMT_FLOAT,AE_FMT_S32LE,AE_FMT_S16LE,AE_FMT_FLOATP,AE_FMT_S32NEP,AE_FMT_S16NEP
+19:00:08.514 T:1958941616  NOTICE:         m_streamTypes     : No passthrough capabilities
+19:00:08.514 T:1958941616  NOTICE:     Device 3
+19:00:08.514 T:1958941616  NOTICE:         m_deviceName      : Both
+19:00:08.514 T:1958941616  NOTICE:         m_displayName     : HDMI and Analogue
+19:00:08.514 T:1958941616  NOTICE:         m_displayNameExtra:
+19:00:08.514 T:1958941616  NOTICE:         m_deviceType      : AE_DEVTYPE_PCM
+19:00:08.514 T:1958941616  NOTICE:         m_channels        : FL,FR
+19:00:08.514 T:1958941616  NOTICE:         m_sampleRates     : 48000
+19:00:08.515 T:1958941616  NOTICE:         m_dataFormats     : AE_FMT_FLOAT,AE_FMT_S32LE,AE_FMT_S16LE,AE_FMT_FLOATP,AE_FMT_S32NEP,AE_FMT_S16NEP
+19:00:08.515 T:1958941616  NOTICE:         m_streamTypes     : No passthrough capabilities
+19:00:08.515 T:1958941616  NOTICE: Enumerated ALSA devices:
+19:00:08.515 T:1958941616  NOTICE:     Device 1
+19:00:08.515 T:1958941616  NOTICE:         m_deviceName      : @
+19:00:08.515 T:1958941616  NOTICE:         m_displayName     : Default (bcm2835 ALSA bcm2835 ALSA)
+19:00:08.515 T:1958941616  NOTICE:         m_displayNameExtra:
+19:00:08.515 T:1958941616  NOTICE:         m_deviceType      : AE_DEVTYPE_PCM
+19:00:08.515 T:1958941616  NOTICE:         m_channels        : FL,FR
+19:00:08.515 T:1958941616  NOTICE:         m_sampleRates     : 8000,11025,16000,22050,32000,44100,48000
+19:00:08.515 T:1958941616  NOTICE:         m_dataFormats     : AE_FMT_S16NE,AE_FMT_S16LE,AE_FMT_U8
+19:00:08.515 T:1958941616  NOTICE:         m_streamTypes     : No passthrough capabilities
+19:00:08.537 T:1958941616  NOTICE: Loaded settings file from special://xbmc/system/advancedsettings.xml
+19:00:08.537 T:1958941616  NOTICE: Contents of special://xbmc/system/advancedsettings.xml are...
+                                            <?xml version="1.0" encoding="UTF-8" ?>
+                                            <!-- Do not modify! These are OSMC Optimised Settings for your device  !-->
+                                            <!-- If you wish to override any of these values, then create a file in /home/osmc/.kodi/userdata/advancedsettings.xml !-->
+                                            <!-- It will override these settings, and your settings will be preserved across OSMC updates !-->
+                                            <advancedsettings>
+                                              <imageres>540</imageres>
+                                              <fanartres>720</fanartres>
+                                              <splash>false</splash>
+                                              <handlemounting>0</handlemounting>
+                                              <samba>
+                                                <clienttimeout>30</clienttimeout>
+                                              </samba>
+                                            </advancedsettings>
+19:00:08.539 T:1958941616  NOTICE: No settings file to load (special://masterprofile/advancedsettings.xml)
+19:00:08.539 T:1958941616  NOTICE: Default Video Player: VideoPlayer
+19:00:08.539 T:1958941616  NOTICE: Default Audio Player: paplayer
+19:00:08.539 T:1958941616  NOTICE: Disabled debug logging due to GUI setting. Level 0.
+19:00:08.539 T:1958941616  NOTICE: Log level changed to "LOG_LEVEL_NORMAL"
+19:00:08.539 T:1958941616  NOTICE: Loading player core factory settings from special://xbmc/system/playercorefactory.xml.
+19:00:08.540 T:1958941616  NOTICE: Loaded playercorefactory configuration
+19:00:08.540 T:1958941616  NOTICE: Loading player core factory settings from special://masterprofile/playercorefactory.xml.
+19:00:08.541 T:1958941616  NOTICE: special://masterprofile/playercorefactory.xml does not exist. Skipping.
+19:00:08.666 T:1958941616  NOTICE: Running database version Addons27
+19:00:09.187 T:1958941616  NOTICE: ADDONS: Using repository repository.xbmc.org
+19:00:09.430 T:1958941616  NOTICE: Raspberry PI firmware version: May 30 2017 15:27:20 
+                                            Copyright (c) 2012 Broadcom
+                                            version b8cdd5ae76f39d9f353dfa8fb48bf7e33b74903c (clean) (release)
+19:00:09.430 T:1958941616  NOTICE: ARM mem: 752MB GPU mem: 256MB MPG2:0 WVC1:0
+19:00:09.430 T:1958941616  NOTICE: cache.memorysize: 20MB libass.cache: 0MB
+19:00:09.430 T:1958941616  NOTICE: Config:
+                                            arm_freq=1200
+                                            audio_pwm_mode=1
+                                            config_hdmi_boost=5
+                                            core_freq=400
+                                            desired_osc_freq=0x36ee80
+                                            disable_commandline_tags=2
+                                            disable_l2cache=1
+                                            disable_splash=1
+                                            force_eeprom_read=1
+                                            force_pwm_open=1
+                                            framebuffer_ignore_alpha=1
+                                            framebuffer_swap=1
+                                            gpu_freq=300
+                                            hdmi_force_cec_address=65535
+                                            hdmi_ignore_cec_init=1
+                                            init_uart_baud=19200
+                                            init_uart_clock=0x2dc6c00
+                                            lcd_framerate=60
+                                            over_voltage_avs=0x1cfde
+                                            over_voltage_avs_boost=0x1cfde
+                                            pause_burst_frames=1
+                                            program_serial_random=1
+                                            sdram_freq=450
+                                            sdtv_aspect=1
+                                            temp_limit=85
+19:00:09.431 T:1958941616  NOTICE: Config:
+                                            device_tree=-
+19:00:09.439 T:1958941616  NOTICE: InitWindowSystem: Using EGL Implementation: raspberrypi
+19:00:09.441 T:1958941616  NOTICE: Found resolution 640 x 480 for display 0 with 640 x 480 @ 60.000000 Hz
+19:00:09.441 T:1958941616  NOTICE: Found resolution 640 x 480 for display 0 with 640 x 480 @ 59.940063 Hz
+19:00:09.441 T:1958941616  NOTICE: Found resolution 640 x 480 for display 0 with 640 x 480 @ 72.000000 Hz
+19:00:09.441 T:1958941616  NOTICE: Found resolution 640 x 480 for display 0 with 640 x 480 @ 71.928070 Hz
+19:00:09.441 T:1958941616  NOTICE: Found resolution 640 x 480 for display 0 with 640 x 480 @ 75.000000 Hz
+19:00:09.441 T:1958941616  NOTICE: Found resolution 800 x 600 for display 0 with 800 x 600 @ 56.000000 Hz
+19:00:09.441 T:1958941616  NOTICE: Found resolution 800 x 600 for display 0 with 800 x 600 @ 60.000000 Hz
+19:00:09.441 T:1958941616  NOTICE: Found resolution 800 x 600 for display 0 with 800 x 600 @ 59.940063 Hz
+19:00:09.441 T:1958941616  NOTICE: Found resolution 800 x 600 for display 0 with 800 x 600 @ 72.000000 Hz
+19:00:09.441 T:1958941616  NOTICE: Found resolution 800 x 600 for display 0 with 800 x 600 @ 71.928070 Hz
+19:00:09.441 T:1958941616  NOTICE: Found resolution 800 x 600 for display 0 with 800 x 600 @ 75.000000 Hz
+19:00:09.441 T:1958941616  NOTICE: Found resolution 1024 x 768 for display 0 with 1024 x 768 @ 60.000000 Hz
+19:00:09.441 T:1958941616  NOTICE: Found resolution 1024 x 768 for display 0 with 1024 x 768 @ 59.940063 Hz
+19:00:09.441 T:1958941616  NOTICE: Found resolution 1024 x 768 for display 0 with 1024 x 768 @ 70.000000 Hz
+19:00:09.441 T:1958941616  NOTICE: Found resolution 1024 x 768 for display 0 with 1024 x 768 @ 75.000000 Hz
+19:00:09.441 T:1958941616  NOTICE: Found resolution 1280 x 768 for display 0 with 1280 x 768 @ 60.000000 Hz
+19:00:09.441 T:1958941616  NOTICE: Found resolution 1280 x 768 for display 0 with 1280 x 768 @ 59.940063 Hz
+19:00:09.441 T:1958941616  NOTICE: Found resolution 1280 x 800 for display 0 with 1280 x 800 @ 60.000000 Hz
+19:00:09.442 T:1958941616  NOTICE: Found resolution 1280 x 800 for display 0 with 1280 x 800 @ 59.940063 Hz
+19:00:09.442 T:1958941616  NOTICE: Found resolution 1280 x 1024 for display 0 with 1280 x 1024 @ 60.000000 Hz
+19:00:09.442 T:1958941616  NOTICE: Found resolution 1280 x 1024 for display 0 with 1280 x 1024 @ 59.940063 Hz
+19:00:09.442 T:1958941616  NOTICE: Found resolution 1280 x 1024 for display 0 with 1280 x 1024 @ 75.000000 Hz
+19:00:09.442 T:1958941616  NOTICE: Found resolution 1400 x 1050 for display 0 with 1400 x 1050 @ 60.000000 Hz
+19:00:09.442 T:1958941616  NOTICE: Found resolution 1400 x 1050 for display 0 with 1400 x 1050 @ 59.940063 Hz
+19:00:09.442 T:1958941616  NOTICE: Found resolution 1440 x 900 for display 0 with 1440 x 900 @ 60.000000 Hz
+19:00:09.442 T:1958941616  NOTICE: Found resolution 1440 x 900 for display 0 with 1440 x 900 @ 59.940063 Hz
+19:00:09.442 T:1958941616  NOTICE: Found resolution 1680 x 1050 for display 0 with 1680 x 1050 @ 60.000000 Hz
+19:00:09.442 T:1958941616  NOTICE: Found resolution 1680 x 1050 for display 0 with 1680 x 1050 @ 59.940063 Hz
+19:00:09.442 T:1958941616  NOTICE: Found resolution 1366 x 768 for display 0 with 1366 x 768 @ 60.000000 Hz
+19:00:09.442 T:1958941616  NOTICE: Found resolution 1366 x 768 for display 0 with 1366 x 768 @ 59.940063 Hz
+19:00:09.442 T:1958941616  NOTICE: Found resolution 1920 x 1080 for display 0 with 1920 x 1080 @ 60.000000 Hz
+19:00:09.442 T:1958941616  NOTICE: Found resolution 1920 x 1080 for display 0 with 1920 x 1080 @ 59.940063 Hz
+19:00:09.442 T:1958941616  NOTICE: Found resolution 1600 x 900 for display 0 with 1600 x 900 @ 60.000000 Hz
+19:00:09.442 T:1958941616  NOTICE: Found resolution 1600 x 900 for display 0 with 1600 x 900 @ 59.940063 Hz
+19:00:09.442 T:1958941616  NOTICE: Found resolution 720 x 480 for display 0 with 720 x 480 @ 60.000000 Hz
+19:00:09.442 T:1958941616  NOTICE: Found resolution 720 x 480 for display 0 with 720 x 480 @ 59.940063 Hz
+19:00:09.442 T:1958941616  NOTICE: Found resolution 1280 x 720 for display 0 with 1280 x 720 @ 60.000000 Hz
+19:00:09.442 T:1958941616  NOTICE: Found resolution 1280 x 720 for display 0 with 1280 x 720 @ 59.940063 Hz
+19:00:09.442 T:1958941616  NOTICE: Found resolution 720 x 576 for display 0 with 720 x 576 @ 50.000000 Hz
+19:00:09.442 T:1958941616  NOTICE: Found resolution 1280 x 720 for display 0 with 1280 x 720 @ 50.000000 Hz
+19:00:09.442 T:1958941616  NOTICE: Found resolution 1920 x 1080 for display 0 with 1920 x 1080 @ 50.000000 Hz
+19:00:09.442 T:1958941616  NOTICE: Found (1024x768@60.000000) at 27, setting to RES_DESKTOP at 16
+19:00:09.442 T:1958941616  NOTICE: Checking resolution 16
+19:00:09.620 T:1958941616  NOTICE: GL_VENDOR = Broadcom
+19:00:09.620 T:1958941616  NOTICE: GL_RENDERER = VideoCore IV HW
+19:00:09.620 T:1958941616  NOTICE: GL_VERSION = OpenGL ES 2.0
+19:00:09.620 T:1958941616  NOTICE: GL_SHADING_LANGUAGE_VERSION = OpenGL ES GLSL ES 1.00
+19:00:09.620 T:1958941616  NOTICE: GL_EXTENSIONS = GL_OES_compressed_ETC1_RGB8_texture GL_OES_compressed_paletted_texture GL_OES_texture_npot GL_OES_depth24 GL_OES_vertex_half_float GL_OES_EGL_image GL_OES_EGL_image_external GL_EXT_discard_framebuffer GL_OES_rgb8_rgba8 GL_OES_depth32 GL_OES_mapbuffer GL_EXT_texture_format_BGRA8888 GL_APPLE_rgb_422 GL_EXT_debug_marker
+19:00:11.172 T:1831130096  NOTICE: Register - new cec device registered on cec->RPI: CEC Adapter (2708:1001)
+19:00:11.182 T:1938813936  NOTICE: Running database version Addons27
+19:00:11.188 T:1938813936  NOTICE: Running database version ViewModes6
+19:00:11.190 T:1938813936  NOTICE: Running database version Textures13
+19:00:11.198 T:1938813936  NOTICE: Running database version MyMusic60
+19:00:11.213 T:1938813936  NOTICE: Running database version MyVideos107
+19:00:11.218 T:1938813936  NOTICE: Running database version TV29
+19:00:11.220 T:1938813936  NOTICE: Running database version Epg11
+19:00:11.222 T:1958941616  NOTICE: start dvd mediatype detection
+02:02:11.843 T:1958941616 WARNING: JSONRPC: Could not parse type "Setting.Details.SettingList"
+02:02:12.462 T:1958941616  NOTICE: initialize done
+02:02:12.462 T:1958941616  NOTICE: Running the application...
+02:02:12.468 T:1958941616  NOTICE: starting zeroconf publishing
+02:02:12.469 T:1958941616  NOTICE: CWebServer[8080]: Started
+02:02:12.469 T:1958941616  NOTICE: starting upnp client
+02:02:12.472 T:1647309808  NOTICE: ES: Starting UDP Event server on port 9777
+02:02:12.472 T:1647309808  NOTICE: UDP: Listening on port 9777 (ipv6 : false)
+02:02:12.771 T:1938813936   ERROR: DoWork - Direct texture file loading failed for resource://resource.images.weathericons.default/.png
+02:02:17.774 T:1714418672  NOTICE: [plugin.video.youtube] Startup: detected Krypton (Kodi-17.3), setting DASH_SUPPORT_BUILTIN = False, DASH_SUPPORT_ADDON = True
+02:02:18.972 T:1751118832 WARNING: CSkinInfo: failed to load skin settings
+02:03:27.426 T:1938813936  NOTICE: [plugin.video.youtube] Running: YouTube (5.4.0) on Krypton (Kodi-17.3) with Python 2.7.9
+02:03:29.199 T:1958941616  NOTICE: VideoPlayer: Opening: https://r5---sn-i3b7kn76.googlevideo.com/videoplayback?sparams=dur%2Cei%2Cid%2Cinitcwndbps%2Cip%2Cipbits%2Citag%2Clmt%2Cmime%2Cmm%2Cmn%2Cms%2Cmv%2Cpl%2Cratebypass%2Crequiressl%2Csource%2Cexpire&requiressl=yes&mt=1500271293&expire=1500293007&itag=22&lmt=1500105609293231&ei=L1NsWfiEOM684gLE66PQCA&ratebypass=yes&ip=203.253.250.34&pl=24&mime=video%2Fmp4&dur=240.326&mv=m&source=youtube&ms=au&mn=sn-i3b7kn76&mm=31&ipbits=0&key=yt6&id=o-AN36cCxIarsLYxaDaWiaKfYpSDow8FV8NGgXZDzZsE2z&initcwndbps=1697500&signature=D166E73534B5E3738DCCE89031621196647A5899.A4466AA1A2943C7B753FD9A56A10FA0A9EB647B0
+02:03:29.199 T:1958941616 WARNING: CDVDMessageQueue(player)::Put MSGQ_NOT_INITIALIZED
+02:03:29.444 T:1938813936  NOTICE: Creating InputStream
+02:03:30.180 T:1938813936  NOTICE: Creating Demuxer
+02:03:30.501 T:1938813936  NOTICE: Opening stream: 0 source: 256
+02:03:30.502 T:1938813936  NOTICE: Creating video codec with codec id: 28
+02:03:30.512 T:1938813936  NOTICE: Creating video thread
+02:03:30.512 T:1938813936  NOTICE: Opening stream: 1 source: 256
+02:03:30.512 T:1518334960  NOTICE: running thread: video_thread
+02:03:30.512 T:1938813936  NOTICE: Finding audio codec for: 86018
+02:03:30.515 T:1938813936  NOTICE: Creating audio thread
+02:03:30.516 T:1509946352  NOTICE: running thread: CVideoPlayerAudio::Process()
+02:03:30.537 T:1509946352  NOTICE: Creating audio stream (codec id: 86018, channels: 2, sample rate: 44100, no pass-through)
+02:07:30.712 T:1509946352  NOTICE: CVideoPlayerAudio::Process - stream stalled
+02:07:30.841 T:1938813936  NOTICE: CVideoPlayer::OnExit()
+02:07:30.841 T:1938813936  NOTICE: VideoPlayer: eof, waiting for queues to empty
+02:07:30.841 T:1938813936  NOTICE: Closing stream player 1
+02:07:30.841 T:1938813936  NOTICE: CDVDMessageQueue(audio)::WaitUntilEmpty
+02:07:30.841 T:1938813936  NOTICE: Waiting for audio thread to exit
+02:07:30.841 T:1509946352   ERROR: Got MSGQ_ABORT or MSGO_IS_ERROR return true
+02:07:30.841 T:1509946352  NOTICE: thread end: CVideoPlayerAudio::OnExit()
+02:07:30.841 T:1938813936  NOTICE: Closing audio device
+02:07:30.843 T:1938813936  NOTICE: Deleting audio codec
+02:07:30.843 T:1938813936  NOTICE: Closing stream player 2
+02:07:30.843 T:1938813936  NOTICE: CDVDMessageQueue(video)::WaitUntilEmpty
+02:07:30.902 T:1938813936  NOTICE: waiting for video thread to exit
+02:07:30.902 T:1518334960   ERROR: Got MSGQ_ABORT or MSGO_IS_ERROR return true
+02:07:30.902 T:1518334960  NOTICE: thread end: video_thread
+02:07:30.902 T:1938813936  NOTICE: deleting video codec
+02:07:32.627 T:1938813936  NOTICE: [plugin.video.youtube] Running: YouTube (5.4.0) on Krypton (Kodi-17.3) with Python 2.7.9
+02:07:33.290 T:1938813936  NOTICE: [plugin.video.youtube] Unable to use mpeg-dash for VKfbVLmkQUs, unable to decipher signature. Attempting fallback play method...
+02:07:35.516 T:1958941616  NOTICE: CVideoPlayer::CloseFile()
+02:07:35.516 T:1958941616  NOTICE: VideoPlayer: waiting for threads to exit
+02:07:35.516 T:1958941616  NOTICE: VideoPlayer: finished waiting
+02:07:35.559 T:1958941616  NOTICE: VideoPlayer: Opening: https://r3---sn-i3b7knee.googlevideo.com/videoplayback?ratebypass=yes&ei=JVRsWdrkKI_L4gKorbz4Aw&itag=22&expire=1500293253&sparams=dur,ei,id,initcwndbps,ip,ipbits,itag,lmt,mime,mm,mn,ms,mv,pl,ratebypass,requiressl,source,expire&requiressl=yes&mt=1500271546&initcwndbps=1556250&ipbits=0&mm=31&mn=sn-i3b7knee&id=o-ANqCvSrQEoXDfdbl6BMMWzINyxKmuYJ06u_PaBDMP-7F&key=yt6&source=youtube&mv=m&dur=3370.933&ms=au&ip=203.253.250.34&pl=24&mime=video/mp4&lmt=1491908130373357&signature=31F622AB28EF1BEBD6DB9004057C89749CF24ED8.4AAF671ABD1581D5494D3177F9DE32223C33763A
+02:07:35.801 T:1714418672  NOTICE: Creating InputStream
+02:07:36.451 T:1714418672  NOTICE: Creating Demuxer
+02:07:37.391 T:1714418672  NOTICE: Opening stream: 0 source: 256
+02:07:37.391 T:1714418672  NOTICE: Creating video codec with codec id: 28
+02:07:37.400 T:1714418672  NOTICE: Creating video thread
+02:07:37.400 T:1714418672  NOTICE: Opening stream: 1 source: 256
+02:07:37.400 T:1549792240  NOTICE: running thread: video_thread
+02:07:37.400 T:1714418672  NOTICE: Finding audio codec for: 86018
+02:07:37.402 T:1714418672  NOTICE: Creating audio thread
+02:07:37.402 T:1516237808  NOTICE: running thread: CVideoPlayerAudio::Process()
+02:07:37.413 T:1516237808  NOTICE: Creating audio stream (codec id: 86018, channels: 2, sample rate: 44100, no pass-through)
+02:19:36.780 T:1958941616  NOTICE: CVideoPlayer::CloseFile()
+02:19:36.780 T:1958941616  NOTICE: VideoPlayer: waiting for threads to exit
+02:19:36.789 T:1714418672  NOTICE: CVideoPlayer::OnExit()
+02:19:36.789 T:1714418672  NOTICE: Closing stream player 1
+02:19:36.789 T:1714418672  NOTICE: Waiting for audio thread to exit
+02:19:36.816 T:1516237808  NOTICE: thread end: CVideoPlayerAudio::OnExit()
+02:19:36.816 T:1714418672  NOTICE: Closing audio device
+02:19:36.867 T:1714418672  NOTICE: Deleting audio codec
+02:19:36.868 T:1714418672  NOTICE: Closing stream player 2
+02:19:36.868 T:1714418672  NOTICE: waiting for video thread to exit
+02:19:36.905 T:1549792240  NOTICE: thread end: video_thread
+02:19:36.906 T:1714418672  NOTICE: deleting video codec
+02:19:37.242 T:1958941616  NOTICE: VideoPlayer: finished waiting
+02:19:37.477 T:1958941616  NOTICE: CVideoPlayer::CloseFile()
+02:19:37.477 T:1958941616  NOTICE: VideoPlayer: waiting for threads to exit
+02:19:37.477 T:1958941616  NOTICE: VideoPlayer: finished waiting
+02:19:37.477 T:1958941616  NOTICE: CVideoPlayer::CloseFile()
+02:19:37.478 T:1958941616  NOTICE: VideoPlayer: waiting for threads to exit
+02:19:37.478 T:1958941616  NOTICE: VideoPlayer: finished waiting
