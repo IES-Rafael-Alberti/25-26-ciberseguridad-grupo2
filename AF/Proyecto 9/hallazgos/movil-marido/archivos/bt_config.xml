@@ -1,0 +1,72 @@
+<Bluedroid>
+    <N1 Tag="Local">
+        <N1 Tag="Adapter">
+            <N1 Tag="BluezMigrationDone" Type="int">1</N1>
+            <N2 Tag="Address" Type="string">50:f5:20:a5:7d:cc</N2>
+            <N3 Tag="LE_LOCAL_KEY_IR" Type="binary">8b61607e5aca34f73f37f609c1b96af4</N3>
+            <N4 Tag="LE_LOCAL_KEY_IRK" Type="binary">34be304334bef4fc502cf53078034da9</N4>
+            <N5 Tag="LE_LOCAL_KEY_DHK" Type="binary">e621bc5dd5ae9c06f78a86fc030a2089</N5>
+            <N6 Tag="ScanMode" Type="int">0</N6>
+            <N7 Tag="DiscoveryTimeout" Type="int">120</N7>
+            <N8 Tag="LE_LOCAL_KEY_ER" Type="binary">7c9e66316e7780cc1d6cc1621ea4d0c6</N8>
+            <N9 Tag="Name" Type="string">Simon (SHV-E250S)</N9>
+        </N1>
+        <N2 Tag="AutoPairBlacklist">
+            <N1 Tag="AddressBlacklist" Type="string">00:02:C7,00:16:FE,00:19:C1,00:1B:FB,00:1E:3D,00:21:4F,00:23:06,00:24:33,00:A0:79,00:0E:6D,00:13:E0,00:21:E8,00:60:57,00:0E:9F,00:12:1C,00:18:91,00:18:96,00:13:04,00:16:FD,00:22:A0,00:0B:4C,00:60:6F,00:23:3D,00:C0:59,00:0A:30,00:1E:AE,00:1C:D7,00:80:F0,00:12:8A,00:09:93,00:80:37,00:26:7E,08:76:95,00:1E:B2,00:26:E8,60:38:0E
+</N1>
+            <N2 Tag="ExactNameBlacklist" Type="string">Motorola IHF1000,i.TechBlueBAND,X5 Stereo v1.3,KML_CAN
+</N2>
+            <N3 Tag="PartialNameBlacklist" Type="string">BMW,Audi,Parrot,Car,CAR
+</N3>
+            <N4 Tag="FixedPinZerosKeyboardBlacklist" Type="string">00:0F:F6
+</N4>
+        </N2>
+    </N1>
+    <N2 Tag="Remote">
+        <N1 Tag="1c:af:05:9e:19:74">
+            <N1 Tag="Timestamp" Type="int">1499931533</N1>
+            <N2 Tag="Name" Type="string">Betty (SHV-E250L)</N2>
+            <N3 Tag="DevClass" Type="int">5898764</N3>
+            <N4 Tag="DevType" Type="int">1</N4>
+            <N5 Tag="AddrType" Type="int">0</N5>
+        </N1>
+        <N2 Tag="74:c2:46:88:5d:09">
+            <N1 Tag="Timestamp" Type="int">1500194150</N1>
+            <N2 Tag="DevClass" Type="int">787476</N2>
+            <N3 Tag="DevType" Type="int">1</N3>
+            <N4 Tag="AddrType" Type="int">0</N4>
+            <N5 Tag="Name" Type="string">Echo-2W5</N5>
+            <N6 Tag="Manufacturer" Type="int">69</N6>
+            <N7 Tag="LmpVer" Type="int">5</N7>
+            <N8 Tag="LmpSubVer" Type="int">0</N8>
+            <N9 Tag="LinkKeyType" Type="int">4</N9>
+            <N10 Tag="PinLength" Type="int">0</N10>
+            <N11 Tag="LinkKey" Type="binary">234da2cdf7a5b993987432e337c6e005</N11>
+            <N12 Tag="Service" Type="string">0000110a-0000-1000-8000-00805f9b34fb 0000110b-0000-1000-8000-00805f9b34fb 0000110e-0000-1000-8000-00805f9b34fb 4e72b490-1d0f-bf92-0e47-a84e01000000 </N12>
+        </N2>
+        <N3 Tag="4a:c3:55:48:c7:77">
+            <N1 Tag="AddrType" Type="int">1</N1>
+        </N3>
+        <N4 Tag="88:0f:10:f6:c8:b7">
+            <N1 Tag="Name" Type="string">MI1A</N1>
+            <N2 Tag="DevClass" Type="int">7936</N2>
+            <N3 Tag="DevType" Type="int">2</N3>
+            <N4 Tag="AddrType" Type="int">0</N4>
+            <N5 Tag="Timestamp" Type="int">1500194153</N5>
+        </N4>
+        <N5 Tag="b8:ad:3e:01:5b:6a">
+            <N1 Tag="Timestamp" Type="int">1500193456</N1>
+            <N2 Tag="Name" Type="string">LG HBS900</N2>
+            <N3 Tag="DevClass" Type="int">2360324</N3>
+            <N4 Tag="DevType" Type="int">1</N4>
+            <N5 Tag="AddrType" Type="int">0</N5>
+            <N6 Tag="Manufacturer" Type="int">10</N6>
+            <N7 Tag="LmpVer" Type="int">6</N7>
+            <N8 Tag="LmpSubVer" Type="int">8648</N8>
+            <N9 Tag="LinkKeyType" Type="int">4</N9>
+            <N10 Tag="PinLength" Type="int">0</N10>
+            <N11 Tag="LinkKey" Type="binary">29fb76aa459555ea59f8cede4aabba7e</N11>
+            <N12 Tag="Service" Type="string">00001101-0000-1000-8000-00805f9b34fb 00001108-0000-1000-8000-00805f9b34fb 0000111e-0000-1000-8000-00805f9b34fb 0000110b-0000-1000-8000-00805f9b34fb 0000110e-0000-1000-8000-00805f9b34fb </N12>
+        </N5>
+    </N2>
+</Bluedroid>
