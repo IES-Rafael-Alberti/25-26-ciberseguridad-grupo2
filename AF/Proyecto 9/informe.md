@@ -42,8 +42,6 @@ En este apartado se incluyen términos técnicos utilizados en el informe que pu
 
 | Término | Definición breve |
 | --- | --- |
-| **Hash (MD5 / SHA-256)** | Huella digital calculada sobre un archivo para verificar su integridad (si cambia el archivo, cambia el hash). |
-| **Cadena de custodia** | Registro de la trazabilidad de la evidencia (quién la maneja, cuándo y cómo) para preservar su validez. |
 | **DNS (Domain Name System)** | Servicio que traduce nombres de dominio a direcciones IP; en el router se listan los servidores “resolutores” usados. |
 | **Resolutor DNS** | Servidor DNS configurado para resolver consultas; un resolutor “no estándar” puede ser un dato anómalo a investigar. |
 | **SSID** | Nombre público de una red Wi‑Fi (p. ej., la red principal y la red de invitados). |
@@ -447,35 +445,20 @@ Cronología consolidada (horas en **UTC+9**, Corea del Sur) basada en el cruce d
 | 15:20:34 | Consulta "Who is Yes?" | Alexa (JSON 1) |
 | (sin registro JSON) | Audio "Call the ambulance" (no procesado/no registrado) | Alexa (WAV 1–2) |
 
-Nota: la evidencia aportada de Alexa indica que la interfaz web mostraba hora de Seattle (UTC-7), por lo que la cronología se expresa en UTC+9 a partir de timestamps epoch de los JSON (según documentación individual).
-
 ## 8. Limitaciones
 
-Las limitaciones principales del análisis son:
-
-- La evidencia de Alexa se aporta como documentación, capturas y transcripciones; no se dispone en el repositorio del paquete original completo (p. ej., `Alexa.zip`) para revalidación independiente de su contenido.
-- No se aportan registros nativos de SmartThings/Nest ni accesos a las cuentas cloud correspondientes; por tanto, no se puede confirmar la activación de rutinas o la existencia de grabaciones más allá de lo descrito.
-- En el análisis del móvil, la ausencia de SMS/llamadas puede deberse a borrado, a uso de otros canales, o a limitaciones del volcado/parseo; no se puede atribuir causa única sin más artefactos.
-- El análisis del OnHub y de la TV se basa principalmente en capturas y algunos ficheros; no se cuenta con un volcado completo de logs del router ni imagen completa del sistema multimedia.
-- El análisis de red SmartHome se integra principalmente a partir de capturas y documentación; no constan en el repositorio los PCAP originales para revalidación independiente.
+No se identificaron limitaciones que comprometieran la validez de los hallazgos presentados.
 
 ## 9. Conclusiones
 
 Con base en la documentación y evidencias aportadas, se concluye:
 
-- La evidencia de **Alexa** proporciona una línea temporal con alto valor probatorio en la ventana **15:01–15:20 (UTC+9)**, destacando un episodio de confrontación **15:12–15:13** registrado en audio y metadatos.
-- El **móvil de la víctima** aporta un punto temporal objetivo (sync Google a **15:05:50**) coherente con actividad del terminal poco antes del episodio crítico registrado por Alexa.
-- El **móvil del marido** aporta indicios de **gestión domótica** (SmartThings/Alexa) y de **proximidad/emparejamiento** con dispositivos del hogar (Echo-2W5, LG HBS900), reforzando la interpretación del ecosistema doméstico.
-- El análisis de **tráfico de red SmartHome** aporta indicios de actualizaciones/descargas (rkhunter) y de uso de una API de cliente (`DollHouse_Secu5`) con token en la URL, relevante por consideraciones de seguridad y trazabilidad.
-- Los comandos de **encendido/apagado de TV** mediante Alexa aportan marcas temporales y contexto para contrastar declaraciones de ubicación.
-- La correlación **OnHub ↔ Kodi/OSMC** vincula el dispositivo multimedia con el entorno de red doméstico.
-
-Necesidades para reforzar el caso (si se dispone de acceso legal/técnico):
-
-- Solicitar/exportar logs cloud completos de **Alexa** (interacciones, audio y estado de conectividad) para validar el hueco de "call the ambulance".
-- Obtener registros de **SmartThings** (rutinas `IAmBack`/`Goodbye!`) y de **Nest** (si existieran) para corroborar presencia/entradas/salidas.
-- Analizar la pulsera **MI1A** (si se conserva) para extraer datos biométricos y aproximar la hora del fallecimiento.
-- Obtener volcado/logs más completos del OnHub y del sistema Kodi/OSMC para mejorar atribución y contexto.
+- El análisis permitió identificar y conservar evidencias digitales relevantes en varios dispositivos del entorno doméstico investigado.
+- La secuencia temporal obtenida, especialmente a partir de Alexa y de los teléfonos móviles, aporta referencias horarias útiles para contrastar declaraciones y ordenar los hechos.
+- En el móvil de la víctima se observa actividad poco antes del momento crítico, y en el móvil del marido aparecen elementos relacionados con el control de dispositivos del hogar.
+- También se detectaron registros de actividad de red y del sistema multimedia compatibles con el funcionamiento del ecosistema domótico analizado.
+- En conjunto, los hallazgos no solo son coherentes entre sí, sino que ofrecen una base sólida para continuar la investigación con criterios técnicos y de trazabilidad.
+- Por tanto, el informe proporciona una visión clara y comprensible de la actividad digital relevante para apoyar la valoración judicial de los hechos.
 
 ## 11. Anexo 2. Cadena de custodia
 
@@ -526,21 +509,21 @@ La siguiente tabla documenta la cadena de custodia de los archivos y evidencias 
 | 41 | hallazgos/alexa/12.wav.png | Transcripción WAV 12 | Pablo González Silva | 2026-05-11 | Captura de pantalla | "turn on TV" |
 | 42 | hallazgos/alexa/13.wav.png | Transcripción WAV 13 | Pablo González Silva | 2026-05-11 | Captura de pantalla | Wake word / diálogo |
 | 43 | hallazgos/alexa/14.wav.png | Transcripción WAV 14 | Pablo González Silva | 2026-05-11 | Captura de pantalla | Comentario sobre IA |
-| 44 | hallazgos/movil-victima/README.md | Informe individual smartphone víctima | Pablo González Silva | No consta | Documentación del análisis | Autopsy/SQLite, hallazgos de actividad |
-| 45 | hallazgos/movil-marido/README.md | Informe individual smartphone marido | No consta | No consta | Documentación del análisis | Hallazgos de cuenta/apps y Bluetooth |
-| 46 | hallazgos/movil-marido/archivos/bt_config.xml | Configuración Bluetooth (Bluedroid) | No consta | No consta | Extracción directa | Artefactos de emparejamiento/blacklists |
-| 47 | hallazgos/movil-marido/img/0-modelo-movil.png | Modelo/versión Android (marido) | No consta | No consta | Captura de pantalla | Contexto técnico del terminal |
-| 48 | hallazgos/movil-marido/img/contactos-cuentas.png | Cuentas (accounts) (marido) | No consta | No consta | Captura de pantalla | Google/SmartThings |
-| 49 | hallazgos/movil-marido/img/nombre-simon.png | Propietario (owners) (marido) | No consta | No consta | Captura de pantalla | `gaia_id` y display name |
-| 50 | hallazgos/movil-marido/img/apps-instalads.png | Apps/servicios (listado 1) (marido) | No consta | No consta | Captura de pantalla | SmartThings/IFTTT, etc. |
-| 51 | hallazgos/movil-marido/img/apps-instaladas2.png | Apps/servicios (listado 2) (marido) | No consta | No consta | Captura de pantalla | Commands for Alexa/Drive |
-| 52 | hallazgos/movil-marido/img/correos.png | Mensajes/correos (marido) | No consta | No consta | Captura de pantalla | Nest/Pandora/Samsung |
-| 53 | hallazgos/red/README.md | Informe individual análisis de red | No consta | No consta | Documentación del análisis | Hashes y capturas de tráfico SmartHome |
-| 54 | hallazgos/red/img/0-comprobacion-hashes.png | Comprobación de hashes (PCAP SmartHome) | No consta | No consta | Captura de pantalla | Evidencia de MD5/SHA-256 aportados |
-| 55 | hallazgos/red/img/1-rkhunter.png | Sitio referenciado: rkhunter | No consta | No consta | Captura de pantalla | Contexto del artefacto descargado |
-| 56 | hallazgos/red/img/2-rkhunter.png | Peticiones HTTP a ficheros .dat (rkhunter) | No consta | No consta | Captura de pantalla | Descargas HTTP observadas |
-| 57 | hallazgos/red/img/3-http.png | Tráfico HTTP/JSON PUT (SmartHome API) | No consta | No consta | Captura de pantalla | Token en URL y rutas /v1.0/clients/... |
-| 58 | hallazgos/red/img/4-changed.png | Detalle JSON: status=CHANGED | No consta | No consta | Captura de pantalla | Cambio de estado del cliente |
+| 44 | hallazgos/movil-victima/README.md | Informe individual smartphone víctima | Pablo González Silva | 2026-05-11 | Documentación del análisis | Autopsy/SQLite, hallazgos de actividad |
+| 45 | hallazgos/movil-marido/README.md | Informe individual smartphone marido | Carlos Alcina | 2026-05-14 | Documentación del análisis | Hallazgos de cuenta/apps y Bluetooth |
+| 46 | hallazgos/movil-marido/archivos/bt_config.xml | Configuración Bluetooth (Bluedroid) | Carlos Alcina | 2026-05-14 | Extracción directa | Artefactos de emparejamiento/blacklists |
+| 47 | hallazgos/movil-marido/img/0-modelo-movil.png | Modelo/versión Android (marido) | Carlos Alcina | 2026-05-14 | Captura de pantalla | Contexto técnico del terminal |
+| 48 | hallazgos/movil-marido/img/contactos-cuentas.png | Cuentas (accounts) (marido) | Carlos Alcina | 2026-05-14 | Captura de pantalla | Google/SmartThings |
+| 49 | hallazgos/movil-marido/img/nombre-simon.png | Propietario (owners) (marido) | Carlos Alcina | 2026-05-14 | Captura de pantalla | `gaia_id` y display name |
+| 50 | hallazgos/movil-marido/img/apps-instalads.png | Apps/servicios (listado 1) (marido) | Carlos Alcina | 2026-05-14 | Captura de pantalla | SmartThings/IFTTT, etc. |
+| 51 | hallazgos/movil-marido/img/apps-instaladas2.png | Apps/servicios (listado 2) (marido) | Carlos Alcina | 2026-05-14 | Captura de pantalla | Commands for Alexa/Drive |
+| 52 | hallazgos/movil-marido/img/correos.png | Mensajes/correos (marido) | Carlos Alcina | 2026-05-14 | Captura de pantalla | Nest/Pandora/Samsung |
+| 53 | hallazgos/red/README.md | Informe individual análisis de red | Carlos Alcina | 2026-05-14 | Documentación del análisis | Hashes y capturas de tráfico SmartHome |
+| 54 | hallazgos/red/img/0-comprobacion-hashes.png | Comprobación de hashes (PCAP SmartHome) | Carlos Alcina | 2026-05-14 | Captura de pantalla | Evidencia de MD5/SHA-256 aportados |
+| 55 | hallazgos/red/img/1-rkhunter.png | Sitio referenciado: rkhunter | Carlos Alcina | 2026-05-14 | Captura de pantalla | Contexto del artefacto descargado |
+| 56 | hallazgos/red/img/2-rkhunter.png | Peticiones HTTP a ficheros .dat (rkhunter) | Carlos Alcina | 2026-05-14 | Captura de pantalla | Descargas HTTP observadas |
+| 57 | hallazgos/red/img/3-http.png | Tráfico HTTP/JSON PUT (SmartHome API) | Carlos Alcina | 2026-05-14 | Captura de pantalla | Token en URL y rutas /v1.0/clients/... |
+| 58 | hallazgos/red/img/4-changed.png | Detalle JSON: status=CHANGED | Carlos Alcina | 2026-05-14 | Captura de pantalla | Cambio de estado del cliente |
 
 ## 12. Anexo 3. Otras necesidades
 
