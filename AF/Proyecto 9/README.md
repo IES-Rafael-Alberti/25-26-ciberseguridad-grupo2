@@ -15,8 +15,10 @@
     3. [TV Intelligence](#73-tv-intelligence)
     4. [Amazon Echo (Alexa)](#74-amazon-echo-alexa)
     5. [Smartphone de la víctima](#75-smartphone-de-la-víctima)
-    6. [Correlación de evidencias](#76-correlación-de-evidencias)
-    7. [Cronología del ataque](#77-cronología-del-ataque)
+    6. [Smartphone del marido](#76-smartphone-del-marido)
+    7. [Análisis de red (tráfico SmartHome)](#77-análisis-de-red-tráfico-smarthome)
+    8. [Correlación de evidencias](#78-correlación-de-evidencias)
+    9. [Cronología del ataque](#79-cronología-del-ataque)
 8. [Limitaciones](#8-limitaciones)
 9. [Conclusiones](#9-conclusiones)
 11. [Anexo 2. Cadena de custodia](#11-anexo-2-cadena-de-custodia)
@@ -85,10 +87,21 @@ En este apartado se incluyen términos técnicos utilizados en el informe que pu
 | 3.16 | ![Fig. 3.16](hallazgos/tv-intelligence/image-4.png)            | Verificación de hashes del paquete analizado             |
 | 3.17 | ![Fig. 3.17](hallazgos/alexa/hashes-alexa.png)                 | Verificación de hashes de Alexa.zip                      |
 | 3.18 | ![Fig. 3.18](hallazgos/alexa/image.png)                        | Línea temporal Alexa (cruce WAV ↔ JSON)                  |
+| 3.19 | ![Fig. 3.19](hallazgos/movil-marido/img/0-modelo-movil.png)     | Modelo/versión Android del smartphone del marido         |
+| 3.20 | ![Fig. 3.20](hallazgos/movil-marido/img/contactos-cuentas.png)  | Cuentas configuradas (Google/SmartThings)                |
+| 3.21 | ![Fig. 3.21](hallazgos/movil-marido/img/nombre-simon.png)       | Propietario (owners): cuenta, `gaia_id` y nombre mostrado |
+| 3.22 | ![Fig. 3.22](hallazgos/movil-marido/img/apps-instalads.png)     | Apps/servicios asociados a la cuenta (listado 1)         |
+| 3.23 | ![Fig. 3.23](hallazgos/movil-marido/img/apps-instaladas2.png)   | Apps/servicios asociados a la cuenta (listado 2)         |
+| 3.24 | ![Fig. 3.24](hallazgos/movil-marido/img/correos.png)            | Mensajes/correos asociados a la cuenta                   |
+| 3.25 | ![Fig. 3.25](hallazgos/red/img/0-comprobacion-hashes.png)       | Comprobación de hashes (PCAP SmartHome)                  |
+| 3.26 | ![Fig. 3.26](hallazgos/red/img/1-rkhunter.png)                  | Sitio referenciado: Rootkit Hunter (rkhunter)            |
+| 3.27 | ![Fig. 3.27](hallazgos/red/img/2-rkhunter.png)                  | Peticiones HTTP a ficheros .dat de rkhunter              |
+| 3.28 | ![Fig. 3.28](hallazgos/red/img/3-http.png)                      | Tráfico HTTP/JSON PUT hacia API SmartHome                |
+| 3.29 | ![Fig. 3.29](hallazgos/red/img/4-changed.png)                   | Detalle del JSON: `status = CHANGED`                     |
 
 ## 4. Resumen ejecutivo
 
-Este informe consolida el análisis forense de evidencias digitales relacionadas con un homicidio (17/07/2017) en un entorno doméstico con dispositivos inteligentes. Se han revisado cuatro fuentes principales: (1) un router **Google OnHub** (estado de red, DNS y dispositivos), (2) un sistema multimedia/TV con **Kodi/OSMC** (logs, zona horaria y cachés Bluetooth), (3) un **Amazon Echo (Alexa)** (interacciones JSON y transcripciones de audio WAV) y (4) el **smartphone de la víctima** (actividad de cuenta Google, apps instaladas, Bluetooth y bases de datos).
+Este informe consolida el análisis forense de evidencias digitales relacionadas con un homicidio (17/07/2017) en un entorno doméstico con dispositivos inteligentes. Se han revisado seis fuentes principales: (1) un router **Google OnHub** (estado de red, DNS y dispositivos), (2) un sistema multimedia/TV con **Kodi/OSMC** (logs, zona horaria y cachés Bluetooth), (3) un **Amazon Echo (Alexa)** (interacciones JSON y transcripciones de audio WAV), (4) el **smartphone de la víctima** (actividad de cuenta Google, apps instaladas, Bluetooth y bases de datos), (5) el **smartphone del marido** (cuenta/propietario, apps y configuración Bluetooth Bluedroid) y (6) el **tráfico de red** del entorno SmartHome (capturas de verificación de hashes y capturas de tráfico).
 
 Los hallazgos más relevantes son:
 
@@ -96,6 +109,8 @@ Los hallazgos más relevantes son:
 - En el mismo día, Alexa registra **encendido y apagado de la TV** (15:01 y 15:20), útil para contrastar declaraciones de presencia/ubicación.
 - El **móvil de la víctima** realiza una sincronización con Google a las **15:05:50 (UTC+9)**, evidenciando que el terminal estaba activo y con conectividad en ese momento.
 - En el móvil de la víctima **no se observa SmartThings instalado**, lo que sugiere que el control del ecosistema domótico (TV/rutinas) recaía en otro terminal.
+- El **móvil del marido** muestra vinculación a cuenta Google **`simonhallym@gmail.com`** y presencia de **SmartThings** y **Commands for Alexa**; además conserva artefactos Bluetooth (Bluedroid) con emparejamientos a **Echo-2W5** y **LG HBS900**.
+- En el **tráfico de red SmartHome** se observan (a) descargas HTTP asociadas a **Rootkit Hunter (rkhunter)** y (b) peticiones **HTTP/JSON** tipo API con un **token en la URL**, lo que es relevante por exposición de credenciales en trazas/logs si el transporte no estuviera cifrado.
 - El OnHub y el sistema Kodi/OSMC presentan coherencia entre sí (host/entorno `osmc`), y el OnHub muestra un **resolver DNS adicional** no estándar que requiere validación contextual.
 
 ## 5. Introducción
@@ -126,15 +141,19 @@ Para asegurar que los ficheros no han sido modificados desde su adquisición, se
 | --- | --- | --- |
 | `Alexa.zip` | `93639c62f68c5155611bbd7e8eb3f477` | `6c09813eea5475dc0011c547e7fb774cfbd7216cafdeeb9a8308306046c14edf` |
 | `TV_Inteligente.zip` | `D9D2B3B3048A836289CEC02C6353B6E9` | `5423EA3F60D4AD0874346D3BA31C8783E5F2CE4B15B261BA0085E07F11E650E6` |
+| `Tráfico_SmartHome_PorCOAP.pcap` | `67ab09760148a66402aa7d9b0abaa322` | `f5ad42a50ca0d16261c1ca4742d78fd99c9e7fc6ab67fdb3a53909ff7f786ce0` |
+| `Trafico_SmartHome_PorIP.pcap` | `8fb0edb521c9ad191adf5505420a36f4` | `a46644f1719d26382edd6d352cc8715fea32e73bbb00245d71943fbacbbeeca3e` |
 
 ### 6.2. Adquisición de hallazgos
 
-Se trabajó sobre capturas y documentos de análisis ya extraídos, organizados en cuatro bloques principales:
+Se trabajó sobre capturas y documentos de análisis ya extraídos, organizados en seis bloques principales:
 
 - Evidencias del **Google OnHub**: capturas del panel de estado, red Wi-Fi, DNS, tabla ARP e interfaces.
 - Evidencias de **TV Intelligence**: captura del `kodi.log`, zona horaria, dispositivos Bluetooth y comprobación de hashes.
 - Evidencias de **Amazon Echo (Alexa)**: capturas, transcripción y análisis de interacciones JSON y audios WAV (mediante imágenes/transcripciones).
 - Evidencias del **smartphone de la víctima**: informe del análisis del volcado físico (particiones `.mdf`) y hallazgos de actividad de cuenta, apps y Bluetooth.
+- Evidencias del **smartphone del marido**: configuración Bluetooth (`bt_config.xml`) y capturas de cuenta/propietario, apps y mensajes.
+- Evidencias de **tráfico de red (SmartHome)**: capturas de verificación de hashes y capturas de tráfico (HTTP/JSON y descargas HTTP).
 
 La adquisición se apoyó en trabajo sobre copias y en la preservación de los ficheros originales dentro del repositorio.
 
@@ -150,6 +169,7 @@ La adquisición se apoyó en trabajo sobre copias y en la preservación de los f
 | Autopsy 4.22.1 | Análisis forense de particiones del volcado físico del smartphone (según informe individual). |
 | DB Browser for SQLite | Revisión de bases de datos SQLite extraídas del smartphone (según informe individual). |
 | Conversión de timestamps (epoch) | Alineación temporal de eventos Alexa a UTC+9 para correlación. |
+| Wireshark | Inspección y filtrado de tráfico PCAP (según capturas aportadas). |
 
 ### 7.2. Google OnHub
 
@@ -248,7 +268,156 @@ Hallazgos clave (según informe individual):
 
 El detalle metodológico (particiones `.mdf`, Autopsy y DB Browser) consta en el informe individual en `hallazgos/movil-victima/README.md`.
 
-### 7.6. Correlación de evidencias
+### 7.6. Smartphone del marido
+
+El análisis del smartphone del marido (Samsung **SHV-E250L**, Android 4.4.2) aporta evidencia complementaria sobre identidad de cuenta, ecosistema domótico y emparejamientos Bluetooth del entorno.
+
+Evidencias usadas:
+
+- `hallazgos/movil-marido/archivos/bt_config.xml` (Bluedroid)
+- Capturas en `hallazgos/movil-marido/img/`
+
+Hallazgos clave:
+
+- **Identidad/cuenta**: aparece la cuenta Google **`simonhallym@gmail.com`** y el nombre mostrado **"Hallym Simon"** (con `gaia_id`).
+- **Domótica/IoT**: hay indicios de uso/vinculación con **SmartThings** y presencia de **Commands for Alexa**.
+- **Bluetooth (Bluedroid)**: el fichero `bt_config.xml` conserva artefactos de configuración y registro de dispositivos remotos (incluyendo emparejamientos con LinkKey y servicios detectados). Se detallan a continuación.
+
+#### Bluetooth (Bluedroid) — detalle de conexiones y emparejamientos
+
+Evidencia: `hallazgos/movil-marido/archivos/bt_config.xml`
+
+**Adaptador local**
+
+| Campo               | Valor                            | Interpretación forense                                  |
+| ------------------- | -------------------------------- | ------------------------------------------------------- |
+| Nombre dispositivo  | Simon (SHV-E250S)                | Samsung Galaxy Note II variante coreana SHV-E250S       |
+| Dirección Bluetooth | 50:F5:20:A5:7D:CC                | MAC Bluetooth única del dispositivo analizado           |
+| BluezMigrationDone  | 1                                | El sistema migró desde stack BlueZ a Bluedroid          |
+| ScanMode            | 0                                | Bluetooth posiblemente no visible/discoverable          |
+| DiscoveryTimeout    | 120                              | Tiempo de descubrimiento Bluetooth configurado en 120 s |
+
+
+**Dispositivos remotos detectados/emparejados**
+
+| MAC               | Nombre            | Tipo probable                         | DevType | Clase Bluetooth (decimal) | Timestamp Unix | Fecha aprox. UTC        | Emparejado  | Link Key | Fabricante | Servicios detectados                                     | Observaciones forenses                                                           |
+| ----------------- | ----------------- | ------------------------------------- | ------- | ------------------------- | -------------- | ----------------------- | ----------- | -------- | ---------- | -------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| 1C:AF:05:9E:19:74 | Betty (SHV-E250L) | Samsung Galaxy Note II                | 1       | 5898764                   | 1499931533     | 2017-07-13 04:58:53 UTC | No evidente | No       | N/D        | N/D                                                      | Posible segundo terminal Samsung asociado al usuario. Variante coreana SHV-E250L |
+| 74:C2:46:88:5D:09 | Echo-2W5          | Amazon Echo                           | 1       | 787476                    | 1500194150     | 2017-07-16 05:55:50 UTC | Sí          | Sí       | 69         | A2DP, AVRCP, Handsfree/Audio sink y servicio propietario | Dispositivo claramente emparejado. Conserva LinkKey válida                       |
+| 4A:C3:55:48:C7:77 | Desconocido       | BLE aleatorio                         | 1       | N/D                       | N/D            | N/D                     | No evidente | No       | N/D        | N/D                                                      | Dirección aleatoria BLE (AddrType=1). Posible beacon o dispositivo temporal      |
+| 88:0F:10:F6:C8:B7 | MI1A              | Xiaomi Mi Band/Mi device              | 2       | 7936                      | 1500194153     | 2017-07-16 05:55:53 UTC | No claro    | No       | N/D        | N/D                                                      | Dispositivo BLE. Posible wearable Xiaomi                                         |
+| B8:AD:3E:01:5B:6A | LG HBS900         | Auriculares Bluetooth LG Tone Infinim | 1       | 2360324                   | 1500193456     | 2017-07-16 05:44:16 UTC | Sí          | Sí       | 10         | Serial Port, Headset, Handsfree, A2DP, AVRCP             | Headset estéreo claramente emparejado y usado                                    |
+
+Interpretación forense (a partir de bt_config.xml):
+- La presencia de `LinkKey` para **Echo-2W5** y **LG HBS900** indica **emparejamiento** (no solo detección puntual). La lista de UUIDs/servicios sugiere **perfiles usados** (audio/handsfree, etc.).
+- Los `Timestamp` (epoch) aportan una referencia de **última actividad/registro** con cada dispositivo remoto; son útiles para aproximar ventanas temporales (no sustituyen logs de eventos completos).
+- La entrada **Betty (SHV-E250L)** sugiere proximidad o relación con un segundo terminal Samsung, útil para correlación con el móvil de la víctima.
+- La entrada de tipo **BLE aleatorio** (AddrType=1) es compatible con un dispositivo/beacon temporal; su valor probatorio suele ser menor sin más contexto.
+
+**Fig. 3.19 — Modelo/versión Android (marido)**
+
+![Fig. 3.19](hallazgos/movil-marido/img/0-modelo-movil.png)
+
+- Confirma el contexto técnico del terminal (SHV‑E250L / Android 4.x), útil para interpretar rutas/artefactos del sistema y compatibilidad de apps.
+
+**Fig. 3.20 — Cuentas configuradas (accounts)**
+
+![Fig. 3.20](hallazgos/movil-marido/img/contactos-cuentas.png)
+
+- La cuenta **`simonhallym@gmail.com`** figura como `com.google` (cuenta Google del dispositivo).
+- La misma cuenta aparece asociada a **SmartThings** (`com.smartthings.android`), indicio de vinculación IoT desde este terminal.
+
+**Fig. 3.21 — Propietario (owners)**
+
+![Fig. 3.21](hallazgos/movil-marido/img/nombre-simon.png)
+
+- Relaciona `account_name` (**`simonhallym@gmail.com`**) con `display_name` (**"Hallym Simon"**).
+- El `gaia_id` permite correlación con artefactos donde el correo no aparezca explícitamente.
+
+**Fig. 3.22 — Apps/servicios asociados (listado 1)**
+
+![Fig. 3.22](hallazgos/movil-marido/img/apps-instalads.png)
+
+- Se observa un ecosistema de apps Google/Samsung y presencia de **SmartThings**.
+- La presencia de **IFTTT** sugiere automatizaciones potencialmente relacionadas con acciones domóticas.
+
+**Fig. 3.23 — Apps/servicios asociados (listado 2)**
+
+![Fig. 3.23](hallazgos/movil-marido/img/apps-instaladas2.png)
+
+- Se observa **Commands for Alexa** y componentes Google (Chrome/Drive/Play services).
+- Drive incrementa la probabilidad de sincronización cloud (cachés/metadatos locales si existieran en extracción completa).
+
+**Fig. 3.24 — Mensajes/correos (messages)**
+
+![Fig. 3.24](hallazgos/movil-marido/img/correos.png)
+
+- Mensajes dirigidos a **`<simonhallym@gmail.com>`**, incluyendo comunicaciones de **Nest** y **Pandora**.
+- Refuerza el contexto de uso de servicios (IoT/entretenimiento) asociado a la misma cuenta observada en Fig. 3.20–3.21.
+
+### 7.7. Análisis de red (tráfico SmartHome)
+
+Este apartado integra el análisis de tráfico asociado al entorno SmartHome a partir de las evidencias disponibles en `hallazgos/red/`.
+
+Evidencias usadas:
+
+- `hallazgos/red/README.md`
+- Capturas en `hallazgos/red/img/`
+
+#### 7.7.1. Hashes aportados
+
+**Fig. 3.25 — Comprobación de hashes (PCAP SmartHome)**
+
+![Fig. 3.25](hallazgos/red/img/0-comprobacion-hashes.png)
+
+Según la evidencia aportada, los ficheros PCAP analizados y sus hashes son:
+
+| Archivo | MD5 | SHA-256 |
+|---|---|---|
+| `Tráfico_SmartHome_PorCOAP.pcap` | `67ab09760148a66402aa7d9b0abaa322` | `f5ad42a50ca0d16261c1ca4742d78fd99c9e7fc6ab67fdb3a53909ff7f786ce0` |
+| `Trafico_SmartHome_PorIP.pcap` | `8fb0edb521c9ad191adf5505420a36f4` | `a46644f1719d26382edd6d352cc8715fea32e73bbb00245d71943fbacbbeeca3e` |
+
+
+#### 7.7.2. Hallazgos relevantes
+
+**Descargas HTTP relacionadas con Rootkit Hunter (rkhunter)**
+
+Se observa tráfico HTTP desde `203.253.250.32` hacia `216.34.181.96` con peticiones a rutas asociadas a rkhunter (p. ej., `mirrors.dat`, `programs-bad.dat`, `backdoorports.dat`, `suspscan.dat`, `i18n.ver`). Esto es compatible con una descarga/actualización de listas de una herramienta de detección de rootkits.
+
+**Fig. 3.26 — Sitio referenciado: Rootkit Hunter (rkhunter)**
+
+![Fig. 3.26](hallazgos/red/img/1-rkhunter.png)
+
+**Fig. 3.27 — Peticiones HTTP a ficheros .dat de rkhunter**
+
+![Fig. 3.27](hallazgos/red/img/2-rkhunter.png)
+
+Interpretación forense:
+- No es prueba de intrusión por sí sola; es un indicador de **actividad de herramientas de seguridad/diagnóstico**.
+- El uso de **HTTP en claro** puede ser relevante si se pretende atribuir integridad/origen del contenido descargado.
+
+**Tráfico HTTP/JSON con token en la URL (SmartHome API)**
+
+Se aprecia tráfico HTTP/JSON con operaciones PUT a una API estilo `/v1.0/clients/...` (cliente `DollHouse_Secu5`) incluyendo un parámetro `at=...` (token) en la URL.
+
+**Fig. 3.28 — Tráfico HTTP/JSON PUT hacia API SmartHome**
+
+![Fig. 3.28](hallazgos/red/img/3-http.png)
+
+**Fig. 3.29 — Detalle del JSON: `status = CHANGED`**
+
+![Fig. 3.29](hallazgos/red/img/4-changed.png)
+
+Interpretación forense:
+- Un **token en la URL** puede filtrarse por logs, historial y proxies; si además el transporte no está cifrado, aumenta el riesgo de exposición.
+- El JSON observado refleja cambios de estado (`status: CHANGED`), compatibles con telemetría/actualización de un cliente SmartHome.
+
+#### 7.7.3. Conclusiones del tráfico
+
+- Con la evidencia disponible, el tráfico observado se centra en descargas de listas/actualizaciones (rkhunter) y en telemetría/actualización de estado de un cliente SmartHome (`status: CHANGED`).
+- No se aprecian en las capturas datos personales, credenciales en claro ni transferencia de documentos.
+
+### 7.8. Correlación de evidencias
 
 La correlación entre las fuentes analizadas refuerza la interpretación temporal y de pertenencia de dispositivos.
 
@@ -260,7 +429,9 @@ La correlación entre las fuentes analizadas refuerza la interpretación tempora
 
 4) **Entorno de red:** la red de invitados activa en el router y la presencia de varios equipos conectados o registrados en su historial indican un entorno con actividad suficiente como para requerir interpretación contextual de cada artefacto, evitando atribuciones erróneas.
 
-### 7.7. Cronología del ataque
+5) **Red (tráfico SmartHome) ↔ Ecosistema IoT:** el tráfico HTTP/JSON hacia una ruta tipo `/v1.0/clients/DollHouse_Secu5` con cambios `status: CHANGED` es coherente con telemetría/actualización de estado en plataformas SmartHome. Dado que en el móvil del marido se observan apps de control/gestión IoT (SmartThings y Commands for Alexa), esto refuerza la hipótesis de que parte del control del entorno domótico recaía en ese terminal. La presencia de un token en la URL (parámetro `at=...`) es relevante por exposición de credenciales en trazas/logs si el transporte no estuviera cifrado.
+
+### 7.9. Cronología del ataque
 
 Cronología consolidada (horas en **UTC+9**, Corea del Sur) basada en el cruce de fuentes:
 
@@ -286,6 +457,7 @@ Las limitaciones principales del análisis son:
 - No se aportan registros nativos de SmartThings/Nest ni accesos a las cuentas cloud correspondientes; por tanto, no se puede confirmar la activación de rutinas o la existencia de grabaciones más allá de lo descrito.
 - En el análisis del móvil, la ausencia de SMS/llamadas puede deberse a borrado, a uso de otros canales, o a limitaciones del volcado/parseo; no se puede atribuir causa única sin más artefactos.
 - El análisis del OnHub y de la TV se basa principalmente en capturas y algunos ficheros; no se cuenta con un volcado completo de logs del router ni imagen completa del sistema multimedia.
+- El análisis de red SmartHome se integra principalmente a partir de capturas y documentación; no constan en el repositorio los PCAP originales para revalidación independiente.
 
 ## 9. Conclusiones
 
@@ -293,6 +465,8 @@ Con base en la documentación y evidencias aportadas, se concluye:
 
 - La evidencia de **Alexa** proporciona una línea temporal con alto valor probatorio en la ventana **15:01–15:20 (UTC+9)**, destacando un episodio de confrontación **15:12–15:13** registrado en audio y metadatos.
 - El **móvil de la víctima** aporta un punto temporal objetivo (sync Google a **15:05:50**) coherente con actividad del terminal poco antes del episodio crítico registrado por Alexa.
+- El **móvil del marido** aporta indicios de **gestión domótica** (SmartThings/Alexa) y de **proximidad/emparejamiento** con dispositivos del hogar (Echo-2W5, LG HBS900), reforzando la interpretación del ecosistema doméstico.
+- El análisis de **tráfico de red SmartHome** aporta indicios de actualizaciones/descargas (rkhunter) y de uso de una API de cliente (`DollHouse_Secu5`) con token en la URL, relevante por consideraciones de seguridad y trazabilidad.
 - Los comandos de **encendido/apagado de TV** mediante Alexa aportan marcas temporales y contexto para contrastar declaraciones de ubicación.
 - La correlación **OnHub ↔ Kodi/OSMC** vincula el dispositivo multimedia con el entorno de red doméstico.
 
@@ -353,6 +527,20 @@ La siguiente tabla documenta la cadena de custodia de los archivos y evidencias 
 | 42 | hallazgos/alexa/13.wav.png | Transcripción WAV 13 | Pablo González Silva | 2026-05-11 | Captura de pantalla | Wake word / diálogo |
 | 43 | hallazgos/alexa/14.wav.png | Transcripción WAV 14 | Pablo González Silva | 2026-05-11 | Captura de pantalla | Comentario sobre IA |
 | 44 | hallazgos/movil-victima/README.md | Informe individual smartphone víctima | Pablo González Silva | No consta | Documentación del análisis | Autopsy/SQLite, hallazgos de actividad |
+| 45 | hallazgos/movil-marido/README.md | Informe individual smartphone marido | No consta | No consta | Documentación del análisis | Hallazgos de cuenta/apps y Bluetooth |
+| 46 | hallazgos/movil-marido/archivos/bt_config.xml | Configuración Bluetooth (Bluedroid) | No consta | No consta | Extracción directa | Artefactos de emparejamiento/blacklists |
+| 47 | hallazgos/movil-marido/img/0-modelo-movil.png | Modelo/versión Android (marido) | No consta | No consta | Captura de pantalla | Contexto técnico del terminal |
+| 48 | hallazgos/movil-marido/img/contactos-cuentas.png | Cuentas (accounts) (marido) | No consta | No consta | Captura de pantalla | Google/SmartThings |
+| 49 | hallazgos/movil-marido/img/nombre-simon.png | Propietario (owners) (marido) | No consta | No consta | Captura de pantalla | `gaia_id` y display name |
+| 50 | hallazgos/movil-marido/img/apps-instalads.png | Apps/servicios (listado 1) (marido) | No consta | No consta | Captura de pantalla | SmartThings/IFTTT, etc. |
+| 51 | hallazgos/movil-marido/img/apps-instaladas2.png | Apps/servicios (listado 2) (marido) | No consta | No consta | Captura de pantalla | Commands for Alexa/Drive |
+| 52 | hallazgos/movil-marido/img/correos.png | Mensajes/correos (marido) | No consta | No consta | Captura de pantalla | Nest/Pandora/Samsung |
+| 53 | hallazgos/red/README.md | Informe individual análisis de red | No consta | No consta | Documentación del análisis | Hashes y capturas de tráfico SmartHome |
+| 54 | hallazgos/red/img/0-comprobacion-hashes.png | Comprobación de hashes (PCAP SmartHome) | No consta | No consta | Captura de pantalla | Evidencia de MD5/SHA-256 aportados |
+| 55 | hallazgos/red/img/1-rkhunter.png | Sitio referenciado: rkhunter | No consta | No consta | Captura de pantalla | Contexto del artefacto descargado |
+| 56 | hallazgos/red/img/2-rkhunter.png | Peticiones HTTP a ficheros .dat (rkhunter) | No consta | No consta | Captura de pantalla | Descargas HTTP observadas |
+| 57 | hallazgos/red/img/3-http.png | Tráfico HTTP/JSON PUT (SmartHome API) | No consta | No consta | Captura de pantalla | Token en URL y rutas /v1.0/clients/... |
+| 58 | hallazgos/red/img/4-changed.png | Detalle JSON: status=CHANGED | No consta | No consta | Captura de pantalla | Cambio de estado del cliente |
 
 ## 12. Anexo 3. Otras necesidades
 
@@ -404,6 +592,20 @@ La siguiente tabla documenta la cadena de custodia de los archivos y evidencias 
 | hallazgos/alexa/13.wav.png | WAV 13 | hallazgos/alexa/ | Wake word / diálogo |
 | hallazgos/alexa/14.wav.png | WAV 14 | hallazgos/alexa/ | Comentario sobre IA |
 | hallazgos/movil-victima/README.md | Informe individual móvil víctima | hallazgos/movil-victima/ | Volcado `.mdf` y hallazgos |
+| hallazgos/movil-marido/README.md | Informe individual móvil marido | hallazgos/movil-marido/ | Cuenta/apps y Bluetooth (Bluedroid) |
+| hallazgos/movil-marido/archivos/bt_config.xml | Configuración Bluedroid | hallazgos/movil-marido/archivos/ | Emparejamientos, LinkKeys y blacklists |
+| hallazgos/movil-marido/img/0-modelo-movil.png | Modelo/versión Android | hallazgos/movil-marido/img/ | Contexto técnico del terminal |
+| hallazgos/movil-marido/img/contactos-cuentas.png | Cuentas (accounts) | hallazgos/movil-marido/img/ | Google/SmartThings |
+| hallazgos/movil-marido/img/nombre-simon.png | Propietario (owners) | hallazgos/movil-marido/img/ | `gaia_id` y nombre mostrado |
+| hallazgos/movil-marido/img/apps-instalads.png | Apps/servicios (1) | hallazgos/movil-marido/img/ | SmartThings/IFTTT y servicios |
+| hallazgos/movil-marido/img/apps-instaladas2.png | Apps/servicios (2) | hallazgos/movil-marido/img/ | Commands for Alexa/Drive |
+| hallazgos/movil-marido/img/correos.png | Mensajes/correos | hallazgos/movil-marido/img/ | Nest/Pandora/Samsung |
+| hallazgos/red/README.md | Informe individual red | hallazgos/red/ | Hashes y hallazgos de tráfico SmartHome |
+| hallazgos/red/img/0-comprobacion-hashes.png | Hashes PCAP | hallazgos/red/img/ | MD5/SHA-256 aportados |
+| hallazgos/red/img/1-rkhunter.png | rkhunter (sitio) | hallazgos/red/img/ | Contexto de descargas |
+| hallazgos/red/img/2-rkhunter.png | HTTP rkhunter | hallazgos/red/img/ | Peticiones a ficheros .dat |
+| hallazgos/red/img/3-http.png | HTTP/JSON SmartHome | hallazgos/red/img/ | PUT /v1.0/clients/... con token |
+| hallazgos/red/img/4-changed.png | JSON status changed | hallazgos/red/img/ | `status: CHANGED` |
 
 <table>
     <thead>
