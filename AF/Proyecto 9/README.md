@@ -36,7 +36,32 @@ En cumplimiento de las mejores prácticas y estándares de la industria, los per
 
 ## 2. Palabras clave
 
-Google OnHub, Chrome OS, DNS, red Wi-Fi, ARP, Kodi, OSMC, TV inteligente, Amazon Echo, Alexa, SmartThings, Nest, Bluetooth, Android, hashes, análisis forense, evidencias digitales.
+En este apartado se incluyen términos técnicos utilizados en el informe que pueden dificultar la lectura. Se ofrece una definición breve para contextualizar su significado.
+
+| Término | Definición breve |
+| --- | --- |
+| **Hash (MD5 / SHA-256)** | Huella digital calculada sobre un archivo para verificar su integridad (si cambia el archivo, cambia el hash). |
+| **Cadena de custodia** | Registro de la trazabilidad de la evidencia (quién la maneja, cuándo y cómo) para preservar su validez. |
+| **DNS (Domain Name System)** | Servicio que traduce nombres de dominio a direcciones IP; en el router se listan los servidores “resolutores” usados. |
+| **Resolutor DNS** | Servidor DNS configurado para resolver consultas; un resolutor “no estándar” puede ser un dato anómalo a investigar. |
+| **SSID** | Nombre público de una red Wi‑Fi (p. ej., la red principal y la red de invitados). |
+| **WAN / IP WAN** | Interfaz “hacia Internet” del router; la IP WAN es la dirección asignada por el proveedor/red exterior. |
+| **Gateway (puerta de enlace)** | Equipo destino por el que se enruta el tráfico hacia redes externas (normalmente el salto siguiente hacia Internet). |
+| **Tabla ARP** | Lista que relaciona direcciones IP con direcciones MAC en una red local, útil para inventariar dispositivos conectados. |
+| **ARP (Address Resolution Protocol)** | Protocolo que permite obtener la dirección MAC asociada a una IP dentro de la red local. |
+| **MAC (dirección MAC)** | Identificador físico de una interfaz de red (Wi‑Fi/Ethernet/Bluetooth), usado para reconocer dispositivos. |
+| **Red de invitados** | Wi‑Fi separada de la red principal, pensada para visitantes; aumenta superficie de exposición si está habilitada. |
+| **Kodi** | Centro multimedia (software) usado para reproducción/gestión de contenido en TV/dispositivos dedicados. |
+| **OSMC** | Distribución/sistema basado en Linux orientado a ejecutar Kodi (Open Source Media Center). |
+| **Amazon Echo (Alexa)** | Dispositivo de asistente de voz que registra interacciones y puede controlar dispositivos del hogar. |
+| **Wake word** | Palabra de activación (p. ej., “Alexa”) que inicia la captura de audio para interpretar un comando. |
+| **JSON** | Formato de datos estructurado; en Alexa se usa para registrar metadatos/resultado de una interacción. |
+| **WAV** | Formato de audio sin compresión; en este caso, grabaciones de voz asociadas a interacciones con Alexa. |
+| **Unix epoch (ms)** | Timestamp numérico (milisegundos desde 01/01/1970) utilizado para fechar eventos en registros JSON. |
+| **UTC / UTC+9 (KST)** | Referencias de zona horaria: UTC es tiempo universal; UTC+9 corresponde a Corea (KST) para la cronología del caso. |
+| **SQLite** | Base de datos ligera embebida en apps; se usa en Android para almacenar historiales, configuraciones, etc. |
+| **Autopsy** | Herramienta forense para analizar imágenes de disco/particiones y extraer artefactos relevantes. |
+| **Token de acceso** | Credencial temporal usada por una app para acceder a un servicio (si expira, puede impedir recuperar datos). |
 
 ## 3. Índice de figuras
 
@@ -307,7 +332,7 @@ La siguiente tabla documenta la cadena de custodia de los archivos y evidencias 
 | 21 | hallazgos/tv-intelligence/has_bluethoot_88-0F-10-F6-C8-B7.csv | Hash de integridad M11A | Luis Carlos Romero | 2026-05-14 | Extracción directa | Verificación SHA |
 | 22 | hallazgos/tv-intelligence/hash_timezone.csv | Hash de integridad zona horaria | Luis Carlos Romero | 2026-05-14 | Extracción directa | Verificación SHA |
 | 23 | hallazgos/tv-intelligence/kodlog_hash.csv | Hash de integridad kodi.log | Luis Carlos Romero | 2026-05-14 | Extracción directa | Verificación SHA |
-| 24 | hallazgos/tv-intelligence/timezone | Archivo de configuración horaria | Luis Carlos Romero | 2026-05-14 | Extracción directa | `America/New_York`
+| 24 | hallazgos/tv-intelligence/timezone | Archivo de configuración horaria | Luis Carlos Romero | 2026-05-14 | Extracción directa | `America/New_York` |
 | 25 | hallazgos/alexa/README.md | Informe individual Alexa | Pablo González Silva | 2026-05-11 | Documentación del análisis | Incluye custodia, identificación y hallazgos |
 | 26 | hallazgos/alexa/analisis_alexa_json.md | Análisis individual de JSON Alexa | Pablo González Silva | 2026-05-11 | Documentación del análisis | Línea temporal JSON en UTC+9 |
 | 27 | hallazgos/alexa/transcrito.md | Transcripción manual de WAV Alexa | Pablo González Silva | 2026-05-11 | Documentación del análisis | Traducción ES/EN |
@@ -358,7 +383,7 @@ La siguiente tabla documenta la cadena de custodia de los archivos y evidencias 
 | hallazgos/tv-intelligence/has_bluethoot_88-0F-10-F6-C8-B7.csv | Hash M11A | hallazgos/tv-intelligence/ | CSV |
 | hallazgos/tv-intelligence/hash_timezone.csv | Hash timezone | hallazgos/tv-intelligence/ | CSV |
 | hallazgos/tv-intelligence/kodlog_hash.csv | Hash kodi.log | hallazgos/tv-intelligence/ | CSV |
-| hallazgos/tv-intelligence/timezone | Zona horaria | hallazgos/tv-intelligence/ | `America/New_York`
+| hallazgos/tv-intelligence/timezone | Zona horaria | hallazgos/tv-intelligence/ | `America/New_York` |
 | hallazgos/alexa/README.md | Informe individual Alexa | hallazgos/alexa/ | Custodia, identificación y hallazgos |
 | hallazgos/alexa/analisis_alexa_json.md | Línea temporal JSON | hallazgos/alexa/ | Timestamps a UTC+9 |
 | hallazgos/alexa/transcrito.md | Transcripciones WAV | hallazgos/alexa/ | ES/EN |
