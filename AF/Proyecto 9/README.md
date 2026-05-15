@@ -7,13 +7,16 @@
    1. [Antecedentes](#51-antecedentes)
    2. [Objetivos](#52-objetivos)
 6. [Fuentes de información](#6-fuentes-de-información)
-   1. [Comprobación de hashes (MD5 y SHA-1)](#61-comprobación-de-hashes-md5-y-sha-1)
+    1. [Comprobación de hashes (MD5 y SHA-256)](#61-comprobación-de-hashes-md5-y-sha-256)
    2. [Adquisición de hallazgos](#62-adquisición-de-hallazgos)
 7. [Análisis](#7-análisis)
    1. [Herramientas utilizadas](#71-herramientas-utilizadas)
-   2. [Cronología del ataque](#76-cronología-del-ataque)
-   3. [Google OnHub](#72-google-onhub)
-   4. [TV Intelligence](#73-tv-intelligence)
+    2. [Google OnHub](#72-google-onhub)
+    3. [TV Intelligence](#73-tv-intelligence)
+    4. [Amazon Echo (Alexa)](#74-amazon-echo-alexa)
+    5. [Smartphone de la víctima](#75-smartphone-de-la-víctima)
+    6. [Correlación de evidencias](#76-correlación-de-evidencias)
+    7. [Cronología del ataque](#77-cronología-del-ataque)
 8. [Limitaciones](#8-limitaciones)
 9. [Conclusiones](#9-conclusiones)
 11. [Anexo 2. Cadena de custodia](#11-anexo-2-cadena-de-custodia)
@@ -33,7 +36,7 @@ En cumplimiento de las mejores prácticas y estándares de la industria, los per
 
 ## 2. Palabras clave
 
-Google OnHub, Chrome OS, DNS, red Wi-Fi, ARP, Kodi, OSMC, TV inteligente, Bluetooth, hash, análisis forense, evidencias digitales.
+Google OnHub, Chrome OS, DNS, red Wi-Fi, ARP, Kodi, OSMC, TV inteligente, Amazon Echo, Alexa, SmartThings, Nest, Bluetooth, Android, hashes, análisis forense, evidencias digitales.
 
 ## 3. Índice de figuras
 
@@ -55,18 +58,40 @@ Google OnHub, Chrome OS, DNS, red Wi-Fi, ARP, Kodi, OSMC, TV inteligente, Blueto
 | 3.14 | ![Fig. 3.14](hallazgos/tv-intelligence/image-2.png)            | Primer dispositivo Bluetooth detectado                   |
 | 3.15 | ![Fig. 3.15](hallazgos/tv-intelligence/image-3.png)            | Segundo dispositivo Bluetooth detectado                  |
 | 3.16 | ![Fig. 3.16](hallazgos/tv-intelligence/image-4.png)            | Verificación de hashes del paquete analizado             |
+| 3.17 | ![Fig. 3.17](hallazgos/alexa/hashes-alexa.png)                 | Verificación de hashes de Alexa.zip                      |
+| 3.18 | ![Fig. 3.18](hallazgos/alexa/image.png)                        | Línea temporal Alexa (cruce WAV ↔ JSON)                  |
 
 ## 4. Resumen ejecutivo
+
+Este informe consolida el análisis forense de evidencias digitales relacionadas con un homicidio (17/07/2017) en un entorno doméstico con dispositivos inteligentes. Se han revisado cuatro fuentes principales: (1) un router **Google OnHub** (estado de red, DNS y dispositivos), (2) un sistema multimedia/TV con **Kodi/OSMC** (logs, zona horaria y cachés Bluetooth), (3) un **Amazon Echo (Alexa)** (interacciones JSON y transcripciones de audio WAV) y (4) el **smartphone de la víctima** (actividad de cuenta Google, apps instaladas, Bluetooth y bases de datos).
+
+Los hallazgos más relevantes son:
+
+- **Alexa registra un episodio crítico** entre **15:12 y 15:13 (UTC+9)** con contenido de confrontación en audio (WAV 7–8) y registro JSON asociado (JSON 8). Adicionalmente existe un comando **"call the ambulance"** en audio (WAV 1–2) sin registro JSON asociado, indicando una **interacción no procesada o no registrada** por el servicio.
+- En el mismo día, Alexa registra **encendido y apagado de la TV** (15:01 y 15:20), útil para contrastar declaraciones de presencia/ubicación.
+- El **móvil de la víctima** realiza una sincronización con Google a las **15:05:50 (UTC+9)**, evidenciando que el terminal estaba activo y con conectividad en ese momento.
+- En el móvil de la víctima **no se observa SmartThings instalado**, lo que sugiere que el control del ecosistema domótico (TV/rutinas) recaía en otro terminal.
+- El OnHub y el sistema Kodi/OSMC presentan coherencia entre sí (host/entorno `osmc`), y el OnHub muestra un **resolver DNS adicional** no estándar que requiere validación contextual.
 
 ## 5. Introducción
 
 ### 5.1. Antecedentes
 
+El caso requiere el análisis de un entorno de hogar inteligente en el que confluyen: un router (Google OnHub), un sistema multimedia/TV (Kodi/OSMC), un asistente de voz (Amazon Echo/Alexa) y al menos dos smartphones (víctima y marido). En este tipo de escenarios, los artefactos de red, los registros de asistentes de voz y los datos de terminales móviles pueden aportar marcas temporales y trazas de actividad útiles para reconstruir hechos.
+
 ### 5.2. Objetivos
+
+Los objetivos del presente informe son:
+
+- Identificar y caracterizar los dispositivos y fuentes de evidencia aportadas.
+- Verificar, cuando sea posible, la integridad de los ficheros (hashes) y documentar su trazabilidad.
+- Extraer hallazgos técnicos relevantes (red, logs, interacciones, sincronizaciones).
+- Correlacionar líneas temporales entre fuentes (Alexa ↔ móvil ↔ red/TV).
+- Presentar conclusiones y limitaciones sin asumir hechos no soportados por las evidencias disponibles.
 
 ## 6. Fuentes de información
 
-### 6.1. Comprobación de hashes (MD5 y SHA-1)
+### 6.1. Comprobación de hashes (MD5 y SHA-256)
 
 Para asegurar que los ficheros no han sido modificados desde su adquisición, se verificó la integridad mediante funciones hash, principalmente **MD5** y **SHA-256** cuando la fuente lo aportaba. La verificación se realiza antes y después de cualquier transferencia o uso en herramientas forenses.
 
@@ -74,14 +99,17 @@ Para asegurar que los ficheros no han sido modificados desde su adquisición, se
 
 | Evidencia | Hash MD5 | Hash SHA-256 |
 | --- | --- | --- |
+| `Alexa.zip` | `93639c62f68c5155611bbd7e8eb3f477` | `6c09813eea5475dc0011c547e7fb774cfbd7216cafdeeb9a8308306046c14edf` |
 | `TV_Inteligente.zip` | `D9D2B3B3048A836289CEC02C6353B6E9` | `5423EA3F60D4AD0874346D3BA31C8783E5F2CE4B15B261BA0085E07F11E650E6` |
 
 ### 6.2. Adquisición de hallazgos
 
-Se trabajó sobre capturas y documentos de análisis ya extraídos, organizados en dos bloques principales:
+Se trabajó sobre capturas y documentos de análisis ya extraídos, organizados en cuatro bloques principales:
 
 - Evidencias del **Google OnHub**: capturas del panel de estado, red Wi-Fi, DNS, tabla ARP e interfaces.
 - Evidencias de **TV Intelligence**: captura del `kodi.log`, zona horaria, dispositivos Bluetooth y comprobación de hashes.
+- Evidencias de **Amazon Echo (Alexa)**: capturas, transcripción y análisis de interacciones JSON y audios WAV (mediante imágenes/transcripciones).
+- Evidencias del **smartphone de la víctima**: informe del análisis del volcado físico (particiones `.mdf`) y hallazgos de actividad de cuenta, apps y Bluetooth.
 
 La adquisición se apoyó en trabajo sobre copias y en la preservación de los ficheros originales dentro del repositorio.
 
@@ -94,6 +122,9 @@ La adquisición se apoyó en trabajo sobre copias y en la preservación de los f
 | Visor de imágenes / capturas | Revisión de paneles, logs y pantallas de estado. |
 | Herramientas de hash | Verificación de integridad de archivos aportados. |
 | Interpretación manual de logs | Extracción de contexto técnico desde `kodi.log` y paneles del router. |
+| Autopsy 4.22.1 | Análisis forense de particiones del volcado físico del smartphone (según informe individual). |
+| DB Browser for SQLite | Revisión de bases de datos SQLite extraídas del smartphone (según informe individual). |
+| Conversión de timestamps (epoch) | Alineación temporal de eventos Alexa a UTC+9 para correlación. |
 
 ### 7.2. Google OnHub
 
@@ -145,17 +176,107 @@ Estos nombres sugieren periféricos o dispositivos próximos detectados por el s
 
 En conjunto, la evidencia no apunta a una intrusión por sí misma, sino a la identificación y caracterización de un sistema multimedia con sus artefactos de configuración, ubicación horaria y dispositivos Bluetooth asociados.
 
-### 7.4. Correlación de evidencias
+### 7.4. Amazon Echo (Alexa)
 
-La correlación entre ambos análisis es el punto más útil del informe.
+El conjunto de evidencias de Alexa documenta interacciones registradas el **17/07/2017** mediante (a) metadatos/JSON de interacción y (b) audios WAV (aquí aportados como capturas/transcripciones). La zona horaria del caso se considera **UTC+9 (Corea del Sur)**, aplicando conversión desde Unix epoch (ms) en los JSON.
 
-El router OnHub registra el dispositivo `osmc` como parte del entorno de red, mientras que la evidencia de la TV muestra precisamente un sistema **Kodi/OSMC** funcionando en una plataforma ARM. Esa concordancia permite concluir que ambos conjuntos de pruebas pertenecen al mismo ecosistema doméstico y que la TV inteligente formaba parte de la red administrada por el OnHub.
+Identificación y contexto (según informe individual):
 
-Además, la red de invitados activa en el router y la presencia de varios equipos conectados o registrados en su historial indican un entorno con actividad suficiente como para requerir interpretación contextual de cada artefacto. Desde un punto de vista forense, esto obliga a tratar cada evidencia dentro de su entorno de red para evitar atribuciones erróneas.
+- Dispositivo: **Amazon Echo (1.ª generación)**
+- Device Type: `AB72C64C86AW2`
+- Número de serie: `B0F00715535302W5`
+- Usuario mostrado en la interfaz: *"Not simon"*
+
+Línea temporal resumida (UTC+9):
+
+| Hora | Evento | Fuente |
+| --- | --- | --- |
+| 14:45:31 | "Wake up" (respuesta de Alexa) | JSON 13 / WAV 13–14 |
+| 15:01:55 | "Turn on TV" (TV encendida) | JSON 11 / WAV 11–12 |
+| 15:06:06 | "Turn on Pandora" (música activada) | JSON 9 / WAV 9–10 |
+| 15:12:39 | Conversación/altercado captado (wake word en medio del diálogo) | JSON 8 / WAV 7–8 |
+| 15:13:02 | "Stop" | JSON 5–6 / WAV 5–6 |
+| 15:20:07 | "Turn off TV" (TV apagada) | JSON 3 / WAV 3–4 |
+| 15:20:34 | "Who is Yes?" | JSON 1 |
+| (sin hora JSON) | "Call the ambulance" en audio, sin registro JSON asociado | WAV 1–2 |
+
+Hallazgos forenses principales:
+
+- **Confrontación grabada** (15:12–15:13): el contenido transcrito de WAV 7–8 incluye frases como *"I can't believe you would do this to me"* y *"How could you do this? What are you thinking?"*, consistentes con una discusión intensa.
+- **"Call the ambulance" sin JSON**: la ausencia del registro JSON asociado a WAV 1–2 es relevante porque sugiere una ventana en la que Alexa **no procesó/no registró** la interacción (posible desconexión o fallo de reconocimiento).
+- **Control de TV por voz**: los comandos de encendido/apagado de la TV aportan marcas temporales útiles para contrastar presencia en el salón.
+
+Para el detalle completo (incluyendo custodia, dispositivos SmartHome vinculados y explicación de zona horaria), ver los documentos individuales en `hallazgos/alexa/`.
+
+### 7.5. Smartphone de la víctima
+
+El análisis del smartphone de la víctima (Samsung **SHV-E250L**, Android 4.4.2) aporta evidencia de actividad de cuenta, conectividad y emparejamientos Bluetooth relevantes para el caso.
+
+Hallazgos clave (según informe individual):
+
+- Identidad y pertenencia: nombre del dispositivo **"Betty"**, cuenta Google `bettyhallym@gmail.com`, zona horaria **Asia/Seúl (UTC+9)**.
+- **Actividad el día del crimen**: sincronización de Google a las **15:05:50–15:05:52 (UTC+9)**, evidenciando terminal activo y con conectividad.
+- Ecosistema domótico: se observa instalada la app **Amazon Alexa** (`com.amazon.dee.app`), pero **no** se encontró **SmartThings**, sugiriendo que el control SmartThings recaía en el terminal del marido.
+- Bluetooth: aparecen dispositivos conocidos con nombres y MAC relevantes, incluyendo **Echo-2W5** (`74:c2:46:88:5d:09`), el móvil del marido **"Simon"** y una pulsera **MI1A** (`88:0f:10:f6:c8:b7`).
+- Nest: token expirado el 13/07/2017 (posible explicación de ausencia de grabaciones del día del crimen).
+- Bases de datos de SMS/llamadas sin contenido: `mmssms.db` sin registros (anómalo en un terminal en uso, compatible con borrado o ausencia de uso de SMS).
+
+El detalle metodológico (particiones `.mdf`, Autopsy y DB Browser) consta en el informe individual en `hallazgos/movil-victima/README.md`.
+
+### 7.6. Correlación de evidencias
+
+La correlación entre las fuentes analizadas refuerza la interpretación temporal y de pertenencia de dispositivos.
+
+1) **OnHub ↔ TV (Kodi/OSMC):** el router OnHub registra el host `osmc` dentro del entorno de red; la evidencia del sistema multimedia muestra un entorno **Kodi/OSMC** coherente. Esto vincula ambos artefactos al mismo ecosistema doméstico.
+
+2) **Alexa ↔ Móvil de la víctima (Bluetooth):** el smartphone registra el dispositivo **Echo-2W5** con MAC `74:c2:46:88:5d:09`, consistente con los identificadores observados en las evidencias del entorno (p. ej., `Echo-2W5`).
+
+3) **Alexa ↔ Móvil (tiempo):** la sincronización del móvil a **15:05:50** ocurre **antes** del episodio de confrontación captado por Alexa a **15:12:39**, enmarcando una ventana temporal previa a la zona crítica.
+
+4) **Entorno de red:** la red de invitados activa en el router y la presencia de varios equipos conectados o registrados en su historial indican un entorno con actividad suficiente como para requerir interpretación contextual de cada artefacto, evitando atribuciones erróneas.
+
+### 7.7. Cronología del ataque
+
+Cronología consolidada (horas en **UTC+9**, Corea del Sur) basada en el cruce de fuentes:
+
+| Hora | Hecho observado | Fuente |
+| --- | --- | --- |
+| 14:31:04 | Audio ambiental detectado (evento no dirigido al dispositivo) | Alexa (JSON 16, DISCARDED) |
+| 14:45:31 | Interacción "Wake up" | Alexa (JSON 13) |
+| 15:01:55 | TV encendida por comando de voz | Alexa (JSON 11) |
+| 15:05:50–15:05:52 | Sincronización del móvil con Google | Móvil víctima |
+| 15:06:06 | Pandora activado por Alexa | Alexa (JSON 9) |
+| 15:12:39–15:13:02 | Episodio de discusión/altercado y comandos "Stop" | Alexa (JSON 8 y JSON 5) |
+| 15:20:07 | TV apagada por comando de voz | Alexa (JSON 3) |
+| 15:20:34 | Consulta "Who is Yes?" | Alexa (JSON 1) |
+| (sin registro JSON) | Audio "Call the ambulance" (no procesado/no registrado) | Alexa (WAV 1–2) |
+
+Nota: la evidencia aportada de Alexa indica que la interfaz web mostraba hora de Seattle (UTC-7), por lo que la cronología se expresa en UTC+9 a partir de timestamps epoch de los JSON (según documentación individual).
 
 ## 8. Limitaciones
 
+Las limitaciones principales del análisis son:
+
+- La evidencia de Alexa se aporta como documentación, capturas y transcripciones; no se dispone en el repositorio del paquete original completo (p. ej., `Alexa.zip`) para revalidación independiente de su contenido.
+- No se aportan registros nativos de SmartThings/Nest ni accesos a las cuentas cloud correspondientes; por tanto, no se puede confirmar la activación de rutinas o la existencia de grabaciones más allá de lo descrito.
+- En el análisis del móvil, la ausencia de SMS/llamadas puede deberse a borrado, a uso de otros canales, o a limitaciones del volcado/parseo; no se puede atribuir causa única sin más artefactos.
+- El análisis del OnHub y de la TV se basa principalmente en capturas y algunos ficheros; no se cuenta con un volcado completo de logs del router ni imagen completa del sistema multimedia.
+
 ## 9. Conclusiones
+
+Con base en la documentación y evidencias aportadas, se concluye:
+
+- La evidencia de **Alexa** proporciona una línea temporal con alto valor probatorio en la ventana **15:01–15:20 (UTC+9)**, destacando un episodio de confrontación **15:12–15:13** registrado en audio y metadatos.
+- El **móvil de la víctima** aporta un punto temporal objetivo (sync Google a **15:05:50**) coherente con actividad del terminal poco antes del episodio crítico registrado por Alexa.
+- Los comandos de **encendido/apagado de TV** mediante Alexa aportan marcas temporales y contexto para contrastar declaraciones de ubicación.
+- La correlación **OnHub ↔ Kodi/OSMC** vincula el dispositivo multimedia con el entorno de red doméstico.
+
+Necesidades para reforzar el caso (si se dispone de acceso legal/técnico):
+
+- Solicitar/exportar logs cloud completos de **Alexa** (interacciones, audio y estado de conectividad) para validar el hueco de "call the ambulance".
+- Obtener registros de **SmartThings** (rutinas `IAmBack`/`Goodbye!`) y de **Nest** (si existieran) para corroborar presencia/entradas/salidas.
+- Analizar la pulsera **MI1A** (si se conserva) para extraer datos biométricos y aproximar la hora del fallecimiento.
+- Obtener volcado/logs más completos del OnHub y del sistema Kodi/OSMC para mejorar atribución y contexto.
 
 ## 11. Anexo 2. Cadena de custodia
 
@@ -187,6 +308,26 @@ La siguiente tabla documenta la cadena de custodia de los archivos y evidencias 
 | 22 | hallazgos/tv-intelligence/hash_timezone.csv | Hash de integridad zona horaria | Luis Carlos Romero | 2026-05-14 | Extracción directa | Verificación SHA |
 | 23 | hallazgos/tv-intelligence/kodlog_hash.csv | Hash de integridad kodi.log | Luis Carlos Romero | 2026-05-14 | Extracción directa | Verificación SHA |
 | 24 | hallazgos/tv-intelligence/timezone | Archivo de configuración horaria | Luis Carlos Romero | 2026-05-14 | Extracción directa | `America/New_York`
+| 25 | hallazgos/alexa/README.md | Informe individual Alexa | Pablo González Silva | 2026-05-11 | Documentación del análisis | Incluye custodia, identificación y hallazgos |
+| 26 | hallazgos/alexa/analisis_alexa_json.md | Análisis individual de JSON Alexa | Pablo González Silva | 2026-05-11 | Documentación del análisis | Línea temporal JSON en UTC+9 |
+| 27 | hallazgos/alexa/transcrito.md | Transcripción manual de WAV Alexa | Pablo González Silva | 2026-05-11 | Documentación del análisis | Traducción ES/EN |
+| 28 | hallazgos/alexa/hashes-alexa.png | Captura de verificación de hashes | Pablo González Silva | 2026-05-11 | Captura de pantalla | Hashes de `Alexa.zip` |
+| 29 | hallazgos/alexa/image.png | Línea temporal Alexa | Pablo González Silva | 2026-05-11 | Captura de pantalla | Cruce WAV ↔ JSON |
+| 30 | hallazgos/alexa/1.wav.png | Transcripción WAV 1 | Pablo González Silva | 2026-05-11 | Captura de pantalla | "call the ambulance" |
+| 31 | hallazgos/alexa/2.wav.png | Transcripción WAV 2 | Pablo González Silva | 2026-05-11 | Captura de pantalla | "call the ambulance" |
+| 32 | hallazgos/alexa/3.wav.png | Transcripción WAV 3 | Pablo González Silva | 2026-05-11 | Captura de pantalla | "turn off TV" |
+| 33 | hallazgos/alexa/4.wav.png | Transcripción WAV 4 | Pablo González Silva | 2026-05-11 | Captura de pantalla | "turn off TV" |
+| 34 | hallazgos/alexa/5.wav.png | Transcripción WAV 5 | Pablo González Silva | 2026-05-11 | Captura de pantalla | "Stop" |
+| 35 | hallazgos/alexa/6.wav.png | Transcripción WAV 6 | Pablo González Silva | 2026-05-11 | Captura de pantalla | "Stop" |
+| 36 | hallazgos/alexa/7.wav.png | Transcripción WAV 7 | Pablo González Silva | 2026-05-11 | Captura de pantalla | Conversación |
+| 37 | hallazgos/alexa/8.wav.png | Transcripción WAV 8 | Pablo González Silva | 2026-05-11 | Captura de pantalla | Conversación |
+| 38 | hallazgos/alexa/9.wav.png | Transcripción WAV 9 | Pablo González Silva | 2026-05-11 | Captura de pantalla | "turn on Pandora" |
+| 39 | hallazgos/alexa/10.wav.png | Transcripción WAV 10 | Pablo González Silva | 2026-05-11 | Captura de pantalla | "turn on Pandora" |
+| 40 | hallazgos/alexa/11.wav.png | Transcripción WAV 11 | Pablo González Silva | 2026-05-11 | Captura de pantalla | "turn on TV" |
+| 41 | hallazgos/alexa/12.wav.png | Transcripción WAV 12 | Pablo González Silva | 2026-05-11 | Captura de pantalla | "turn on TV" |
+| 42 | hallazgos/alexa/13.wav.png | Transcripción WAV 13 | Pablo González Silva | 2026-05-11 | Captura de pantalla | Wake word / diálogo |
+| 43 | hallazgos/alexa/14.wav.png | Transcripción WAV 14 | Pablo González Silva | 2026-05-11 | Captura de pantalla | Comentario sobre IA |
+| 44 | hallazgos/movil-victima/README.md | Informe individual smartphone víctima | Pablo González Silva | No consta | Documentación del análisis | Autopsy/SQLite, hallazgos de actividad |
 
 ## 12. Anexo 3. Otras necesidades
 
@@ -218,6 +359,26 @@ La siguiente tabla documenta la cadena de custodia de los archivos y evidencias 
 | hallazgos/tv-intelligence/hash_timezone.csv | Hash timezone | hallazgos/tv-intelligence/ | CSV |
 | hallazgos/tv-intelligence/kodlog_hash.csv | Hash kodi.log | hallazgos/tv-intelligence/ | CSV |
 | hallazgos/tv-intelligence/timezone | Zona horaria | hallazgos/tv-intelligence/ | `America/New_York`
+| hallazgos/alexa/README.md | Informe individual Alexa | hallazgos/alexa/ | Custodia, identificación y hallazgos |
+| hallazgos/alexa/analisis_alexa_json.md | Línea temporal JSON | hallazgos/alexa/ | Timestamps a UTC+9 |
+| hallazgos/alexa/transcrito.md | Transcripciones WAV | hallazgos/alexa/ | ES/EN |
+| hallazgos/alexa/hashes-alexa.png | Hashes Alexa.zip | hallazgos/alexa/ | Verificación de integridad |
+| hallazgos/alexa/image.png | Cruce WAV ↔ JSON | hallazgos/alexa/ | Línea temporal |
+| hallazgos/alexa/1.wav.png | WAV 1 | hallazgos/alexa/ | "call the ambulance" |
+| hallazgos/alexa/2.wav.png | WAV 2 | hallazgos/alexa/ | "call the ambulance" |
+| hallazgos/alexa/3.wav.png | WAV 3 | hallazgos/alexa/ | "turn off TV" |
+| hallazgos/alexa/4.wav.png | WAV 4 | hallazgos/alexa/ | "turn off TV" |
+| hallazgos/alexa/5.wav.png | WAV 5 | hallazgos/alexa/ | "Stop" |
+| hallazgos/alexa/6.wav.png | WAV 6 | hallazgos/alexa/ | "Stop" |
+| hallazgos/alexa/7.wav.png | WAV 7 | hallazgos/alexa/ | Conversación |
+| hallazgos/alexa/8.wav.png | WAV 8 | hallazgos/alexa/ | Conversación |
+| hallazgos/alexa/9.wav.png | WAV 9 | hallazgos/alexa/ | "turn on Pandora" |
+| hallazgos/alexa/10.wav.png | WAV 10 | hallazgos/alexa/ | "turn on Pandora" |
+| hallazgos/alexa/11.wav.png | WAV 11 | hallazgos/alexa/ | "turn on TV" |
+| hallazgos/alexa/12.wav.png | WAV 12 | hallazgos/alexa/ | "turn on TV" |
+| hallazgos/alexa/13.wav.png | WAV 13 | hallazgos/alexa/ | Wake word / diálogo |
+| hallazgos/alexa/14.wav.png | WAV 14 | hallazgos/alexa/ | Comentario sobre IA |
+| hallazgos/movil-victima/README.md | Informe individual móvil víctima | hallazgos/movil-victima/ | Volcado `.mdf` y hallazgos |
 
 <table>
     <thead>
