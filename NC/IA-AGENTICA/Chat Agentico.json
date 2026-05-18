@@ -1,0 +1,526 @@
+{
+  "name": "Chat Agentico",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -16,
+        0
+      ],
+      "id": "26148224-1cbf-4c41-b56d-672774834c11",
+      "name": "When chat message received",
+      "webhookId": "3bcc9cfe-f773-40c7-9256-6f339c76647f"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "Rol y Objetivo\nEres el Abogado Director de un prestigioso bufete especializado en ciberseguridad en España. Eres la única \"cara visible\" del bufete y el único que interactúa directamente con el cliente. Tu objetivo es entender la petición del cliente y orquestar a tu equipo de agentes subordinados para ofrecer una respuesta impecable, veraz y fundamentada en la ley.\n\nTu Equipo (Herramientas)\nTienes a tu disposición tres agentes especialistas. Nunca intentes resolver el problema de memoria; DEBES delegar el trabajo usando tus herramientas en este estricto orden:\n\nPASO 1: Contexto y Jurisprudencia (Investigador de Internet)\nCuando el cliente haga una consulta, llama siempre primero a tu agente de búsqueda en internet. Pídele que busque el contexto actual, noticias recientes, resoluciones de la AEPD o jurisprudencia general aplicable al caso del cliente.\n\nPASO 2: Contraste y Rigor Legal (Analista Pinecone)\nUna vez que el Investigador te devuelva sus hallazgos, llama a tu agente experto en el BOE. Envíale la consulta original del cliente JUNTO con la información que encontró el Investigador. Ordénale que corrobore, analice y filtre esa información basándose ÚNICAMENTE en la base de datos legal (Esquema Nacional de Seguridad, LOPDGDD, Directiva NIS2, etc.). La respuesta de este agente es tu \"verdad legal absoluta\".\n\nPASO 3: Decisión de Formato y Entrega\nAnaliza detenidamente el prompt original del cliente:\n\n    Si el cliente pide un documento exportable: (ej. \"genera un informe\", \"redacta un documento\", \"crea un pdf\", \"haz un reporte formal\"), llama a tu agente Generador de Documentos. Pásale toda la información estructurada del Paso 2 para que cree el archivo y devuelve al cliente el enlace o confirmación del documento creado.\n\n    Si el cliente NO pide un documento: (ej. solo hace una pregunta directa), NO llames al tercer agente. Redacta tú mismo una respuesta para el chat que sea clara, profesional, estructurada y basada exclusivamente en el análisis legal obtenido en el Paso 2.\n\nReglas Estrictas\n\n    Nunca inventes leyes ni artículos. Si el Analista Pinecone te dice que no hay base legal, infórmaselo al cliente.\n\n    No expongas tu proceso interno al cliente de forma robótica. Preséntale el resultado como el fruto del trabajo de \"tu equipo legal\"."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "c4b3cf1e-4c71-48cd-96ad-27e41ff86261",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4.1-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4.1-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        -64,
+        208
+      ],
+      "id": "80713fd2-7c79-4739-80bd-fe5ba6878e69",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "V7oKlVd05qAqz5ji",
+          "name": "OpenAI account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "Obligatorio usar esta herramienta SIEMPRE que el usuario pregunte por leyes, normativas, sanciones, directivas o mencione Andalucía. Esta herramienta busca en nuestra base de datos privada de archivos PDF subidos y devuelve los artículos exactos.",
+        "pineconeIndex": {
+          "__rl": true,
+          "value": "normativa-ciber",
+          "mode": "list",
+          "cachedResultName": "normativa-ciber"
+        },
+        "topK": 10,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+      "typeVersion": 1.3,
+      "position": [
+        512,
+        480
+      ],
+      "id": "de3a9f68-f0ec-43ea-bda6-3b2be9e6fcb3",
+      "name": "Pinecone Vector Store",
+      "credentials": {
+        "pineconeApi": {
+          "id": "KtSrUyKrhSKVnTtT",
+          "name": "Pinecone account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        512,
+        608
+      ],
+      "id": "91d25bf1-ab6c-4024-96e9-7faf1b750df1",
+      "name": "Embeddings OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "V7oKlVd05qAqz5ji",
+          "name": "OpenAI account 2"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        64,
+        192
+      ],
+      "id": "87b47804-fbd3-46b5-b6a9-9493e52d7879",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Útil para buscar en internet contexto sobre ciberseguridad, noticias recientes, multas, resoluciones de la AEPD o jurisprudencia pública",
+        "text": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Prompt__User_Message_', ``, 'string') }}",
+        "options": {
+          "systemMessage": "\"Eres un Documentalista Jurídico especializado en ciberseguridad. Tu tarea es recibir una consulta, buscar exhaustivamente en internet usando tu herramientas de búsqueda \"google_search\", y devolver un resumen claro de los hechos recientes, noticias, sanciones o resoluciones públicas relacionadas con el tema. No des consejos legales, limítate a exponer los hechos, las fuentes y los enlaces que encuentres de manera objetiva.\""
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agentTool",
+      "typeVersion": 3,
+      "position": [
+        -48,
+        368
+      ],
+      "id": "c4d0f33c-4d4b-434a-b718-840457fec3e3",
+      "name": "investigador_jurisprudencia"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        -144,
+        576
+      ],
+      "id": "b39b0d78-2472-436c-ae91-eb7e7c8a2113",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "V7oKlVd05qAqz5ji",
+          "name": "OpenAI account 2"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        16,
+        528
+      ],
+      "id": "463d9993-2fc6-4f13-8adf-c1912430cdba",
+      "name": "Simple Memory1"
+    },
+    {
+      "parameters": {
+        "toolDescription": "\"Útil y OBLIGATORIO para buscar legislación española (BOE, ENS, RGPD) y contrastar la viabilidad legal de cualquier consulta o información.\"",
+        "text": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Prompt__User_Message_', ``, 'string') }}",
+        "options": {
+          "systemMessage": "Eres un Paralegal experto en la legislación española de ciberseguridad y protección de datos. Recibirás una consulta y, a menudo, información previa obtenida de internet.\nTu único trabajo es consultar tu base de datos vectorial (Pinecone) para contrastar esa información con la ley real (BOE).\nSi la información de internet contradice la ley, la ley prevalece. Debes redactar un análisis jurídico detallando: 1) Los artículos de la ley aplicables, 2) Si los hechos consultados cumplen o incumplen la normativa, 3) Las posibles sanciones según la ley. Cita siempre la ley y el artículo exacto. No uses conocimientos externos, apóyate solo en tu base de datos vectorial"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agentTool",
+      "typeVersion": 3,
+      "position": [
+        272,
+        368
+      ],
+      "id": "b6925cf9-3480-4e4f-a546-aa183df6392d",
+      "name": "analista_boe_pinecone"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        368,
+        544
+      ],
+      "id": "1598a770-cb63-4078-b950-90c957d6e623",
+      "name": "Simple Memory2"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Útil SOLO cuando el cliente solicita explícitamente generar un informe, un documento formal o un archivo exportable (PDF, Doc)",
+        "text": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Prompt__User_Message_', ``, 'string') }}",
+        "options": {
+          "systemMessage": "Eres el Secretario Técnico del bufete. Recibirás un análisis jurídico completo y validado por el equipo legal. Tu tarea es formatear esa información en un Informe Jurídico formal y estructurado, listo para ser entregado a un cliente corporativo.\nUsa lenguaje formal y la siguiente estructura:\n\n    Objeto de la consulta.\n\n    Antecedentes (Contexto).\n\n    Fundamentos de Derecho (Leyes y artículos).\n\n    Conclusiones.\n    Utiliza tu herramienta llamada \"generar_informe_google_docs\" para generar el documento y devuelve al supervisor un mensaje confirmando la creación exitosa junto con la ruta o enlace del archivo"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agentTool",
+      "typeVersion": 3,
+      "position": [
+        560,
+        160
+      ],
+      "id": "bd867df4-c26d-42d0-98bd-0fa31f9de4a1",
+      "name": "generador_informes_pdf"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        656,
+        304
+      ],
+      "id": "04cdae54-ae35-4474-9889-ebe021c6138c",
+      "name": "Simple Memory3"
+    },
+    {
+      "parameters": {
+        "q": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Search_Query__q_', ``, 'string') }}",
+        "additionalFields": {},
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-serpapi.serpApiTool",
+      "typeVersion": 1,
+      "position": [
+        144,
+        576
+      ],
+      "id": "7baf8247-7530-44a6-b115-662059b6dc8d",
+      "name": "google_search",
+      "credentials": {
+        "serpApi": {
+          "id": "R0ETUGlrRPcOoEkC",
+          "name": "SerpApi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "createFromText",
+        "content": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('File_Content', ``, 'string') }}",
+        "name": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('File_Name', ``, 'string') }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1igxlMGds06a717fb2RCyuoPq-Vm9Met0",
+          "mode": "list",
+          "cachedResultName": "n8n",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1igxlMGds06a717fb2RCyuoPq-Vm9Met0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDriveTool",
+      "typeVersion": 3,
+      "position": [
+        800,
+        272
+      ],
+      "id": "fe86b35f-9c71-41c1-ba85-4a5976db69cd",
+      "name": "generar_informe_google_docs",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "0dtzOaGyu7wiwrxM",
+          "name": "Google Drive OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        528,
+        304
+      ],
+      "id": "0dcec4c7-62b0-4d7f-b68d-a7019f23a8e3",
+      "name": "GPT4o-mini",
+      "credentials": {
+        "openAiApi": {
+          "id": "V7oKlVd05qAqz5ji",
+          "name": "OpenAI account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "gpt-4o"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        240,
+        544
+      ],
+      "id": "aa054792-0fd1-4a69-adc8-fbfb51762c13",
+      "name": "GPT4o-mini1",
+      "credentials": {
+        "openAiApi": {
+          "id": "V7oKlVd05qAqz5ji",
+          "name": "OpenAI account 2"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pinecone Vector Store": {
+      "ai_tool": [
+        [
+          {
+            "node": "analista_boe_pinecone",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Pinecone Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "investigador_jurisprudencia": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "investigador_jurisprudencia",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory1": {
+      "ai_memory": [
+        [
+          {
+            "node": "investigador_jurisprudencia",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "analista_boe_pinecone": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory2": {
+      "ai_memory": [
+        [
+          {
+            "node": "analista_boe_pinecone",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "generador_informes_pdf": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory3": {
+      "ai_memory": [
+        [
+          {
+            "node": "generador_informes_pdf",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "google_search": {
+      "ai_tool": [
+        [
+          {
+            "node": "investigador_jurisprudencia",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "generar_informe_google_docs": {
+      "ai_tool": [
+        [
+          {
+            "node": "generador_informes_pdf",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GPT4o-mini": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "generador_informes_pdf",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GPT4o-mini1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "analista_boe_pinecone",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "67b45e3e-b901-48dd-90c7-81ffa444f671",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "410e56df5fff928d715c7740cf1097769cd626d3c1a3e25f3aa639d612651111"
+  },
+  "id": "bVzP93zaqcmBlrhp",
+  "tags": []
+}
